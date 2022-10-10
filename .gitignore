@@ -1,0 +1,20 @@
+node_modules/
+.expo/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# macOS
+.DS_Store
+
+
+
+
+
+ATBBeN2xw2VMKuWDGPSTjY5jLgwD29AC567B password bit
