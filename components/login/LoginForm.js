@@ -1,9 +1,12 @@
 import { Button, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import tw from 'twrnc';
-import validator from 'email-validator'
-import { useNavigation } from '@react-navigation/native'
-import { auth } from '../../firebase';
+import { authentication } from '../../firebase';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+
 
 
 const LoginForm = () => {
@@ -11,91 +14,107 @@ const LoginForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const [isSignedIn, setIsSignedIn] = useState(false)
+
   const navigation = useNavigation()
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
+    const unsubscribe = authentication.onAuthStateChanged(user => {
       if (user) {
-        navigation.navigate('TabNavigator')
+        navigation.replace('TabNavigator')
       }
     })
 
     return unsubscribe
   }, [])
 
-  const handleLogin = () => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(userCredentials => {
-        const user = userCredentials.user;
-        console.log('logged in with', user.email);
+
+  const RegisterUser = () => {
+    createUserWithEmailAndPassword(authentication, email, password)
+      .then((re) => {
+        console.log(re);
+        setIsSignedIn(true)
       })
-      .catch(error => alert(error.message))
+      .catch((re) => {
+        console.log(re);
+      })
   }
 
-  const handleSignup = () => {
-    auth
-      .createUserWithEmailAndPassword(email,)
-      .then(userCredentials => {
-        const user = userCredentials.user;
-        console.log('registered with', user.email);
+  const LoginUser = () => {
+    signInWithEmailAndPassword(authentication, email, password)
+      .then((re) => {
+        console.log(re);
+        setIsSignedIn(true)
       })
-      .catch(error => alert(error.message))
+      .catch((re) => {
+        console.log(re);
+      })
   }
+
+  const LogoutUser = () => {
+    signOut(authentication, email, password)
+      .then((re) => {
+        console.log(re);
+        setIsSignedIn(false)
+      })
+      .catch((re) => {
+        console.log(re);
+      })
+  }
+
+
 
   return (
     <View>
       <View>
-        <Text style={tw`font-bold p-4 ml-4`}>Sign In</Text>
+        <Text style={tw`font-bold p-2 ml-4`}>Sign In</Text>
 
-        <View
-          style={[
-            styles.input,
-            {
-              borderColor: values.email.length < 1 || validator.validate(values.email) ?
-                '#ccc' :
-                'red'
-            },
-          ]}>
+        <View style={styles.input}>
           <TextInput
             placeholderTextColor='#D3D3D3'
             placeholder='email or phonenumber'
-            autoCapitalize='none'
+            value={email}
             keyboardType='email-address'
             textContentType='emailAddress'
             autoFocus={true}
             onChangeText={text => setEmail(text)}
-            value={values.email}
+
+
           />
         </View>
 
-        <View style={[styles.input,
-        {
-          borderColor: values.password.length < 1 || values.password.length > 6 ?
-            '#ccc' :
-            'red'
-        },
-        ]}>
+        <View style={styles.input}>
           <TextInput
             placeholderTextColor='#D3D3D3'
             placeholder='Password'
-            autoCapitalize='none'
-            autoCorrect={false}
+            value={password}
             secureTextEntry={true}
             textContentType='password'
             onChangeText={text => setPassword(text)}
-            value={values.password}
+
           />
         </View>
 
-        <Pressable
-          onPress={handleLogin}
+        {isSignedIn === true ?
+          <Pressable
+            onPress={LogoutUser}
+            style={styles.login}
+          >
+            <Text style={[tw`font-bold text-center p-4 `, styles.login]}>
+              Log Out
+            </Text>
+          </Pressable>
+          :
+          <Pressable
+            onPress={LoginUser}
+            style={styles.login}
+          >
+            <Text style={[tw`font-bold text-center p-4 `, styles.login]}>
+              Log In
+            </Text>
+          </Pressable>
+        }
 
-        >
-          <Text style={[tw`font-bold text-center p-4 `, styles.login]}>
-            Log In
-          </Text>
-        </Pressable>
 
 
         <View>
@@ -104,7 +123,6 @@ const LoginForm = () => {
             <Image source={{ uri: 'https://i.imgur.com/oPhraRe.png' }}
               style={styles.google}
             />
-            <Text style={{ marginRight: 30, marginTop: 8, color: '#444', }}>Skip</Text>
           </View>
 
         </View>
@@ -112,13 +130,18 @@ const LoginForm = () => {
         <View>
           <Text
             style={styles.signup}
-            onPress={handleSignup}
           >
-            I dont have an Account, SignUp?</Text>
+            I dont have an Account, </Text>
+          <Text
+            style={[tw`font-bold text-center p-4 `, styles.register]}
+            onPress={RegisterUser}
+          >
+            SignUp
+          </Text>
         </View>
 
         <View>
-          <Text style={styles.terms}>Terms and Conditions</Text>
+          <Text style={styles.terms}>By signing up, you agree to our Terms and Conditions.</Text>
         </View>
 
       </View>
@@ -143,7 +166,7 @@ const styles = StyleSheet.create({
   login: isValid => ({
     marginHorizontal: 30,
     borderRadius: 8,
-    padding: 10,
+    padding: 8,
     backgroundColor: isValid ? '#387981' : '#78B9C1',
     color: 'white',
     alignItems: 'center',
@@ -156,18 +179,32 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     marginLeft: 30,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   signup: {
     color: '#6BB0F5',
     marginLeft: 30,
     fontSize: 14,
+    marginBottom: 2,
   },
   terms: {
     marginLeft: 30,
-    marginTop: 20,
+    marginTop: 10,
     color: '#444',
     fontSize: 13,
+  },
+  register: {
+    padding: 10,
+    borderColor: '#387981',
+    marginLeft: 30,
+    backgroundColor: '#fff',
+    fontWeight: "900",
+    borderWidth: 2,
+    borderRadius: 8,
+    marginHorizontal: 30,
+    color: '#387981',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
 })

@@ -9,10 +9,21 @@ import {
 } from "@draftbit/ui";
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from '@react-navigation/native'
+import { authentication } from "../firebase";
 
 const ProfileScreen = (props) => {
     const navigation = useNavigation()
     const { theme } = props;
+
+    const logout = () => {
+        authentication
+            .signOut()
+            .then(() => {
+                navigation.replace('Login')
+            })
+            .catch(error => alert(error.message))
+    }
+
     return (
         <ScreenContainer
             style={styles.screenContainerJb}
@@ -80,23 +91,6 @@ const ProfileScreen = (props) => {
                         styles.touchableBp,
                         { borderColor: theme.colors.divider },
                     ])}
-                    onPress={() => navigation.navigate('MessageScreen')}
-                >
-                    <View style={styles.viewS1}>
-                        <Text style={theme.typography.body1}>Inbox</Text>
-                        <Icon
-                            style={styles.iconZz}
-                            color={theme.colors.strong}
-                            size={24}
-                            name="MaterialIcons/message"
-                        />
-                    </View>
-                </Touchable>
-                <Touchable
-                    style={StyleSheet.flatten([
-                        styles.touchableBp,
-                        { borderColor: theme.colors.divider },
-                    ])}
                     onPress={() => navigation.navigate('BookScreen')}
                 >
                     <View style={styles.viewS1}>
@@ -109,45 +103,15 @@ const ProfileScreen = (props) => {
                         />
                     </View>
                 </Touchable>
-                <Touchable
-                    style={StyleSheet.flatten([
-                        styles.touchableJg,
-                        { borderColor: theme.colors.divider },
-                    ])}
-                    onPress={() => navigation.navigate('MyLocations')}
-                >
-                    <View style={styles.viewAl}>
-                        <Text style={theme.typography.body1}>My Locations</Text>
-                        <Icon
-                            style={styles.iconZb}
-                            size={24}
-                            name="MaterialIcons/payment"
-                            color={theme.colors.strong}
-                        />
-                    </View>
-                </Touchable>
-                <Touchable
-                    style={StyleSheet.flatten([
-                        styles.touchableOm,
-                        { borderColor: theme.colors.divider },
-                    ])}
-                    onPress={() => navigation.navigate('Reviews')}
-                >
-                    <View style={styles.viewYR} onPress={() => navigation.navigate('Reviews')}>
-                        <Text style={theme.typography.body1}>Reviews</Text>
-                        <Icon
-                            style={styles.iconCl}
-                            color={theme.colors.strong}
-                            name="MaterialIcons/notifications"
-                            size={24}
-                        />
-                    </View>
-                </Touchable>
 
             </Container>
 
 
-            <Button style={styles.buttonP2} type="outline">
+            <Button
+                style={styles.buttonP2}
+                type="outline"
+                onPress={logout}
+            >
                 LogOut
             </Button>
 

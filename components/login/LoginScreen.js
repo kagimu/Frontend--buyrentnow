@@ -11,7 +11,7 @@ const LoginScreen = () => {
         <View style={styles.container}>
             <View
                 style={styles.logoContainer}>
-                <Text style={styles.text}>scoutapp</Text>
+                <Text style={styles.text}>scoutap</Text>
                 <Image source={{ uri: SCOUTAP_LOGO, height: 40, width: 40, }} />
             </View>
             <LoginForm navigation={navigation} />

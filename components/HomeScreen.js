@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text } from 'react-native';
 import React from 'react';
 import CardOptions from './CardOptions';
 
@@ -21,7 +21,9 @@ const HomeScreen = ({ navigation }) => {
                     width: 300,
                     resizeMode: 'cover',
                     marginTop: 15,
+                    marginBottom: 20,
                     marginLeft: 30,
+                    marginRight: 20,
                     borderRadius: 10,
                 }}
                 source={{
@@ -53,6 +55,7 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         marginTop: 10,
         backgroundColor: '#fff',
     },
@@ -60,7 +63,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '900',
         marginTop: 40,
-        marginLeft: 20,
+        marginLeft: 40,
     },
     Button: {
         margin: 20,

@@ -1,5 +1,12 @@
-import * as firebase from 'firebase';
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyDG1PuM01DEIaw-5zquOTC9C36WwjYxg0E",
     authDomain: "scoutap-4025a.firebaseapp.com",
@@ -10,14 +17,6 @@ const firebaseConfig = {
     measurementId: "G-8BD4ZP80KG"
 };
 
-// Initialize Fireb
-let app;
-if (firebase.apps.length === 0) {
-    app = firebase.initializeApp(firebaseConfig);
-} else {
-    app = firebase.app()
-}
-
-const auth = firebase.auth()
-
-export { auth };  
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+export const authentication = getAuth(app);
