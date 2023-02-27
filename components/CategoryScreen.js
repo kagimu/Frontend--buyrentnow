@@ -1,68 +1,73 @@
-import { Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from "react";
-import SearchBar from './SearchBar'
-import TopTab from '../TopTab';
-import { Container, Tab, Tabs } from 'native-base';
+import React from 'react';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import Apartments from './TopTabs/Apartments';
+import Commercial from './TopTabs/Commercial';
+import Houses from './TopTabs/Houses';
+import Land from './TopTabs/Land';
 
 
-const CategoryScreen = ({ navigation }) => {
+
+const AllScreen = () => {
     return (
-        <ScrollView style={styles.container}>
-
-            <SearchBar
-            />
-
-            <TouchableOpacity onPress={() => navigation.navigate('CategoryDetails')}>
-                <Image
-                    style={styles.tinyLogo}
-
-                    source={{
-                        uri: 'https://i.imgur.com/jfOPLEw.png',
-                    }}
-                />
-
-                <Text
-                    style={{ position: 'absolute', top: 60, left: 50, right: 0, bottom: 0, color: 'white', fontSize: 20, fontWeight: 'bold', }}>Studios</Text>
-            </TouchableOpacity>
-            <Container>
-                <Tabs>
-                    <Tab
-                        heading='Green Tab'>
-                        <View style={styles.container}>
-                            <Text style={styles.title}>Green Screen</Text>
-                        </View>
-                    </Tab>
-                    <Tab heading='Tab 2'>
-                        <TopTab />
-                    </Tab>
-                    <Tab heading='Tab 3'>
-                        <Tab2 />
-                    </Tab>
-                </Tabs>
-            </Container>
-
-        </ScrollView>
-    )
+        <View style={styles.container}>
+            <Text style={styles.text}>CallScreen</Text>
+        </View>
+    );
 }
 
-export default CategoryScreen
+
+const Tab = createMaterialTopTabNavigator();
+
+
+const CategoryScreen = () => {
+    return (
+        <NavigationContainer independent={true}>
+            <Tab.Navigator
+                screenOptions={{
+                    headerShadowVisible: false,
+                    tabBarIndicatorStyle: { backgroundColor: '#34779A' },
+                    tabBarActiveTintColor: '#fff',
+                    tabBarInactiveTintColor: '#000',
+                    tabBarScrollEnabled: true,
+                    lazy: true,
+                    tabBarLabelStyle: { fontSize: 12, fontWeight: '900', padding: 8, backgroundColor: '#34779A', borderRadius: 10, },
+                    tabBarItemStyle: { width: 130 },
+                }}
+            >
+                <Tab.Screen name='ALL' component={AllScreen} />
+                <Tab.Screen name='LAND' component={Land} />
+                <Tab.Screen name='APARTMENTS' component={Apartments} />
+                <Tab.Screen name='HOUSES' component={Houses} />
+                <Tab.Screen name='COMMERCIAL' component={Commercial} />
+            </Tab.Navigator>
+
+            <StatusBar />
+
+        </NavigationContainer>
+
+    );
+
+}
+
 
 const styles = StyleSheet.create({
+
     container: {
         flex: 1,
-        backgroundColor: '#fff'
-
-    },
-    tinyLogo: {
-        height: 150,
-        width: 300,
-        resizeMode: 'contain',
+        justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 10,
-        marginLeft: 30,
-        paddingLeft: 20,
-
-
 
     },
-})
+
+    text: {
+
+        fontSize: 15,
+
+    },
+
+});
+
+
+export default CategoryScreen;

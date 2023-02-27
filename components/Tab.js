@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, } from 'react-native'
 import React from 'react'
 import { Feather } from '@expo/vector-icons';
 
@@ -6,7 +6,7 @@ import { Feather } from '@expo/vector-icons';
 const Tab = ({ color, tab, onPress, icon }) => {
     return (
         <TouchableOpacity style={styles.container} onPress={onPress}>
-            {icon && <Feather name={icon} size={24} color={color} />}
+            {icon && <Feather name={icon} size={28} color={color} />}
 
         </TouchableOpacity>
     )

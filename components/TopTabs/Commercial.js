@@ -1,15 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { useNavigation } from '@react-navigation/native'
 
-const Reviews = () => {
+const Commercial = () => {
     return (
         <View>
-            <Text>Reviews</Text>
+            <Text>Commercial</Text>
         </View>
     )
 }
 
-export default Reviews
+export default Commercial
 
 const styles = StyleSheet.create({})

@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "SCOUTAP",
-    "slug": "SCOUTAP",
+    "name": "LANDVILLE",
+    "slug": "LANDVILLE",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Landville_logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/Landville_logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#fff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -18,16 +18,26 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jaypkagimu.SCOUTAP"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#212E52"
+      },
+      "package": "com.jaypkagimu.SCOUTAP"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/logo.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d6146daf-2fa5-46bd-8dd0-60636c065145"
+      }
+    },
+    "plugins": [
+      "expo-image-picker"
+    ]
   }
 }

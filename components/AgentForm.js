@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const PhotoScreen = () => {
+const AgentForm = () => {
     return (
         <View>
-            <Text>PhotoScreen</Text>
+            <Text>AgentForm</Text>
         </View>
     )
 }
 
-export default PhotoScreen
+export default AgentForm
 
 const styles = StyleSheet.create({})

@@ -1,152 +1,73 @@
-import { Button, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native'
+import { Button, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import tw from 'twrnc';
-import { authentication } from '../../firebase';
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+
+const LoginForm = ({ signup, onSubmit }) => {
 
 
+  screen = signup ? 'Home' : 'Login';
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState('');
 
-const LoginForm = () => {
-
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-  const [isSignedIn, setIsSignedIn] = useState(false)
-
-  const navigation = useNavigation()
-
-  useEffect(() => {
-    const unsubscribe = authentication.onAuthStateChanged(user => {
-      if (user) {
-        navigation.replace('TabNavigator')
-      }
-    })
-
-    return unsubscribe
-  }, [])
-
-
-  const RegisterUser = () => {
-    createUserWithEmailAndPassword(authentication, email, password)
-      .then((re) => {
-        console.log(re);
-        setIsSignedIn(true)
-      })
-      .catch((re) => {
-        console.log(re);
-      })
+  const handleRegister = () => {
+    navigation.navigate('RegisterScreen')
   }
-
-  const LoginUser = () => {
-    signInWithEmailAndPassword(authentication, email, password)
-      .then((re) => {
-        console.log(re);
-        setIsSignedIn(true)
-      })
-      .catch((re) => {
-        console.log(re);
-      })
-  }
-
-  const LogoutUser = () => {
-    signOut(authentication, email, password)
-      .then((re) => {
-        console.log(re);
-        setIsSignedIn(false)
-      })
-      .catch((re) => {
-        console.log(re);
-      })
-  }
-
-
 
   return (
     <View>
       <View>
-        <Text style={tw`font-bold p-2 ml-4`}>Sign In</Text>
+        <Text style={tw`font-bold p-2 ml-4 pb-4`}>Sign In</Text>
 
         <View style={styles.input}>
           <TextInput
             placeholderTextColor='#D3D3D3'
-            placeholder='email or phonenumber'
-            value={email}
-            keyboardType='email-address'
-            textContentType='emailAddress'
+            placeholder='phonenumber'
+            value={phone}
+            textContentType='phone'
             autoFocus={true}
-            onChangeText={text => setEmail(text)}
-
-
+            onChangeText={(text) => setPhone(text)}
           />
-        </View>
-
-        <View style={styles.input}>
-          <TextInput
-            placeholderTextColor='#D3D3D3'
-            placeholder='Password'
-            value={password}
-            secureTextEntry={true}
-            textContentType='password'
-            onChangeText={text => setPassword(text)}
-
-          />
-        </View>
-
-        {isSignedIn === true ?
-          <Pressable
-            onPress={LogoutUser}
-            style={styles.login}
-          >
-            <Text style={[tw`font-bold text-center p-4 `, styles.login]}>
-              Log Out
-            </Text>
-          </Pressable>
-          :
-          <Pressable
-            onPress={LoginUser}
-            style={styles.login}
-          >
-            <Text style={[tw`font-bold text-center p-4 `, styles.login]}>
-              Log In
-            </Text>
-          </Pressable>
-        }
-
-
-
-        <View>
-          <Text style={tw`p-4 ml-4`}>Or Login With</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
-            <Image source={{ uri: 'https://i.imgur.com/oPhraRe.png' }}
-              style={styles.google}
-            />
-          </View>
-
-        </View>
-
-        <View>
-          <Text
-            style={styles.signup}
-          >
-            I dont have an Account, </Text>
-          <Text
-            style={[tw`font-bold text-center p-4 `, styles.register]}
-            onPress={RegisterUser}
-          >
-            SignUp
-          </Text>
-        </View>
-
-        <View>
-          <Text style={styles.terms}>By signing up, you agree to our Terms and Conditions.</Text>
         </View>
 
       </View>
 
+      <View style={styles.input}>
+        <TextInput
+          placeholderTextColor='#D3D3D3'
+          placeholder='Password'
+          value={password}
+          secureTextEntry={true}
+          textContentType='password'
+          onChangeText={(text) => setPassword(text)}
+        />
+      </View>
 
+      <View>
+        <TouchableOpacity
+          disabled={!password || !phone}
+          onPress={() => onSubmit(phone, password)}
+          style={styles.login}
+        >
+          <Text style={[tw`font-bold text-center p-4 `, styles.login]}>
+            Login
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <View>
+        <Text style={tw`p-4 ml-4`}>Or Login With</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
+          <Image source={{ uri: 'https://i.imgur.com/oPhraRe.png' }}
+            style={styles.google}
+          />
+        </View>
+      </View>
+
+      <Button
+        title='Register Instead'
+        variant="text"
+        onPress={handleRegister}
+      />
     </View>
   )
 }

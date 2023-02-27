@@ -1,20 +1,45 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import LoginForm from './LoginForm';
-import { useNavigation } from '@react-navigation/native'
+import { BASE_URL } from '@env'
+import axios from 'axios';
+import { getToken } from '../../token';
 
-const SCOUTAP_LOGO = 'https://i.imgur.com/73Xzapj.png';
 
-const LoginScreen = () => {
-    const navigation = useNavigation()
+const LoginScreen = ({ navigation }) => {
+
+
+    const [successMessage, setSuccess] = useState('')
+
+
+
+    const login = async (phone, password) => {
+        const token = await getToken();
+
+        if (!phone && !password)
+            alert('please enter all the required fields')
+        else {
+
+            axios.post(`${BASE_URL}/api/login`, { phone: phone, password: password }, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`, // auth token
+                }
+            }).then((response) => {
+                console.log('getting data from axios', response.data);
+                navigation.replace('TabNavigator');
+
+            })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+    }
+
     return (
         <View style={styles.container}>
-            <View
-                style={styles.logoContainer}>
-                <Text style={styles.text}>scoutap</Text>
-                <Image source={{ uri: SCOUTAP_LOGO, height: 40, width: 40, }} />
-            </View>
-            <LoginForm navigation={navigation} />
+            {!!successMessage && <Text style={tw`bg-green-400 p-1 my-2 text-green-700`}> {successMessage}</Text>}
+            <LoginForm navigation={navigation} signup={true} onSubmit={login} />
         </View>
     )
 }

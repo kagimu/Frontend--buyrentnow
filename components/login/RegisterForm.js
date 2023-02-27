@@ -1,15 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-
-
-
-const TopTab = () => {
+const RegisterForm = () => {
     return (
-       
+        <View>
+            <Text>RegisterForm</Text>
+        </View>
     )
 }
 
-export default TopTab
+export default RegisterForm
 
 const styles = StyleSheet.create({})

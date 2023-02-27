@@ -9,7 +9,7 @@ const { width } = Dimensions.get('screen');
 const TabBar = ({ state, navigation }) => {
     const [selected, setSelected] = useState('Home')
     const { routes } = state;
-    const renderColor = currentTab => (currentTab === selected ? '#387981' : '#D3D3D3')
+    const renderColor = currentTab => (currentTab === selected ? '#387981' : '#808080')
 
     const handlePress = (activeTab, index) => {
         if (state.index !== index) {
@@ -49,10 +49,10 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        backgroundColor: 'gray',
+        backgroundColor: 'white',
         width: 300,
         borderRadius: 10,
-        elevation: 2,
+        elevation: 6,
 
     },
 

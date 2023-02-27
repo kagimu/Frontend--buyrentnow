@@ -1,12 +1,12 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import HomeScreen from '../components/HomeScreen'
-import BookScreen from '../components/BookScreen'
 import TabBar from '../components/TabBar'
 import ProfileStack from '../navigation/ProfileStack'
-import CategoryStack from './CategoryStack'
-import LocationStack from './LocationStack'
+import BookingConfirmation from '../components/BookingConfirmation'
+import SavedPage from '../components/SavedPage'
+import HomeStack from './HomeStack'
+
 
 
 const Tab = createBottomTabNavigator();
@@ -18,11 +18,11 @@ const TabNavigator = () => {
             screenOptions={{ headerTransparent: true, title: '' }}
             initialRouteName="Home"
         >
-            <Tab.Screen name='CategoryStack' component={CategoryStack} initialParams={{ icon: 'search' }} />
-            <Tab.Screen name='Book' component={BookScreen} initialParams={{ icon: 'bookmark' }} />
-            <Tab.Screen name='Home' component={HomeScreen} initialParams={{ icon: 'home' }} />
-            <Tab.Screen name='LocationStack' component={LocationStack} options={{ tabBarBadge: 3 }} initialParams={{ icon: 'message-square' }} />
             <Tab.Screen name='ProfileStack' component={ProfileStack} initialParams={{ icon: 'user' }} />
+            <Tab.Screen name='Home' component={HomeStack} initialParams={{ icon: 'home' }} />
+            <Tab.Screen name='CategoryStack' component={BookingConfirmation} initialParams={{ icon: 'plus-circle' }} />
+            <Tab.Screen name='Book' component={SavedPage} initialParams={{ icon: 'heart' }} />
+
         </Tab.Navigator>
     );
 };

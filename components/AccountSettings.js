@@ -1,14 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import tw from 'twrnc';
 
-const Tab2 = () => {
+const AccountSettings = () => {
     return (
         <View>
-            <Text>Tab2</Text>
+            <Text styles={tw`text-center p-4x`}>AccountSettings</Text>
         </View>
     )
 }
 
-export default Tab2
+export default AccountSettings
 
 const styles = StyleSheet.create({})

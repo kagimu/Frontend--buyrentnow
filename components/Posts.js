@@ -9,6 +9,8 @@ import {
 import React from 'react'
 
 
+
+
 const postFooterIcons = [
     {
         name: 'Like',
@@ -68,14 +70,14 @@ const PostHeader = ({ location }) => (
 const PostImage = ({ location }) => (
     <View
         style={{
-            width: '100%',
+            width: 360,
             height: 450,
             borderRadius: 20,
         }}
     >
         <Image
             source={{ uri: location.imageUrl }}
-            style={{ height: '100%', resizeMode: 'cover' }}
+            style={{ height: 450, resizeMode: 'cover', borderRadius: 10, }}
         />
     </View>
 

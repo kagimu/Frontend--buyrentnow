@@ -33,6 +33,17 @@ const List = ({ searchPhrase, setCLicked, data }) => {
         }
     };
 
+    const [fontsLoaded] = useFonts({
+        'Poppins-black': require('./assets/fonts/Poppins-Black.otf'),
+        'Poppins-Bold': require('./assets/fonts/Poppins-Bold.otf'),
+        'Poppins-ExtraBold': require('./assets/fonts/Poppins-ExtraBold.otf'),
+        'Poppins-ExtraLight': require('./assets/fonts/Poppins-ExtraLight.otf'),
+        'Poppins-Light': require('./assets/fonts/Poppins-Light.otf'),
+        'Poppins-Medium': require('./assets/fonts/Poppins-Medium.otf'),
+        'Poppins-Regular': require('./assets/fonts/Poppins-Regular.otf'),
+        'Poppins-SemiBold': require('./assets/fonts/Poppins-SemiBold.otf'),
+        'Poppins-Thin': require('./assets/fonts/Poppins-Thin.otf'),
+    });
     return (
         <SafeAreaView style={styles.list__container}>
             <View

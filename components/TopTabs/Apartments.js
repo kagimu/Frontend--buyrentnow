@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const SavedSpaces = () => {
+const Apartments = () => {
     return (
         <View>
-            <Text>SavedSpaces</Text>
+            <Text>Apartments</Text>
         </View>
     )
 }
 
-export default SavedSpaces
+export default Apartments
 
 const styles = StyleSheet.create({})
