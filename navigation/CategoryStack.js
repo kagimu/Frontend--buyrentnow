@@ -4,6 +4,7 @@ import React from 'react'
 import CategoryScreen from '../components/CategoryScreen';
 import CategoryDetails from '../components/CategoryDetails';
 import BookingConfirmation from '../components/BookingConfirmation';
+import Category from '../components/Category';
 
 
 
@@ -15,6 +16,7 @@ const CategoryStack = () => {
             screenOptions={{ headerShadowVisible: false, headerTransparent: true, title: '' }}
         >
             <Stack.Screen name='Categories' component={CategoryScreen} />
+            <Stack.Screen name='Category' component={Category} />
             <Stack.Screen name='CategoryDetails' component={CategoryDetails} />
             <Stack.Screen name='BookingConfirmation' component={BookingConfirmation} />
 

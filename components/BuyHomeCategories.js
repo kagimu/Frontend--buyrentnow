@@ -39,7 +39,7 @@ const data = [
   },
 ];
 
-const HomeCategories = () => {
+const BuyHomeCategories = () => {
   const navigation = useNavigation();
 
   return (
@@ -47,7 +47,7 @@ const HomeCategories = () => {
       <View style={{ paddingLeft: 5, flexDirection: "row" }}>
         <View style={[tw`mr-4 mb-2 mt-2`]}>
           <View style={[styles.card2]}>
-            <TouchableOpacity onPress={() => navigation.navigate("LandRent")}>
+            <TouchableOpacity onPress={() => navigation.navigate("LandBuy")}>
               <Image
                 style={[styles.image, tw``]}
                 source={{ uri: "https://i.imgur.com/rrx2APb.jpg" }}
@@ -59,7 +59,7 @@ const HomeCategories = () => {
         <View style={[tw`mr-4 mb-2 mt-2`]}>
           <View style={[styles.card2]}>
             <TouchableOpacity
-              onPress={() => navigation.navigate("ApartmentsRent")}
+              onPress={() => navigation.navigate("ApartmentsBuy")}
             >
               <Image
                 style={[styles.image, tw``]}
@@ -71,7 +71,7 @@ const HomeCategories = () => {
         </View>
         <View style={[tw`mr-4 mb-2 mt-2`]}>
           <View style={[styles.card2]}>
-            <TouchableOpacity onPress={() => navigation.navigate("HousesRent")}>
+            <TouchableOpacity onPress={() => navigation.navigate("HousesBuy")}>
               <Image
                 style={[styles.image, tw``]}
                 source={{ uri: "https://i.imgur.com/3a5J8VD.jpg" }}
@@ -83,7 +83,7 @@ const HomeCategories = () => {
         <View style={[tw`mr-4 mb-2 mt-2`]}>
           <View style={[styles.card2]}>
             <TouchableOpacity
-              onPress={() => navigation.navigate("CommercialRent")}
+              onPress={() => navigation.navigate("CommercialBuy")}
             >
               <Image
                 style={[styles.image, tw``]}
@@ -98,7 +98,7 @@ const HomeCategories = () => {
   );
 };
 
-export default HomeCategories;
+export default BuyHomeCategories;
 
 const styles = StyleSheet.create({
   image: {

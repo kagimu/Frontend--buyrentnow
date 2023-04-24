@@ -1,61 +1,84 @@
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import tw from 'twrnc';
-
-const data = [
-    {
-        id: '1',
-        image: 'https://i.imgur.com/ot0HvJS.jpg',
-    },
-    {
-        id: '2',
-        image: 'https://i.imgur.com/E7LjeCk.jpg',
-    },
-    {
-        id: '3',
-        image: 'https://i.imgur.com/Vh9Tjyo.jpg',
-    },
-    {
-        id: '4',
-        image: 'https://i.imgur.com/8qOFfKb.jpg',
-    },
-
-]
-
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React from "react";
+import tw from "twrnc";
+import { BASE_URL } from "@env";
+import { useEffect } from "react";
+import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const ImageList = () => {
-    return (
-        <View>
-            <FlatList
-                data={data}
+  const navigation = useNavigation();
 
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={(item) => item.id}
-                numColumns={2}
-                renderItem={({ item }) => (
-                    <View style={tw``}>
-                        <Image
-                            style={styles.image}
-                            source={{ uri: item.image }}
-                        />
-                    </View>
-                )}
-            />
-        </View>
-    )
-}
+  const [data, setData] = useState([]);
+  const getPostImages = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token"); // Retrieve the token from AsyncStorage
+      const response = await fetch(`${BASE_URL}/api/posts`, {
+        headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header
+      });
 
-export default ImageList
+      if (!response.ok) {
+        throw new Error("Request failed with status code " + response.status);
+      }
+
+      const data = await response.json();
+      console.log("Data from API:", data); // log data to the console
+      setData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getPostImages();
+  }, []);
+  return (
+    <View>
+      {data.length > 0 ? (
+        <FlatList
+          data={data}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => item.id}
+          numColumns={2}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={tw``}
+              onPress={() => navigation.navigate("PostDetails", { post: item })}
+            >
+              <Image
+                style={styles.image}
+                source={{ uri: `${BASE_URL}${item.images[0]}` }}
+              />
+            </TouchableOpacity>
+          )}
+        />
+      ) : (
+        <ActivityIndicator size="large" color="#387981" />
+      )}
+    </View>
+  );
+};
+
+export default ImageList;
 
 const styles = StyleSheet.create({
-    image: {
-        height: 100,
-        width: 140,
-        resizeMode: 'cover',
-        borderRadius: 15,
-        marginLeft: 5,
-        marginTop: 5,
-
-
-    }
-})
+  image: {
+    height: 100,
+    width: 140,
+    resizeMode: "cover",
+    borderRadius: 15,
+    marginLeft: 5,
+    marginTop: 5,
+  },
+});

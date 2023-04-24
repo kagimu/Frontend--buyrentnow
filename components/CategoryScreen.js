@@ -1,73 +1,72 @@
-import React from 'react';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import Apartments from './TopTabs/Apartments';
-import Commercial from './TopTabs/Commercial';
-import Houses from './TopTabs/Houses';
-import Land from './TopTabs/Land';
+import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react'
+import tw from 'twrnc';
+import CardOptions from './CardOptions';
+import Category from './Category';
+import CategoryDetails from './CategoryDetails';
+//import { BASE_URL } from '@env'
 
 
+const CategoryScreen = ({ navigation }) => {
 
-const AllScreen = () => {
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>CallScreen</Text>
+        <View style={tw`pt-8`}>
+            <View>
+                <Category
+                />
+            </View>
+
+            <View >
+                <CategoryDetails navigation={navigation} />
+            </View>
+
         </View>
-    );
+    )
 }
 
-
-const Tab = createMaterialTopTabNavigator();
-
-
-const CategoryScreen = () => {
-    return (
-        <NavigationContainer independent={true}>
-            <Tab.Navigator
-                screenOptions={{
-                    headerShadowVisible: false,
-                    tabBarIndicatorStyle: { backgroundColor: '#34779A' },
-                    tabBarActiveTintColor: '#fff',
-                    tabBarInactiveTintColor: '#000',
-                    tabBarScrollEnabled: true,
-                    lazy: true,
-                    tabBarLabelStyle: { fontSize: 12, fontWeight: '900', padding: 8, backgroundColor: '#34779A', borderRadius: 10, },
-                    tabBarItemStyle: { width: 130 },
-                }}
-            >
-                <Tab.Screen name='ALL' component={AllScreen} />
-                <Tab.Screen name='LAND' component={Land} />
-                <Tab.Screen name='APARTMENTS' component={Apartments} />
-                <Tab.Screen name='HOUSES' component={Houses} />
-                <Tab.Screen name='COMMERCIAL' component={Commercial} />
-            </Tab.Navigator>
-
-            <StatusBar />
-
-        </NavigationContainer>
-
-    );
-
-}
-
+export default CategoryScreen
 
 const styles = StyleSheet.create({
+    card2: {
+        borderTopRightRadius: 15,
+        borderTopLeftRadius: 15,
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+        backgroundColor: '#fff',
+        borderColor: '#D8D8D8',
+        borderWidth: 2,
+        padding: 3,
 
-    container: {
-        flex: 1,
+    },
+    word: {
+        padding: 5,
+        fontWeight: '500',
+        fontSize: 20,
+        alignContent: 'center',
+        textAlign: 'center',
+    },
+    image: {
+        height: 220,
+        width: 330,
+        alignContent: 'center',
         justifyContent: 'center',
-        alignItems: 'center',
+        resizeMode: 'contain',
+        marginLeft: 30,
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+    },
+    card: {
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10,
 
     },
+    row: {
+        fontSize: 12,
+        paddingLeft: 0,
 
-    text: {
-
-        fontSize: 15,
-
-    },
-
-});
-
-
-export default CategoryScreen;
+    }
+})

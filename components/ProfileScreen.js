@@ -1,158 +1,164 @@
-import { StatusBar } from "expo-status-bar";
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import ImageList from './ImageList'
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { pickImage, askForPermission, uploadImage } from "../utils";
-import { auth, db } from "../database/Config";
-import { updateProfile } from "@firebase/auth";
-import { doc, setDoc } from "@firebase/firestore";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Alert,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as ImagePicker from "expo-image-picker";
+import axios from "axios";
+import { BASE_URL } from "@env";
+import ImageList from "./ImageList";
+import { LogBox } from "react-native";
 
-const ProfileScreen = () => {
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [permissionStatus, setPermissionStatus] = useState(null);
-    const navigation = useNavigation();
-    useEffect(() => {
-        (async () => {
-            const status = await askForPermission();
-            setPermissionStatus(status);
-        })();
-    }, []);
+LogBox.ignoreLogs([
+  "Setting a timer",
+  "AsyncStorage has been extracted from react-native core and will be removed in a future release.",
+  " expo-app-loading is deprecated in favor of expo-splash-screen: use SplashScreen.preventAutoHideAsync() and SplashScreen.hideAsync() instead. https://docs.expo.dev/versions/latest/sdk/splash-screen/ ",
+]);
 
-    async function handlePress() {
-        const user = auth.currentUser;
-        let photoURL;
-        if (selectedImage) {
-            const { url } = await uploadImage(
-                selectedImage,
-                `images/${user.uid}`,
-                "profilePicture"
-            );
-            photoURL = url;
-        }
-        const userData = {
+const ProfileScreen = ({ navigation }) => {
+  const [profilePicture, setProfilePicture] = useState(null);
 
-            email: user.email,
-        };
-        if (photoURL) {
-            userData.photoURL = photoURL;
-        }
-
-        await Promise.all([
-            updateProfile(user, userData),
-            setDoc(doc(db, "users", user.uid), { ...userData, uid: user.uid }),
-        ]);
-        navigation.navigate("ProfileScreen");
+  const handleImagePicker = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert(
+        "Permission denied",
+        "You need to grant camera roll permissions to upload an image."
+      );
+      return;
     }
 
-    async function handleProfilePicture() {
-        const result = await pickImage();
-        if (!result.cancelled) {
-            setSelectedImage(result.uri);
-            handlePress();
-        }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const { assets } = result;
+      setProfilePicture(assets[0].uri);
+      uploadProfilePicture(assets[0].uri);
     }
+  };
 
-    if (!permissionStatus) {
-        return <Text>Loading</Text>;
+  const uploadProfilePicture = async (uri) => {
+    try {
+      const formData = new FormData();
+      formData.append("image", {
+        uri,
+      });
+
+      const token = await AsyncStorage.getItem("token"); // Retrieve the token from AsyncStorage
+      const response = await axios.post(`${BASE_URL}/api/profile/avatar`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "Application/json",
+        }, // Set the Authorization header
+      });
+
+      console.log("Profile picture uploaded:", response.data);
+    } catch (error) {
+      console.log("Error uploading profile picture:", error.message);
     }
-    if (permissionStatus !== "granted") {
-        return <Text>You need to allow this permission</Text>;
-    }
+  };
 
-    return (
-        <React.Fragment>
-            <StatusBar style="auto" />
-            <View style={styles.container}
-            >
-                <View style={{
-                    justifyContent: 'center',
-                    alignContent: 'center',
-                    marginLeft: 100,
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <View
+        style={{
+          justifyContent: "center",
+          alignContent: "center",
+          marginLeft: 125,
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            marginTop: 30,
+            borderRadius: 120,
+            width: 120,
+            height: 120,
+            backgroundColor: "white",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          onPress={handleImagePicker}
+        >
+          {profilePicture ? (
+            <Image
+              source={{ uri: profilePicture }}
+              style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: 100,
+                alignContent: "center",
+                justifyContent: "center",
+                marginLeft: 10,
+              }}
+            />
+          ) : (
+            <Text style={{ fontSize: 24 }}>+</Text>
+          )}
+        </TouchableOpacity>
+      </View>
 
-                }}>
-                    <TouchableOpacity
-                        onPress={handleProfilePicture}
-                        style={{
-                            marginTop: 30,
-                            borderRadius: 120,
-                            width: 120,
-                            height: 120,
-                            backgroundColor: colors.background,
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}
-                    >
-                        {!selectedImage ? (
-                            <MaterialCommunityIcons
-                                name="camera-plus"
-                                color='#808080'
-                                size={45}
-                            />
-                        ) : (
-                            <Image
-                                source={{ uri: selectedImage }}
-                                style={{ width: "100%", height: "100%", borderRadius: 120 }}
-                            />
-                        )}
-                    </TouchableOpacity>
+      <Text style={styles.text}>Martha Segawa</Text>
 
-                </View>
+      <View>
+        <Text style={styles.text1}>Saved</Text>
+        <Text style={styles.text2}>Property listing you have saved over</Text>
+      </View>
+      <View style={{ marginLeft: 32, top: 20 }}>
+        <ImageList />
 
-                <Text style={styles.text}>Martha Segawa</Text>
+        <Text
+          style={{
+            textAlign: "center",
+            marginTop: 40,
+            fontSize: 16,
+            color: "#347794",
+            fontFamily: "PoppinsSemiBold",
+          }}
+          onPress={() => navigation.navigate("AccountSettings")}
+        >
+          Account Settings
+        </Text>
+      </View>
+    </ScrollView>
+  );
+};
 
-                <View>
-                    <Text style={styles.text1}>Saved</Text>
-                    <Text style={styles.text2}>Property listing you have saved over</Text>
-                    <View style={{ marginLeft: 32, }}>
-                        <ImageList />
-                    </View>
-
-                </View>
-
-                <Text style={{
-                    textAlign: 'center',
-                    marginTop: 40,
-                    fontSize: 16,
-                    color: '#347794',
-                    fontWeight: '800',
-                }}
-                    onPress={() => navigation.navigate('AccountSettings')}
-                >Account Settings</Text>
-
-            </View >
-        </React.Fragment>
-    )
-}
-
-export default ProfileScreen
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 0,
-        marginTop: 10,
-        justifyContent: 'center',
-        alignContent: 'center',
-
-
-    },
-    text: {
-        textAlign: 'center',
-        paddingTop: 10,
-        fontWeight: 'bold',
-        fontSize: 20,
-    },
-    text1: {
-        fontSize: 16,
-        textAlign: 'center',
-        paddingTop: 20,
-        fontWeight: '700',
-    },
-    text2: {
-        fontSize: 13,
-        textAlign: 'center',
-        paddingTop: 2,
-
-    }
-})
+  container: {
+    flex: 0,
+    paddingBottom: 150,
+    marginTop: 10,
+    justifyContent: "center",
+    alignContent: "center",
+  },
+  text: {
+    textAlign: "center",
+    paddingTop: 10,
+    fontFamily: "PoppinsSemiBold",
+    fontSize: 20,
+  },
+  text1: {
+    fontSize: 16,
+    textAlign: "center",
+    paddingTop: 20,
+    fontFamily: "PoppinsSemiBold",
+  },
+  text2: {
+    fontSize: 13,
+    fontFamily: "Poppins",
+    textAlign: "center",
+    paddingTop: 2,
+  },
+});

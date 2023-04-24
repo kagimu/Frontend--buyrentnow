@@ -1,15 +1,17 @@
 {
   "expo": {
-    "name": "LANDVILLE",
-    "slug": "LANDVILLE",
+    "name": "Propatiz",
+    "slug": "Propatiz",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/Landville_logo.png",
+    "icon": "./assets/propatiz.jpg",
     "userInterfaceStyle": "light",
+    "scheme": "com.jaypkagimu.landville",
     "splash": {
-      "image": "./assets/Landville_logo.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#fff"
+      "image": "./assets/firstpage.jpg",
+      "resizeMode": "fill",
+      "backgroundColor": "#072c3e"
+    
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -19,14 +21,20 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.jaypkagimu.SCOUTAP"
+      "bundleIdentifier": "com.jaypkagimu.landville"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#212E52"
       },
-      "package": "com.jaypkagimu.SCOUTAP"
+      "permissions": [
+      "CAMERA_ROLL",
+      "READ_EXTERNAL_STORAGE",
+      "WRITE_EXTERNAL_STORAGE",
+      "AUDIO_RECORDING"
+    ],
+      "package": "com.jaypkagimu.landville"
     },
     "web": {
       "favicon": "./assets/logo.png"
@@ -37,7 +45,13 @@
       }
     },
     "plugins": [
-      "expo-image-picker"
+      "expo-image-picker",
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
+        }
+      ]
     ]
   }
 }
