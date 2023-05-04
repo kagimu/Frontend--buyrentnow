@@ -11,17 +11,29 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import tw from "twrnc";
-import { Octicons, FontAwesome5 } from "@expo/vector-icons";
+import { Octicons, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import { BASE_URL } from "@env";
 import ImageCarousel from "../ImageCarousel";
+import { BackHandler } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { getBooks, addBookmark, removeBookmark } from "../../redux/actions";
 
 const ApartmentsRent = ({ navigation }) => {
   const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        navigation.goBack(); // Navigate back when the back button is pressed
+        return true; // Prevent default behavior
+      }
+    );
+    return () => backHandler.remove(); // Cleanup subscription when component unmounts
+  }, [navigation]);
 
   const { books, bookmarks } = useSelector((state) => state.booksReducer);
   const dispatch = useDispatch();
@@ -183,27 +195,28 @@ const ApartmentsRent = ({ navigation }) => {
               >
                 <Text style={[styles.price, tw` pl-2 mt-2`]}>{item.price}</Text>
                 <View style={{ flexDirection: "row" }}>
-                  <FontAwesome5
-                    name="tape"
+                  <Ionicons
+                    name="md-bed-outline"
                     size={15}
                     color="#6495ED"
                     style={{
-                      marginLeft: 60,
-                      marginTop: 13,
                       position: "absolute",
+                      top: 13,
+                      left: 60,
                     }}
                   />
+
                   <Text style={[styles.row, tw` pl-21 mt-3`]}>{item.size}</Text>
                 </View>
                 <View style={{ flexDirection: "row" }}>
                   <FontAwesome5
-                    name="circle-notch"
+                    name="bath"
                     size={12}
                     color="#6495ED"
                     style={{
-                      marginLeft: 25,
-                      marginTop: 15,
                       position: "absolute",
+                      top: 15,
+                      left: 25,
                     }}
                   />
                   <Text style={[styles.row, tw` pl-11 mt-3`]}>

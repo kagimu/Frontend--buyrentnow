@@ -13,14 +13,10 @@ import { AntDesign } from "@expo/vector-icons";
 import tw from "twrnc";
 import { Octicons, FontAwesome5 } from "@expo/vector-icons";
 import ImageCarousel from "../components/ImageCarousel";
-import { useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector, useDispatch } from "react-redux";
 import { removeBookmark } from "../redux/actions";
 
 const SavedPage = () => {
-  const [savedPosts, setSavedPosts] = useState([]);
-
   const { bookmarks } = useSelector((state) => state.booksReducer);
   const dispatch = useDispatch();
 
@@ -29,15 +25,6 @@ const SavedPage = () => {
   const handleRemoveBookmark = (book) => {
     removeFromBookmarkList(book);
   };
-
-  useEffect(() => {
-    const getSavedPosts = async () => {
-      const savedPosts = await AsyncStorage.getItem("likedPosts");
-      setSavedPosts(savedPosts ? JSON.parse(savedPosts) : []);
-    };
-
-    getSavedPosts();
-  }, []);
 
   if (bookmarks.length == 0) {
     return (
@@ -48,20 +35,20 @@ const SavedPage = () => {
           alignSelf: "center",
         }}
       >
-        <Text style={{ fontFamily: "PoppinsSemiBold", fontSize: 20 }}>
-          NO LIKED POSTS
+        <Text style={{ fontFamily: "PoppinsSemiBold", fontSize: 18 }}>
+          Your Liked Posts Will Appear Here.
         </Text>
       </View>
     );
   } else {
     return (
-      <View>
+      <View style={{ paddingBottom: 120 }}>
         <Text
           style={{
-            fontSize: 20,
+            fontSize: 24,
             textAlign: "left",
             fontFamily: "PoppinsSemiBold",
-            padding: 20,
+            padding: 10,
             marginLeft: 8,
           }}
         >
@@ -80,7 +67,7 @@ const SavedPage = () => {
             legacyImplementation={true}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <View style={[styles.card, tw`pb-7 pt-2 bg-gray-100`]}>
+              <View style={[styles.card, tw`pb-7`]}>
                 <View>
                   <ImageCarousel data={item.images} />
                   <TouchableOpacity

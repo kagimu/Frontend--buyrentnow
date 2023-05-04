@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import ProfileScreen from "../components/ProfileScreen";
-import BookScreen from "../components/BookScreen";
 import AccountSettings from "../components/AccountSettings";
 import PostDetails from "../components/PostDetails";
 
@@ -19,7 +18,6 @@ const ProfileStack = () => {
       }}
     >
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-      <Stack.Screen name="BookScreen" component={BookScreen} />
       <Stack.Screen name="AccountSettings" component={AccountSettings} />
       <Stack.Screen name="PostDetails" component={PostDetails} />
     </Stack.Navigator>

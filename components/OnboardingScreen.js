@@ -44,13 +44,25 @@ const OnboardingScreen = ({ navigation }) => {
   return (
     <Onboarding
       bottomBarColor="#fff"
-      titleStyles={{ fontFamily: "PoppinsSemiBold", fontSize: 22 }}
-      subTitleStyles={{ fontFamily: "Poppins", fontSize: 15 }}
+      titleStyles={{
+        fontFamily: "PoppinsExtraBold",
+        fontSize: 24,
+        marginTop: 30,
+      }}
+      imageContainerStyles={{
+        paddingBottom: 0,
+        paddingTop: 0,
+        aspectRatio: 1 / 1,
+      }}
+      subTitleStyles={{ fontFamily: "PoppinsSemiBold", fontSize: 12 }}
       NextButtonComponent={Next}
       DoneButtonComponent={Done}
       onSkip={() => navigation.replace("Login")}
       onDone={() => navigation.navigate("Login")}
-      containerStyles={{ backgroundColor: "white" }}
+      containerStyles={{
+        backgroundColor: "white",
+        marginTop: -89,
+      }}
       pages={[
         {
           backgroundColor: "#fff",
@@ -61,7 +73,7 @@ const OnboardingScreen = ({ navigation }) => {
               style={styles.image}
             />
           ),
-          title: "Am Looking for Plot of Land",
+          title: "Am Looking for a Rental",
           subtitle:
             "Explore the latest properties, Checkout new properties, land, apartments and Houses.",
           bottomBarColor: "#fff",
@@ -101,10 +113,10 @@ export default OnboardingScreen;
 
 const styles = StyleSheet.create({
   image: {
-    height: Dimensions.get("window").height - 300,
+    aspectRatio: 1 / 1,
     width: "100%",
-    marginTop: -200,
-    resizeMode: "contain",
+    resizeMode: "cover",
     borderRadius: 10,
+    marginTop: 30,
   },
 });

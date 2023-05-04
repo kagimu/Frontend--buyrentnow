@@ -8,7 +8,7 @@ const TabBar = ({ state, navigation }) => {
   const [selected, setSelected] = useState("Home");
   const { routes } = state;
   const renderColor = (currentTab) =>
-    currentTab === selected ? "#387981" : "#808080";
+    currentTab === selected ? "#387981" : "#000";
 
   const handlePress = (activeTab, index) => {
     if (state.index !== index) {

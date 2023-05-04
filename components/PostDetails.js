@@ -13,7 +13,6 @@ import { Octicons, FontAwesome5 } from "@expo/vector-icons";
 import { BASE_URL } from "@env";
 import List from "./List";
 import { Video } from "expo-av";
-import Likes from "./Likes";
 
 const data = [
   {
@@ -117,7 +116,7 @@ const PostDetails = ({ route }) => {
               }}
             >
               <View style={tw`pl-1 pt-3`}>
-                <Text style={{ fontFamily: "Poppins" }}>Price in UGX</Text>
+                <Text style={{ fontFamily: "Poppins" }}>Price</Text>
                 <Text style={{ fontFamily: "PoppinsSemiBold", fontSize: 14 }}>
                   {post.price}
                 </Text>
@@ -138,7 +137,9 @@ const PostDetails = ({ route }) => {
                       fontFamily: "PoppinsSemiBold",
                       fontSize: 18,
                     }}
-                    onPress={() => navigation.navigate("AgentForm")}
+                    onPress={() =>
+                      navigation.navigate("AgentForm", { post: post })
+                    }
                   >
                     Contact an agent
                   </Text>

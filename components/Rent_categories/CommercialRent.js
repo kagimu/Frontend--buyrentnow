@@ -10,8 +10,9 @@ import {
   View,
 } from "react-native";
 import React, { useState, useRef } from "react";
+import { BackHandler } from "react-native";
 import tw from "twrnc";
-import { Octicons, FontAwesome5 } from "@expo/vector-icons";
+import { Octicons, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import { BASE_URL } from "@env";
@@ -68,7 +69,21 @@ const CommercialRent = ({ navigation }) => {
   useEffect(() => {
     getPosts();
     fetchBooks();
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      handleBackPress
+    );
+    return () => {
+      backHandler.remove();
+    };
   }, []);
+
+  const handleBackPress = () => {
+    // handle the back button press here
+    // return true if you want to consume the event
+    // or return false if you want to go back to the previous screen
+    return false;
+  };
 
   return (
     <View style={{ paddingBottom: 200, paddingVertical: 5 }}>
@@ -124,7 +139,7 @@ const CommercialRent = ({ navigation }) => {
       <Text
         style={{
           fontSize: 30,
-          fontWeight: "bold",
+          fontFamily: "PoppinsSemiBold",
           textAlign: "left",
           padding: 4,
           marginLeft: 10,
@@ -183,27 +198,28 @@ const CommercialRent = ({ navigation }) => {
               >
                 <Text style={[styles.price, tw` pl-2 mt-2`]}>{item.price}</Text>
                 <View style={{ flexDirection: "row" }}>
-                  <FontAwesome5
-                    name="tape"
+                  <Ionicons
+                    name="md-bed-outline"
                     size={15}
                     color="#6495ED"
                     style={{
-                      marginLeft: 60,
-                      marginTop: 13,
                       position: "absolute",
+                      top: 13,
+                      left: 60,
                     }}
                   />
+
                   <Text style={[styles.row, tw` pl-21 mt-3`]}>{item.size}</Text>
                 </View>
                 <View style={{ flexDirection: "row" }}>
                   <FontAwesome5
-                    name="circle-notch"
+                    name="bath"
                     size={12}
                     color="#6495ED"
                     style={{
-                      marginLeft: 25,
-                      marginTop: 15,
                       position: "absolute",
+                      top: 15,
+                      left: 25,
                     }}
                   />
                   <Text style={[styles.row, tw` pl-11 mt-3`]}>
@@ -219,7 +235,10 @@ const CommercialRent = ({ navigation }) => {
                   navigation.navigate("PostDetails", { post: item })
                 }
               >
-                <Text style={[styles.name, tw` pl-2 mt-2 text-sm`]}>
+                <Text
+                  numberOfLines={2}
+                  style={[styles.name, tw` pl-2 mt-2 text-sm`]}
+                >
                   {item.name}
                 </Text>
                 <View
@@ -270,6 +289,7 @@ const styles = StyleSheet.create({
   },
   name: {
     position: "absolute",
+    fontFamily: "PoppinsSemiBold",
   },
   buttonActive: {
     backgroundColor: "#387981",
@@ -304,14 +324,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   ActiveText: {
-    fontWeight: "bold",
+    fontFamily: "PoppinsSemiBold",
     textAlign: "center",
     alignContent: "center",
     padding: 15,
     color: "#fff",
   },
   Text: {
-    fontWeight: "bold",
+    fontFamily: "PoppinsSemiBold",
     color: "#000",
     textAlign: "center",
     alignContent: "center",
@@ -333,9 +353,11 @@ const styles = StyleSheet.create({
   row: {
     fontSize: 14,
     paddingLeft: 0,
+    fontFamily: "Poppins",
   },
   price: {
     fontSize: 18,
+    fontFamily: "PoppinsSemiBold",
     buttonActive: {
       backgroundColor: "#387981",
       marginTop: 5,
@@ -420,7 +442,7 @@ const styles = StyleSheet.create({
   },
   button: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: "PoppinsSemiBold",
     color: "blue",
     marginBottom: 20,
   },

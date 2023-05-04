@@ -8,14 +8,13 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import * as ImagePicker from "expo-image-picker";
-import { Feather } from "@expo/vector-icons";
+import { Picker } from "@react-native-picker/picker";
+import { BackHandler } from "react-native";
+import React, { useState, useEffect } from "react";
 import * as MailComposer from "expo-mail-composer";
 import tw from "twrnc";
 
-const BookingConfirmation = () => {
+const BookingConfirmation = ({ navigation }) => {
   const [images, setImages] = useState(null);
   const [type, setType] = useState("");
   const [name, setName] = useState("");
@@ -26,21 +25,20 @@ const BookingConfirmation = () => {
   const [status, setStatus] = useState("");
   const [host, setHost] = useState("");
   const [number, setNumber] = useState("");
+  const [selectedImages, setSelectedImages] = useState([]);
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsMultipleSelection: true,
-      selectionLimit: 10,
-      //mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1,
-      allowsEditing: false,
-    });
-    if (!result.canceled) {
-      console.log(images);
-      setImages(result.assets[0].uri);
-    }
-  };
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        navigation.goBack(); // Navigate back when the back button is pressed
+        return true; // Prevent default behavior
+      }
+    );
+    return () => backHandler.remove(); // Cleanup subscription when component unmounts
+  }, [navigation]);
+
+  const pickImages = () => {};
 
   const onSubmit = () => {
     // Format the form data as a string
@@ -99,13 +97,22 @@ const BookingConfirmation = () => {
 
         <Text style={styles.label}>Type of Property</Text>
         <View style={styles.input}>
-          <TextInput
-            placeholder="is it land, commercial or residential?"
-            placeholderTextColor="#D3D3D3"
-            onChangeText={(text) => setType(text)}
-            value={type}
-            multiline={true}
-          />
+          <Picker
+            selectedValue={type}
+            onValueChange={(itemValue) => setType(itemValue)}
+          >
+            <Picker.Item label="Land" value="land" style={styles.dropdown} />
+            <Picker.Item
+              label="Commercial"
+              value="commercial"
+              style={styles.dropdown}
+            />
+            <Picker.Item
+              label="Residential"
+              value="residential"
+              style={styles.dropdown}
+            />
+          </Picker>
         </View>
 
         <Text style={styles.label}>Property Name</Text>
@@ -155,13 +162,22 @@ const BookingConfirmation = () => {
         </View>
         <Text style={styles.label}>Status</Text>
         <View style={styles.input}>
-          <TextInput
-            placeholder="is it For Sale or For rent?"
-            placeholderTextColor="#D3D3D3"
-            onChangeText={(text) => setStatus(text)}
-            value={status}
-            multiline={true}
-          />
+          <Picker
+            selectedValue={status}
+            onValueChange={(itemValue) => setStatus(itemValue)}
+            style={styles.dropdown}
+          >
+            <Picker.Item
+              label="For Sale"
+              value="For Sale"
+              style={styles.dropdown}
+            />
+            <Picker.Item
+              label="For Rent"
+              value="For Rent"
+              style={styles.dropdown}
+            />
+          </Picker>
         </View>
         <Text style={styles.label}>Your Name</Text>
         <View style={styles.input}>
@@ -183,56 +199,44 @@ const BookingConfirmation = () => {
             multiline={true}
           />
         </View>
-        <Text style={styles.label}>
-          Upload atleast 4 images showing your property
-        </Text>
-        <View
-          style={{
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 10,
-          }}
-        >
-          <StatusBar hidden={true} />
-          <TouchableOpacity>
-            <Feather
-              name="upload"
-              size={40}
-              color="black"
-              onPress={pickImage}
+        <TouchableOpacity>
+          <Text style={styles.label}>
+            Upload at least 4 images showing your property
+          </Text>
+          {selectedImages.map((image) => (
+            <Image
+              key={image.uri}
+              source={{ uri: image.uri }}
+              style={{ width: 70, height: 70 }}
             />
-            {images && (
-              <Image
-                source={{ uri: images }}
-                style={{ width: 100, height: 100 }}
-              />
-            )}
-          </TouchableOpacity>
-        </View>
+          ))}
+        </TouchableOpacity>
 
         <View
           style={{
             alignContent: "center",
             justifyContent: "center",
-            paddingLeft: 130,
+            alignItems: "center",
+            marginHorizontal: 30,
             paddingTop: 30,
           }}
         >
           <TouchableOpacity
             onPress={onSubmit}
             style={{
-              backgroundColor: "#387981",
-              flex: 1,
+              backgroundColor: "#fff",
+              borderRadius: 8,
               padding: 10,
-              width: 100,
-              height: 60,
-              borderRadius: 20,
-              alignContent: "center",
-              justifyContent: "center",
+              marginTop: 20,
+              marginBottom: 18,
+              borderWidth: 2,
+              borderColor: "#000",
+              marginHorizontal: 10,
             }}
           >
-            <Text style={[tw` text-center `, styles.register]}>Submit</Text>
+            <Text style={[tw` text-center `, styles.register]}>
+              Add Property
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -243,6 +247,7 @@ const BookingConfirmation = () => {
 export default BookingConfirmation;
 
 const styles = StyleSheet.create({
+  dropdown: { fontFamily: "Poppins", fontSize: 15 },
   input: {
     borderRadius: 8,
     padding: 10,
@@ -283,10 +288,9 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   register: {
-    fontSize: 18,
+    fontSize: 14,
     padding: 5,
     fontFamily: "PoppinsSemiBold",
-
-    color: "#fff",
+    color: "#000",
   },
 });

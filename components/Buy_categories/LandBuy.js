@@ -16,18 +16,34 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import { BASE_URL } from "@env";
 import ImageCarousel from "../ImageCarousel";
+import { AntDesign } from "@expo/vector-icons";
+import { useSelector, useDispatch } from "react-redux";
+import { getBooks, addBookmark, removeBookmark } from "../../redux/actions";
 
 const LandBuy = ({ navigation }) => {
   const [data, setData] = useState([]);
-  const video = useRef(null);
-  const [likedPosts, setLikedPosts] = useState([]);
 
-  const handleLikePress = (postId, isLiked) => {
-    if (isLiked) {
-      setLikedPosts([...likedPosts, postId]);
-    } else {
-      setLikedPosts(likedPosts.filter((id) => id !== postId));
+  const { books, bookmarks } = useSelector((state) => state.booksReducer);
+  const dispatch = useDispatch();
+  const fetchBooks = () => dispatch(getBooks());
+
+  const addToBookmarkList = (book) => dispatch(addBookmark(book));
+  const removeFromBookmarkList = (book) => dispatch(removeBookmark(book));
+
+  const handleAddBookmark = (book) => {
+    addToBookmarkList(book);
+  };
+
+  const handleRemoveBookmark = (book) => {
+    removeFromBookmarkList(book);
+  };
+
+  const ifExists = (book) => {
+    if (bookmarks.filter((item) => item.id === book.id).length > 0) {
+      return true;
     }
+
+    return false;
   };
 
   const getPosts = async () => {
@@ -51,6 +67,7 @@ const LandBuy = ({ navigation }) => {
 
   useEffect(() => {
     getPosts();
+    fetchBooks();
   }, []);
 
   return (
@@ -107,7 +124,7 @@ const LandBuy = ({ navigation }) => {
       <Text
         style={{
           fontSize: 30,
-          fontWeight: "bold",
+          fontFamily: "PoppinsSemiBold",
           textAlign: "left",
           padding: 4,
           marginLeft: 10,
@@ -115,9 +132,9 @@ const LandBuy = ({ navigation }) => {
       >
         Buy Land
       </Text>
-      {data.length > 0 ? (
+      {books.length > 0 ? (
         <FlatList
-          data={data.filter(
+          data={books.filter(
             (post) => post.status == "for sale" && post.category_id == "4"
           )}
           Vertical
@@ -130,13 +147,33 @@ const LandBuy = ({ navigation }) => {
           legacyImplementation={true}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View View style={[styles.card, tw`pb-7 pt-2 bg-gray-100`]}>
+            <View style={[styles.card, tw`pb-7 pt-2 bg-gray-100`]}>
               <View>
-                <ImageCarousel
-                  data={item.images}
-                  likedPosts={likedPosts}
-                  onLikePress={handleLikePress}
-                />
+                <ImageCarousel data={item.images} />
+                <TouchableOpacity
+                  style={styles.likeButton}
+                  onPress={() =>
+                    ifExists(item)
+                      ? handleRemoveBookmark(item)
+                      : handleAddBookmark(item)
+                  }
+                >
+                  {ifExists(item) ? (
+                    <AntDesign
+                      name="heart"
+                      color="#fff"
+                      size={40}
+                      style={styles.likeIcon}
+                    />
+                  ) : (
+                    <AntDesign
+                      name="hearto"
+                      color="#fff"
+                      size={40}
+                      style={styles.likeIcon}
+                    />
+                  )}
+                </TouchableOpacity>
               </View>
               <View
                 style={{
@@ -144,9 +181,7 @@ const LandBuy = ({ navigation }) => {
                   marginLeft: 5,
                 }}
               >
-                <Text style={[styles.price, tw` pl-2 mt-2 font-bold`]}>
-                  {item.price}
-                </Text>
+                <Text style={[styles.price, tw` pl-2 mt-2`]}>{item.price}</Text>
                 <View style={{ flexDirection: "row" }}>
                   <FontAwesome5
                     name="tape"
@@ -176,7 +211,7 @@ const LandBuy = ({ navigation }) => {
                   </Text>
                 </View>
               </View>
-              <View
+              <TouchableOpacity
                 style={{
                   marginLeft: 5,
                 }}
@@ -184,7 +219,7 @@ const LandBuy = ({ navigation }) => {
                   navigation.navigate("PostDetails", { post: item })
                 }
               >
-                <Text style={[styles.name, tw` pl-2 mt-2 text-sm font-bold`]}>
+                <Text style={[styles.name, tw` pl-2 mt-2 text-sm`]}>
                   {item.name}
                 </Text>
                 <View
@@ -205,8 +240,10 @@ const LandBuy = ({ navigation }) => {
                   <Text style={[styles.row, tw` pl-6 mt--4.5`]}>
                     {item.location}
                   </Text>
+
+                  <View></View>
                 </View>
-              </View>
+              </TouchableOpacity>
             </View>
           )}
         />
@@ -220,8 +257,20 @@ const LandBuy = ({ navigation }) => {
 export default LandBuy;
 
 const styles = StyleSheet.create({
+  likeButton: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    left: 310,
+  },
+  likeIcon: {
+    width: 40,
+    height: 40,
+    resizeMode: "cover",
+  },
   name: {
     position: "absolute",
+    fontFamily: "PoppinsSemiBold",
   },
   buttonActive: {
     backgroundColor: "#387981",
@@ -256,14 +305,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   ActiveText: {
-    fontWeight: "bold",
+    fontFamily: "PoppinsSemiBold",
     textAlign: "center",
     alignContent: "center",
     padding: 15,
     color: "#fff",
   },
   Text: {
-    fontWeight: "bold",
+    fontFamily: "PoppinsSemiBold",
     color: "#000",
     textAlign: "center",
     alignContent: "center",
@@ -285,9 +334,11 @@ const styles = StyleSheet.create({
   row: {
     fontSize: 14,
     paddingLeft: 0,
+    fontFamily: "Poppins",
   },
   price: {
     fontSize: 18,
+    fontFamily: "PoppinsSemiBold",
     buttonActive: {
       backgroundColor: "#387981",
       marginTop: 5,
@@ -372,7 +423,7 @@ const styles = StyleSheet.create({
   },
   button: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: "PoppinsSemiBold",
     color: "blue",
     marginBottom: 20,
   },

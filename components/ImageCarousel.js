@@ -8,17 +8,12 @@ import {
 } from "react-native";
 import { SliderBox } from "react-native-image-slider-box";
 import { BASE_URL } from "@env";
-import { AntDesign } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect } from "react";
 
 const ImageCarousel = ({ data }) => {
   // Get the device screen width
   const { width } = Dimensions.get("window");
 
   const renderItem = ({ item }) => {
-    // Determine if the current post is liked or not
-
     return (
       <View style={styles.itemContainer}>
         <Image
@@ -35,6 +30,8 @@ const ImageCarousel = ({ data }) => {
     <SliderBox
       images={data}
       renderItem={renderItem}
+      onCurrentImagePressed={(index) => console.warn(`image ${index} pressed`)}
+      ImageComponentStyle={{ borderRadius: 15, width: "90%", marginTop: 5 }}
       loop={false}
       autoplay={false}
       autoplayInterval={10000}
@@ -48,17 +45,18 @@ const ImageCarousel = ({ data }) => {
 
 const styles = StyleSheet.create({
   itemContainer: {
-    backgroundColor: "white",
     borderRadius: 8,
-    width: "100%",
-    marginLeft: 2,
+    width: "98%",
+    marginLeft: 0,
     position: "relative",
   },
   image: {
-    width: "100%",
+    width: "97%",
     aspectRatio: 3 / 2,
     resizeMode: "cover",
     borderRadius: 10,
+    marginLeft: 10,
+    padding: 10,
   },
   likeButton: {
     position: "absolute",

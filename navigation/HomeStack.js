@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import CategoryScreen from "../components/CategoryScreen";
 import HomeScreen from "../components/HomeScreen";
 import LoginScreen from "../components/login/LoginScreen";
 import RegisterScreen from "../components/login/RegisterScreen";
@@ -19,6 +18,7 @@ import LandRent from "../components/Rent_categories/LandRent";
 import CommercialRent from "../components/Rent_categories/CommercialRent";
 import AllCategory from "../components/category/AllCategory";
 import AllCategoryBuy from "../components/category/AllCategoryBuy";
+import EmailAlert from "../components/TopTabs/EmailAlert";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,7 +34,6 @@ const HomeStack = () => {
     >
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="Category" component={Category} />
-      <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
       <Stack.Screen name="ApartmentsBuy" component={ApartmentsBuy} />
       <Stack.Screen name="CommercialBuy" component={CommercialBuy} />
       <Stack.Screen name="HousesBuy" component={HousesBuy} />
@@ -49,6 +48,8 @@ const HomeStack = () => {
       <Stack.Screen name="AllCategory" component={AllCategory} />
       <Stack.Screen name="AllCategoryBuy" component={AllCategoryBuy} />
       <Stack.Screen name="AgentForm" component={AgentForm} />
+      <Stack.Screen name="EmailAlert" component={EmailAlert} />
+
       <Stack.Screen
         name="BookingConfirmation"
         component={BookingConfirmation}

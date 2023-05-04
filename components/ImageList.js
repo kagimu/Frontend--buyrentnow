@@ -16,38 +16,26 @@ import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector, useDispatch } from "react-redux";
+import { removeBookmark } from "../redux/actions";
 
 const ImageList = () => {
   const navigation = useNavigation();
 
-  const [data, setData] = useState([]);
-  const getPostImages = async () => {
-    try {
-      const token = await AsyncStorage.getItem("token"); // Retrieve the token from AsyncStorage
-      const response = await fetch(`${BASE_URL}/api/posts`, {
-        headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header
-      });
+  const { bookmarks } = useSelector((state) => state.booksReducer);
+  const dispatch = useDispatch();
 
-      if (!response.ok) {
-        throw new Error("Request failed with status code " + response.status);
-      }
+  const removeFromBookmarkList = (book) => dispatch(removeBookmark(book));
 
-      const data = await response.json();
-      console.log("Data from API:", data); // log data to the console
-      setData(data);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleRemoveBookmark = (book) => {
+    removeFromBookmarkList(book);
   };
 
-  useEffect(() => {
-    getPostImages();
-  }, []);
   return (
     <View>
-      {data.length > 0 ? (
+      {bookmarks.length > 0 ? (
         <FlatList
-          data={data}
+          data={bookmarks}
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id}
           numColumns={2}

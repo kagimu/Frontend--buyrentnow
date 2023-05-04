@@ -124,7 +124,7 @@ const CommercialBuy = ({ navigation }) => {
       <Text
         style={{
           fontSize: 30,
-          fontWeight: "bold",
+          fontFamily: "PoppinsSemiBold",
           textAlign: "left",
           padding: 4,
           marginLeft: 10,

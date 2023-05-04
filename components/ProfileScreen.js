@@ -7,6 +7,7 @@ import {
   Alert,
   StyleSheet,
   ScrollView,
+  FlatList,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
@@ -23,6 +24,7 @@ LogBox.ignoreLogs([
 
 const ProfileScreen = ({ navigation }) => {
   const [profilePicture, setProfilePicture] = useState(null);
+  const data = [{ key: "1" }];
 
   const handleImagePicker = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -69,67 +71,74 @@ const ProfileScreen = ({ navigation }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View
-        style={{
-          justifyContent: "center",
-          alignContent: "center",
-          marginLeft: 125,
-        }}
-      >
-        <TouchableOpacity
+    <FlatList
+      data={data}
+      renderItem={({ item }) => (
+        <View
           style={{
-            marginTop: 30,
-            borderRadius: 120,
-            width: 120,
-            height: 120,
-            backgroundColor: "white",
-            alignItems: "center",
             justifyContent: "center",
+            alignContent: "center",
+            alignItems: "center",
           }}
-          onPress={handleImagePicker}
         >
-          {profilePicture ? (
-            <Image
-              source={{ uri: profilePicture }}
+          <TouchableOpacity
+            style={{
+              marginTop: 30,
+              borderRadius: 120,
+              width: 120,
+              height: 120,
+              backgroundColor: "white",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onPress={handleImagePicker}
+          >
+            {profilePicture ? (
+              <Image
+                source={{ uri: profilePicture }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: 100,
+                  alignContent: "center",
+                  justifyContent: "center",
+                  marginLeft: 10,
+                }}
+              />
+            ) : (
+              <Text style={{ fontSize: 24 }}>+</Text>
+            )}
+          </TouchableOpacity>
+
+          <Text style={styles.text}>Martha Segawa</Text>
+
+          <View>
+            <Text style={styles.text1}>Saved</Text>
+            <Text style={styles.text2}>
+              Property listing you have saved over
+            </Text>
+          </View>
+
+          <View style={{ top: 20 }}>
+            <ImageList />
+          </View>
+          <View>
+            <Text
               style={{
-                width: "100%",
-                height: "100%",
-                borderRadius: 100,
-                alignContent: "center",
-                justifyContent: "center",
-                marginLeft: 10,
+                textAlign: "center",
+                marginTop: 40,
+                fontSize: 16,
+                color: "#347794",
+                fontFamily: "PoppinsSemiBold",
               }}
-            />
-          ) : (
-            <Text style={{ fontSize: 24 }}>+</Text>
-          )}
-        </TouchableOpacity>
-      </View>
-
-      <Text style={styles.text}>Martha Segawa</Text>
-
-      <View>
-        <Text style={styles.text1}>Saved</Text>
-        <Text style={styles.text2}>Property listing you have saved over</Text>
-      </View>
-      <View style={{ marginLeft: 32, top: 20 }}>
-        <ImageList />
-
-        <Text
-          style={{
-            textAlign: "center",
-            marginTop: 40,
-            fontSize: 16,
-            color: "#347794",
-            fontFamily: "PoppinsSemiBold",
-          }}
-          onPress={() => navigation.navigate("AccountSettings")}
-        >
-          Account Settings
-        </Text>
-      </View>
-    </ScrollView>
+              onPress={() => navigation.navigate("AccountSettings")}
+            >
+              Account Settings
+            </Text>
+          </View>
+        </View>
+      )}
+    />
   );
 };
 

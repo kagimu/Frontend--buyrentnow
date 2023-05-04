@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import React, { useState, useRef } from "react";
 import tw from "twrnc";
-import { Octicons, FontAwesome5 } from "@expo/vector-icons";
+import { Octicons, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import { BASE_URL } from "@env";
@@ -182,27 +182,28 @@ const LandRent = ({ navigation }) => {
               >
                 <Text style={[styles.price, tw` pl-2 mt-2`]}>{item.price}</Text>
                 <View style={{ flexDirection: "row" }}>
-                  <FontAwesome5
-                    name="tape"
+                  <Ionicons
+                    name="md-bed-outline"
                     size={15}
                     color="#6495ED"
                     style={{
-                      marginLeft: 60,
-                      marginTop: 13,
                       position: "absolute",
+                      top: 13,
+                      left: 60,
                     }}
                   />
+
                   <Text style={[styles.row, tw` pl-21 mt-3`]}>{item.size}</Text>
                 </View>
                 <View style={{ flexDirection: "row" }}>
                   <FontAwesome5
-                    name="circle-notch"
+                    name="bath"
                     size={12}
                     color="#6495ED"
                     style={{
-                      marginLeft: 25,
-                      marginTop: 15,
                       position: "absolute",
+                      top: 15,
+                      left: 25,
                     }}
                   />
                   <Text style={[styles.row, tw` pl-11 mt-3`]}>

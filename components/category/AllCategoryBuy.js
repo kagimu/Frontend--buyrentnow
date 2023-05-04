@@ -276,13 +276,15 @@ const styles = StyleSheet.create({
   row: {
     fontSize: 14,
     paddingLeft: 0,
+    fontFamily: "Poppins",
   },
   price: {
     fontSize: 18,
+    fontFamily: "PoppinsSemiBold",
   },
   button: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: "PoppinsSemiBold",
     color: "blue",
     marginBottom: 20,
   },
@@ -327,13 +329,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   ActiveText: {
-    fontWeight: "bold",
+    fontFamily: "PoppinsSemiBold",
     textAlign: "center",
     alignContent: "center",
     padding: 15,
   },
   Text: {
-    fontWeight: "bold",
+    fontFamily: "PoppinsSemiBold",
     color: "#387981",
     textAlign: "center",
     alignContent: "center",
