@@ -10,16 +10,8 @@ import { useNavigation } from "@react-navigation/native";
 import { BASE_URL } from "@env";
 import React from "react";
 
-const EmailAlert = ({ route }) => {
+const BookingAlert = () => {
   const navigation = useNavigation();
-  const { pic } = route.params;
-  // set header options
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: null, // remove header back button
-    });
-  }, [navigation]);
-
   return (
     <View
       style={{
@@ -33,35 +25,15 @@ const EmailAlert = ({ route }) => {
       <View style={styles.card}>
         <View>
           <Text style={styles.heading}>Thank You</Text>
-          <FlatList
-            data={[pic]}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View>
-                <Image
-                  style={{
-                    width: 260,
-                    height: 100,
-                    resizeMode: "cover",
-                    borderRadius: 10,
-                    alignItems: "center",
-                    marginBottom: 10,
-                  }}
-                  source={{ uri: `${BASE_URL}${pic.images[0]}` }}
-                />
-              </View>
-            )}
-          />
           <Text
             style={{
               fontFamily: "Poppins",
-              fontSize: 19,
+              fontSize: 16,
               marginBottom: 20,
             }}
           >
-            Our Agent will contact you in less than 30 Minutes
+            Our Agent will reach out and schedule a site visit with you to help
+            you market your property better on Propatiz Marketplace.
           </Text>
         </View>
       </View>
@@ -78,7 +50,7 @@ const EmailAlert = ({ route }) => {
       >
         <Text
           style={{ fontFamily: "PoppinsSemiBold", fontSize: 17, color: "#fff" }}
-          onPress={() => navigation.navigate("HomeScreen")}
+          onPress={() => navigation.goBack("HomeScreen")}
         >
           Find more listings
         </Text>
@@ -87,10 +59,11 @@ const EmailAlert = ({ route }) => {
   );
 };
 
-export default EmailAlert;
+export default BookingAlert;
 
 const styles = StyleSheet.create({
   card: {
+    flex: 1,
     alignItems: "center",
     alignContent: "center",
     justifyContent: "center",

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
 import { LogBox, SafeAreaView, StyleSheet, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -9,11 +8,17 @@ import "react-native-gesture-handler";
 import GlobalStyles from "./GlobalStyles";
 import LoginScreen from "./components/login/LoginScreen";
 import OnboardingScreen from "./components/OnboardingScreen";
-import { AntDesign } from "@expo/vector-icons";
 import RegisterScreen from "./components/login/RegisterScreen";
 import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
+import { useEffect } from "react";
+import { Dimensions } from "react-native";
+import { View } from "react-native";
+import * as SplashScreen from "expo-splash-screen";
+import { useCallback } from "react";
+
+SplashScreen.preventAutoHideAsync();
 
 LogBox.ignoreLogs([
   "Setting a timer",
@@ -30,47 +35,70 @@ export default function App() {
     PoppinsBold: require("./assets/fonts/Poppins-Bold.ttf"),
     PoppinsSemiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
   });
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const { width, height } = Dimensions.get("window");
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem("userToken");
+      if (token !== null) {
+        setIsLoggedIn(true);
+      }
+    };
+    checkToken();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
   }
+
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <SafeAreaView style={GlobalStyles.droidSafeArea}>
-          <NavigationContainer>
-            <Stack.Navigator initialRouteName="TabNavigator">
-              <Stack.Screen
-                name="Onboarding"
-                component={OnboardingScreen}
-                options={{ header: () => null }}
-              />
-              <Stack.Screen
-                name="Login"
-                component={LoginScreen}
-                options={{ header: () => null }}
-              />
-              <Stack.Screen
-                name="TabNavigator"
-                component={TabNavigator}
-                options={({ navigation }) => ({
-                  header: () => null,
-                  headerLeft: () => (
-                    <AntDesign
-                      name="leftcircle"
-                      size={24}
-                      color="black"
-                      onPress={() => {
-                        navigation.goBack();
-                      }}
-                    />
-                  ),
-                })}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </SafeAreaView>
-      </PersistGate>
-    </Provider>
+    <View
+      style={{
+        width,
+        height,
+      }}
+      onLayout={onLayoutRootView}
+    >
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <SafeAreaView style={GlobalStyles.droidSafeArea}>
+            <NavigationContainer>
+              <Stack.Navigator
+                initialRouteName={isLoggedIn ? "TabNavigator" : "Onboarding"}
+                screenOptions={{ headerShown: false }}
+              >
+                <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+                <Stack.Screen
+                  name="Login"
+                  component={LoginScreen}
+                  options={{ header: () => null }}
+                />
+                <Stack.Screen
+                  name="RegisterScreen"
+                  component={RegisterScreen}
+                />
+                <Stack.Screen
+                  name="TabNavigator"
+                  component={TabNavigator}
+                  options={({ navigation }) => ({
+                    header: () => null,
+                  })}
+                />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </SafeAreaView>
+        </PersistGate>
+      </Provider>
+    </View>
   );
 }
 

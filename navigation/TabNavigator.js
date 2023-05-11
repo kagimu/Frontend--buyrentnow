@@ -12,8 +12,13 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
       tabBar={(props) => <TabBar {...props} />}
-      screenOptions={{ headerTransparent: true, title: "" }}
+      screenOptions={{
+        headerTransparent: true,
+        title: "",
+        backBehavior: "history",
+      }}
       initialRouteName="Home"
+      backBehavior="history"
     >
       <Tab.Screen
         name="ProfileStack"

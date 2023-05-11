@@ -1,5 +1,6 @@
 import {
   Image,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -7,15 +8,19 @@ import {
   View,
   TouchableOpacity,
   ActivityIndicator,
+  FlatList,
+  Alert,
+  Pressable,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+import * as ImagePicker from "expo-image-picker";
 import { BackHandler } from "react-native";
 import React, { useState, useEffect } from "react";
 import * as MailComposer from "expo-mail-composer";
 import tw from "twrnc";
+import { Button } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 
 const BookingConfirmation = ({ navigation }) => {
-  const [images, setImages] = useState(null);
   const [type, setType] = useState("");
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
@@ -25,20 +30,21 @@ const BookingConfirmation = ({ navigation }) => {
   const [status, setStatus] = useState("");
   const [host, setHost] = useState("");
   const [number, setNumber] = useState("");
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [image, setImage] = useState(null);
 
-  useEffect(() => {
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      () => {
-        navigation.goBack(); // Navigate back when the back button is pressed
-        return true; // Prevent default behavior
-      }
-    );
-    return () => backHandler.remove(); // Cleanup subscription when component unmounts
-  }, [navigation]);
-
-  const pickImages = () => {};
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      selectionLimit: 10,
+      aspect: [9, 16],
+      quality: 1.0,
+      allowsMultipleSelection: true,
+    });
+    console.log(result);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
   const onSubmit = () => {
     // Format the form data as a string
@@ -47,10 +53,10 @@ const BookingConfirmation = ({ navigation }) => {
     // Create a mail object with the form data
     const mail = {
       recipients: ["kagimujayp01@gmail.com"], // Replace with your email address
-      subject: "New Property Listing For LandVille",
+      subject: "New Property Application For Propatiz",
       body: body,
       isHtml: false,
-      attachments: [images], // Attach the image(s) here
+      attachments: [image], // Attach the image(s) here
     };
 
     // Send the email
@@ -66,37 +72,29 @@ const BookingConfirmation = ({ navigation }) => {
         setStatus("");
         setHost("");
         setNumber("");
-
-        Alert.alert(
-          "Success",
-          "Your Property has been sent successfully To our Property Analysts. We shall get back to you as soon as possible for verification",
-          [
-            {
-              text: "OK",
-              onPress: () => navigation.back("HomeScreen"), // Replace with your home screen name
-            },
-          ]
-        );
       })
       .catch((error) => {
         console.log(error);
         Alert.alert("Error", "There was an error sending your info.");
       });
+    navigation.navigate("BookingAlert");
   };
 
   return (
-    <ScrollView style={{ flex: 1, paddingBotton: 100 }}>
+    <ScrollView
+      style={{ flex: 1, paddingBotton: 100, backgroundColor: "#f6f8fc" }}
+    >
       <View style={{ paddingBottom: 80 }}>
         <Text style={styles.heading}>
-          Lets help you sell your property with ease
+          Lets help you market your property with ease
         </Text>
         <Text style={styles.subheading}>
-          Share with us descriptions and images of your property and our agents
-          will reach out to you.
+          Share with us descriptions and images of your property and our
+          assistant will reach out to you.
         </Text>
 
         <Text style={styles.label}>Type of Property</Text>
-        <View style={styles.input}>
+        <View style={styles.input1}>
           <Picker
             selectedValue={type}
             onValueChange={(itemValue) => setType(itemValue)}
@@ -161,7 +159,7 @@ const BookingConfirmation = ({ navigation }) => {
           />
         </View>
         <Text style={styles.label}>Status</Text>
-        <View style={styles.input}>
+        <View style={styles.input1}>
           <Picker
             selectedValue={status}
             onValueChange={(itemValue) => setStatus(itemValue)}
@@ -199,18 +197,26 @@ const BookingConfirmation = ({ navigation }) => {
             multiline={true}
           />
         </View>
-        <TouchableOpacity>
-          <Text style={styles.label}>
-            Upload at least 4 images showing your property
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
+          <Text
+            onPress={pickImage}
+            style={{ fontFamily: "PoppinsSemiBold", fontSize: 15 }}
+          >
+            Upload an image showing your property
           </Text>
-          {selectedImages.map((image) => (
+
+          {image && (
             <Image
-              key={image.uri}
-              source={{ uri: image.uri }}
-              style={{ width: 70, height: 70 }}
+              source={{ uri: image }}
+              style={{
+                width: 70,
+                height: 70,
+                paddingTop: 30,
+                borderRadius: 10,
+              }}
             />
-          ))}
-        </TouchableOpacity>
+          )}
+        </View>
 
         <View
           style={{
@@ -230,7 +236,8 @@ const BookingConfirmation = ({ navigation }) => {
               marginTop: 20,
               marginBottom: 18,
               borderWidth: 2,
-              borderColor: "#000",
+              borderColor: "#fff",
+              elevation: 1,
               marginHorizontal: 10,
             }}
           >
@@ -247,6 +254,14 @@ const BookingConfirmation = ({ navigation }) => {
 export default BookingConfirmation;
 
 const styles = StyleSheet.create({
+  headAlert: {
+    fontFamily: "PoppinsExtraBold",
+    fontSize: "15",
+  },
+  alertMessage: {
+    fontFamily: "Poppins",
+    fontSize: 12,
+  },
   dropdown: { fontFamily: "Poppins", fontSize: 15 },
   input: {
     borderRadius: 8,
@@ -255,9 +270,22 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginBottom: 18,
     borderWidth: 1,
-    borderColor: "#387981",
+    borderColor: "#808080",
     marginHorizontal: 30,
     fontFamily: "Poppins",
+    backgroundColor: "#fff",
+  },
+  input1: {
+    borderRadius: 8,
+    padding: 10,
+    marginTop: 20,
+    marginLeft: 20,
+    marginBottom: 18,
+    borderWidth: 1,
+    borderColor: "#808080",
+    marginHorizontal: 30,
+    fontFamily: "Poppins",
+    backgroundColor: "#f2f2f2",
   },
   input2: {
     borderRadius: 8,
@@ -266,9 +294,10 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginBottom: 18,
     borderWidth: 1,
-    borderColor: "#387981",
+    borderColor: "#808080",
     marginHorizontal: 30,
     fontFamily: "Poppins",
+    backgroundColor: "#fff",
   },
   label: {
     fontFamily: "PoppinsSemiBold",

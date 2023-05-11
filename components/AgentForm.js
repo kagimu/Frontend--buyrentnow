@@ -17,11 +17,14 @@ import tw from "twrnc";
 import * as MailComposer from "expo-mail-composer";
 import { useNavigation } from "@react-navigation/native";
 import { BASE_URL } from "@env";
+import Checkbox from "expo-checkbox";
+
 import Form from "./TopTabs/Form";
 
 const AgentForm = ({ route }) => {
   const { post } = route.params;
   const navigation = useNavigation();
+  const [selectedChoice, setSelectedChoice] = useState(null);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -34,40 +37,32 @@ const AgentForm = ({ route }) => {
     post.location.match(new RegExp(`.{1,${MAX_LINE_LENGTH}}`, "g")) || [];
 
   const onSubmit = () => {
+    const contactMethod = callMe ? "Call Me" : "Text Me";
     // Format the form data as a string
-    const body = `Property Name: ${name}\n\nDescription: ${phone}\n\nPrice: ${email}\n\nPost Name: ${
+    const body = `Way Of Contact:${contactMethod}\n\nProperty Name: ${name}\n\nDescription: ${phone}\n\nPrice: ${email}\n\nPost Name: ${
       post.name
-    }\n\nPost Images: ${post.images.join(",")}\n\nLocation: ${
-      post.location
-    }\n\nPrice: ${post.price}\n\n`;
+    }\n\nPost Images: ${post.images
+      .map((image) => BASE_URL + image)
+      .join(",")}\n\nLocation: ${post.location}\n\nPrice: ${post.price}\n\n`;
 
-    // Create a mail object with the form data
+    //Create a mail object with the form data
     const mail = {
       recipients: ["kagimujayp01@gmail.com"], // Replace with your email address
       subject: "Need of Services for Property below",
       body: body,
-      isHtml: false,
+      isHtml: true, // Set this option to true
     };
 
     // Send the email
+
     MailComposer.composeAsync(mail)
+      // Reset the form data
       .then(() => {
-        // Reset the form data
         setName("");
         setPhone("");
         setEmail("");
-
-        Alert.alert(
-          "Success",
-          "Your Property has been sent successfully To our Property Agents. We shall get back to you in 30 minutes",
-          [
-            {
-              text: "OK",
-              onPress: () => navigation.navigate("EmailAlert", { post: pic }), // Replace with your home screen name
-            },
-          ]
-        );
       })
+
       .catch((error) => {
         console.log(error);
         Alert.alert("Error", "There was an error sending your info.");
@@ -76,7 +71,9 @@ const AgentForm = ({ route }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={{ paddingBottom: 0 }}>
+    <ScrollView
+      contentContainerStyle={{ paddingBottom: 0, backgroundColor: "#fff" }}
+    >
       <View style={{ marginTop: 25 }}>
         <FlatList
           data={[post]}
@@ -130,11 +127,41 @@ const AgentForm = ({ route }) => {
         >
           How can we reach you?
         </Text>
+
         <View style={{ flex: 1 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              padding: 10,
+              backgroundColor: "#f6f8fc",
+              marginHorizontal: 25,
+              borderRadius: 10,
+            }}
+          >
+            <View style={styles.section}>
+              <Checkbox
+                style={styles.checkbox}
+                value={selectedChoice === "call"}
+                onValueChange={() => setSelectedChoice("call")}
+                color={selectedChoice === "call" ? "#34779a" : undefined}
+              />
+              <Text style={styles.paragraph}>Call me</Text>
+            </View>
+            <View style={styles.section}>
+              <Checkbox
+                style={styles.checkbox}
+                value={selectedChoice === "text"}
+                onValueChange={() => setSelectedChoice("text")}
+                color={selectedChoice === "text" ? "#34779a" : undefined}
+              />
+              <Text style={styles.paragraph}>Text me</Text>
+            </View>
+          </View>
+
           <Text style={styles.label}>Name</Text>
           <View style={styles.input3}>
             <TextInput
-              placeholderTextColor="#D3D3D3"
+              placeholderTextColor="#808080"
               onChangeText={(text) => setName(text)}
               value={name}
               multiline={true}
@@ -143,7 +170,7 @@ const AgentForm = ({ route }) => {
           <Text style={styles.label}>Phone</Text>
           <View style={styles.input3}>
             <TextInput
-              placeholderTextColor="#D3D3D3"
+              placeholderTextColor="#808080"
               onChangeText={(text) => setPhone(text)}
               value={phone}
               multiline={true}
@@ -152,7 +179,7 @@ const AgentForm = ({ route }) => {
           <Text style={styles.label}>Email</Text>
           <View style={styles.input3}>
             <TextInput
-              placeholderTextColor="#D3D3D3"
+              placeholderTextColor="#808080"
               onChangeText={(text) => setEmail(text)}
               value={email}
               multiline={true}
@@ -170,7 +197,7 @@ const AgentForm = ({ route }) => {
             <TouchableOpacity
               onPress={onSubmit}
               style={{
-                backgroundColor: "#387981",
+                backgroundColor: "#34779a",
                 padding: 15,
                 borderRadius: 10,
                 alignContent: "center",
@@ -190,6 +217,19 @@ const AgentForm = ({ route }) => {
 export default AgentForm;
 
 const styles = StyleSheet.create({
+  section: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignContent: "center",
+    justifyContent: "center",
+    marginLeft: 50,
+  },
+  paragraph: {
+    fontSize: 15,
+  },
+  checkbox: {
+    margin: 8,
+  },
   register: {
     fontSize: 15,
     fontFamily: "PoppinsSemiBold",
@@ -202,9 +242,10 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginBottom: 18,
     borderWidth: 1,
-    borderColor: "#387981",
+    borderColor: "#808080",
     marginHorizontal: 30,
     fontFamily: "Poppins",
+    backgroundColor: "#fff",
   },
   label: {
     fontFamily: "PoppinsSemiBold",

@@ -1,52 +1,65 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import RegisterForm from "./RegisterForm";
 import { BASE_URL } from "@env";
 import axios from "axios";
 import { getToken } from "./token";
+import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import { ActivityIndicator } from "react-native";
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = () => {
+  const navigation = useNavigation();
+  const [token, setToken] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const register = async (first_name, last_name, email, phone, password) => {
-    const token = await getToken();
+    if (!phone || !password || !first_name || !last_name) {
+      alert("Please enter all the required fields");
+      return;
+    }
 
-    if (!phone && !password) alert("please enter all the required fields");
-    else {
-      axios
-        .post(
-          `${BASE_URL}/api/register`,
-          {
-            first_name: first_name,
-            last_name: last_name,
-            email: email,
-            phone: phone,
-            password: password,
-          },
-          {
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`, // auth token
-            },
-          },
-          {
-            validateStatus: function (status) {
-              return status < 500; // Resolve only if the status code is less than 500
-            },
-          }
-        )
-        .then((response) => {
-          console.log("getting data from axios", response.data);
-          navigation.replace("TabNavigator");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    try {
+      setIsLoading(true); // set isLoading to true
+      const response = await fetch(`${BASE_URL}/api/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          first_name: first_name,
+          last_name: last_name,
+          phone: phone,
+          email: email,
+          password: password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Registration failed");
+      }
+
+      const { token } = await response.json();
+      setToken(token);
+      await AsyncStorage.setItem("token", token);
+      console.log("Token:", token);
+      navigation.navigate("TabNavigator");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false); // set isLoading to false after the request completes
     }
   };
 
   return (
-    <View style={styles.container}>
-      <RegisterForm navigation={navigation} signup={true} onSubmit={register} />
-    </View>
+    <ScrollView style={styles.container}>
+      <RegisterForm navigation={navigation} onSubmit={register} />
+      {isLoading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#34779a" />
+        </View>
+      )}
+    </ScrollView>
   );
 };
 
@@ -55,7 +68,7 @@ export default RegisterScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#F6F8FC",
     paddingTop: 20,
     paddingHorizontal: 12,
   },
@@ -74,5 +87,10 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginLeft: 30,
     letterSpacing: -2,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

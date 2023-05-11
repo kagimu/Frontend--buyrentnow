@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import React, { useState } from "react";
 import Tab from "./Tab";
 
@@ -18,7 +25,11 @@ const TabBar = ({ state, navigation }) => {
   };
 
   return (
-    <View style={styles.wrapper}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "position" : null}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0} // set to the height of your tabBar
+      style={styles.wrapper}
+    >
       <View style={styles.container}>
         {routes.map((route, index) => (
           <Tab
@@ -30,7 +41,7 @@ const TabBar = ({ state, navigation }) => {
           />
         ))}
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

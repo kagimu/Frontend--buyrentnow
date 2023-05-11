@@ -72,7 +72,13 @@ const AllCategory = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={{ paddingBottom: 200, paddingVertical: 5 }}>
+    <View
+      style={{
+        paddingBottom: 200,
+        paddingVertical: 5,
+        backgroundColor: "#f6f8fc",
+      }}
+    >
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
@@ -81,7 +87,7 @@ const AllCategory = ({ navigation }) => {
         <View
           style={{
             flexDirection: "row",
-            paddingLeft: 35,
+            paddingLeft: 55,
             marginHorizontal: 5,
             paddingTop: 10,
           }}
@@ -90,35 +96,35 @@ const AllCategory = ({ navigation }) => {
             style={[tw`text-center w-18`, styles.buttonActive]}
             onPress={() => navigation.navigate("AllCategory")}
           >
-            <Text style={styles.ActiveText}>ALL</Text>
+            <Text style={styles.ActiveText}>All</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.b1}
             onPress={() => navigation.navigate("ApartmentsRent")}
           >
-            <Text style={styles.Text}>APARTMENTS</Text>
+            <Text style={styles.Text}>Apartments</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[tw`text-center w-20`, styles.b1]}
             onPress={() => navigation.navigate("LandRent")}
           >
-            <Text style={styles.Text}>LAND</Text>
+            <Text style={styles.Text}>Land</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.b1}
             onPress={() => navigation.navigate("HousesRent")}
           >
-            <Text style={styles.Text}>HOUSES</Text>
+            <Text style={styles.Text}>Houses</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.b1}
             onPress={() => navigation.navigate("CommercialRent")}
           >
-            <Text style={styles.Text}>COMMERCIAL</Text>
+            <Text style={styles.Text}>Commercial</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -146,7 +152,7 @@ const AllCategory = ({ navigation }) => {
           legacyImplementation={true}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={[styles.card, tw`pb-7 pt-2 bg-gray-100`]}>
+            <View style={[styles.card, tw`pb-7 pt-2`]}>
               <View>
                 <ImageCarousel data={item.images} />
                 <TouchableOpacity
@@ -219,9 +225,7 @@ const AllCategory = ({ navigation }) => {
                   navigation.navigate("PostDetails", { post: item })
                 }
               >
-                <Text style={[styles.name, tw` pl-2 mt-2 text-sm`]}>
-                  {item.name}
-                </Text>
+                <Text style={[styles.nameo, tw` pl-2 mt-2`]}>{item.name}</Text>
                 <View
                   styles={{
                     flexDirection: "row",
@@ -268,7 +272,7 @@ const styles = StyleSheet.create({
     height: 40,
     resizeMode: "cover",
   },
-  name: {
+  nameo: {
     position: "absolute",
     fontFamily: "PoppinsSemiBold",
   },

@@ -122,6 +122,7 @@ const ProfileScreen = ({ navigation }) => {
           <View style={{ top: 20 }}>
             <ImageList />
           </View>
+
           <View>
             <Text
               style={{
@@ -145,6 +146,22 @@ const ProfileScreen = ({ navigation }) => {
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
+  otherImagesContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    marginHorizontal: 35,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  otherImage: {
+    height: 100,
+    width: 140,
+    resizeMode: "stretch",
+    borderRadius: 15,
+    marginLeft: 5,
+    marginTop: 5,
+  },
   container: {
     flex: 0,
     paddingBottom: 150,

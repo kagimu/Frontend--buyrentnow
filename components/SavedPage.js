@@ -12,11 +12,26 @@ import { BASE_URL } from "@env";
 import { AntDesign } from "@expo/vector-icons";
 import tw from "twrnc";
 import { Octicons, FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import ImageCarousel from "../components/ImageCarousel";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 import { removeBookmark } from "../redux/actions";
 
 const SavedPage = () => {
+  const CustomHeaderBackButton = () => {
+    const navigation = useNavigation();
+
+    const handleBackButtonPress = () => {
+      navigation.goBack();
+    };
+
+    return (
+      <TouchableOpacity onPress={handleBackButtonPress}>
+        <Ionicons name="chevron-back-circle-outline" size={24} color="black" />
+      </TouchableOpacity>
+    );
+  };
   const { bookmarks } = useSelector((state) => state.booksReducer);
   const dispatch = useDispatch();
 
@@ -33,16 +48,25 @@ const SavedPage = () => {
           textAlign: "center",
           alignItems: "center",
           alignSelf: "center",
+          position: "absolute",
+          backgroundColor: "#f6f8fc",
         }}
       >
-        <Text style={{ fontFamily: "PoppinsSemiBold", fontSize: 18 }}>
+        <Text
+          style={{
+            fontFamily: "PoppinsSemiBold",
+            fontSize: 18,
+            flex: 1,
+            marginTop: 50,
+          }}
+        >
           Your Liked Posts Will Appear Here.
         </Text>
       </View>
     );
   } else {
     return (
-      <View style={{ paddingBottom: 120 }}>
+      <View style={{ paddingBottom: 120, backgroundColor: "#f6f8fc" }}>
         <Text
           style={{
             fontSize: 24,
@@ -164,6 +188,10 @@ const SavedPage = () => {
   }
 };
 
+SavedPage.navigationOptions = ({ navigation }) => ({
+  headerLeft: () => <CustomHeaderBackButton />,
+});
+
 export default SavedPage;
 
 const styles = StyleSheet.create({
@@ -193,6 +221,7 @@ const styles = StyleSheet.create({
   card: {
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
+    backgroundColor: "#fff",
   },
   row: {
     fontSize: 12,

@@ -71,7 +71,13 @@ const CommercialBuy = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={{ paddingBottom: 200, paddingVertical: 5 }}>
+    <View
+      style={{
+        paddingBottom: 200,
+        paddingVertical: 5,
+        backgroundColor: "#f6f8fc",
+      }}
+    >
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
@@ -80,7 +86,7 @@ const CommercialBuy = ({ navigation }) => {
         <View
           style={{
             flexDirection: "row",
-            paddingLeft: 35,
+            paddingLeft: 55,
             marginHorizontal: 5,
             paddingTop: 10,
           }}
@@ -89,41 +95,41 @@ const CommercialBuy = ({ navigation }) => {
             style={[tw`text-center w-18`, styles.b2]}
             onPress={() => navigation.navigate("AllCategoryBuy")}
           >
-            <Text style={styles.Text}>ALL</Text>
+            <Text style={styles.Text}>All</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.buttonActive}
             onPress={() => navigation.navigate("CommercialBuy")}
           >
-            <Text style={styles.ActiveText}>COMMERCIAL</Text>
+            <Text style={styles.ActiveText}>Commercial</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[tw`text-center w-20`, styles.b2]}
             onPress={() => navigation.navigate("LandBuy")}
           >
-            <Text style={styles.Text}>LAND</Text>
+            <Text style={styles.Text}>Land</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.b2}
             onPress={() => navigation.navigate("ApartmentsBuy")}
           >
-            <Text style={styles.Text}>APARTMENTS</Text>
+            <Text style={styles.Text}>Apartments</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.b2}
             onPress={() => navigation.navigate("HousesBuy")}
           >
-            <Text style={styles.Text}>HOUSES</Text>
+            <Text style={styles.Text}>Houses</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
       <Text
         style={{
-          fontSize: 30,
+          fontSize: 27,
           fontFamily: "PoppinsSemiBold",
           textAlign: "left",
           padding: 4,
@@ -147,7 +153,7 @@ const CommercialBuy = ({ navigation }) => {
           legacyImplementation={true}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={[styles.card, tw`pb-7 pt-2 bg-gray-100`]}>
+            <View style={[styles.card, tw`pb-7 pt-2`]}>
               <View>
                 <ImageCarousel data={item.images} />
                 <TouchableOpacity
@@ -239,6 +245,18 @@ const CommercialBuy = ({ navigation }) => {
                   />
                   <Text style={[styles.row, tw` pl-6 mt--4.5`]}>
                     {item.location}
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: "Poppins",
+                      fontSize: 11,
+                      position: "absolute",
+                      top: 45,
+                      left: 25,
+                      color: "#808080",
+                    }}
+                  >
+                    See more
                   </Text>
 
                   <View></View>

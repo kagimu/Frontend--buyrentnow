@@ -72,46 +72,52 @@ const AllCategory = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={{ paddingBottom: 200, paddingVertical: 0 }}>
+    <View
+      style={{
+        paddingBottom: 200,
+        paddingVertical: 0,
+        backgroundColor: "#f6f8fc",
+      }}
+    >
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <View
           style={{
             flexDirection: "row",
-            paddingLeft: 35,
+            paddingLeft: 55,
             marginHorizontal: 5,
             paddingTop: 10,
           }}
         >
           <TouchableOpacity style={[tw`text-center w-18`, styles.buttonActive]}>
-            <Text style={styles.ActiveText}>ALL</Text>
+            <Text style={styles.ActiveText}>All</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[tw`text-center w-20`, styles.button]}
             onPress={() => navigation.navigate("LandBuy")}
           >
-            <Text style={styles.Text}>LAND</Text>
+            <Text style={styles.Text}>Land</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("ApartmentsBuy")}
           >
-            <Text style={styles.Text}>APARTMENTS</Text>
+            <Text style={styles.Text}>Apartments</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("HousesBuy")}
           >
-            <Text style={styles.Text}>HOUSES</Text>
+            <Text style={styles.Text}>Houses</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("CommercialBuy")}
           >
-            <Text style={styles.Text}>COMMERCIAL</Text>
+            <Text style={styles.Text}>Commercial</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -139,7 +145,7 @@ const AllCategory = ({ navigation }) => {
           legacyImplementation={true}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={[styles.card, tw`pb-7 pt-2 bg-gray-100`]}>
+            <View style={[styles.card, tw`pb-7 pt-2`]}>
               <View>
                 <ImageCarousel data={item.images} />
                 <TouchableOpacity
@@ -225,7 +231,7 @@ const AllCategory = ({ navigation }) => {
                     size={14}
                     color="#45A76E"
                     style={{
-                      marginTop: 31,
+                      marginTop: 6,
                       marginLeft: 8,
                     }}
                   />
@@ -333,10 +339,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignContent: "center",
     padding: 15,
+    color: "#fff",
   },
   Text: {
     fontFamily: "PoppinsSemiBold",
-    color: "#387981",
+    color: "#000",
     textAlign: "center",
     alignContent: "center",
     padding: 15,

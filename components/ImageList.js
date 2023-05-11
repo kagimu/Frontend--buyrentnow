@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   image: {
     height: 100,
     width: 140,
-    resizeMode: "cover",
+    resizeMode: "stretch",
     borderRadius: 15,
     marginLeft: 5,
     marginTop: 5,

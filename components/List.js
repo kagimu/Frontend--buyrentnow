@@ -1,43 +1,55 @@
-import React from "react";
-import { StyleSheet, View, Dimensions, Image } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  Image,
+  Modal,
+  TouchableOpacity,
+} from "react-native";
 import tw from "twrnc";
 import { BASE_URL } from "@env";
 
 const { width } = Dimensions.get("window");
 
 const List = ({ post }) => {
+  const [selectedImage, setSelectedImage] = useState(null); // state variable to keep track of selected image
+
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+  };
+
+  const renderSmallImages = () => {
+    return post.images.map((image, index) => {
+      return (
+        <TouchableOpacity key={index} onPress={() => handleImageClick(image)}>
+          <Image
+            style={styles.smallImage}
+            source={{ uri: `${BASE_URL}${image}` }}
+          />
+        </TouchableOpacity>
+      );
+    });
+  };
+
   return (
     <View style={styles.slide}>
       <View style={{ flexDirection: "row", padding: 20 }}>
-        <Image
-          style={styles.smallImage}
-          source={{ uri: `${BASE_URL}${post.images[0]}` }}
-        />
-        <Image
-          style={styles.smallImage}
-          source={{ uri: `${BASE_URL}${post.images[1]}` }}
-        />
-        <Image
-          style={styles.smallImage}
-          source={{ uri: `${BASE_URL}${post.images[2]}` }}
-        />
-        <Image
-          style={styles.smallImage}
-          source={{ uri: `${BASE_URL}${post.images[3]}` }}
-        />
-        <Image
-          style={styles.smallImage}
-          source={{ uri: `${BASE_URL}${post.images[4]}` }}
-        />
-        <Image
-          style={styles.smallImage}
-          source={{ uri: `${BASE_URL}${post.images[5]}` }}
-        />
-        <Image
-          style={styles.smallImage}
-          source={{ uri: `${BASE_URL}${post.images[6]}` }}
-        />
+        {renderSmallImages()}
       </View>
+
+      {/* Modal to display expanded image */}
+      <Modal visible={selectedImage != null} transparent={true}>
+        <TouchableOpacity
+          style={styles.modalBackground}
+          onPress={() => setSelectedImage(null)}
+        >
+          <Image
+            style={styles.expandedImage}
+            source={{ uri: `${BASE_URL}${selectedImage}` }}
+          />
+        </TouchableOpacity>
+      </Modal>
     </View>
   );
 };
@@ -61,5 +73,18 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     alignItems: "flex-start",
     justifyContent: "space-between",
+    resizeMode: "stretch",
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.8)",
+  },
+  expandedImage: {
+    width: width - 40,
+    height: width - 40,
+    resizeMode: "stretch",
+    borderRadius: 10,
   },
 });

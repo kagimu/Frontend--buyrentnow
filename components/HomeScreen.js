@@ -7,6 +7,7 @@ import {
   Text,
   View,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
 import CardOptions from "./CardOptions";
@@ -24,8 +25,8 @@ const HomeScreen = ({ navigation }) => {
       <ImageBackground
         style={{
           width: width - 18,
-          height: 190,
-          resizeMode: "cover",
+          height: 160,
+          resizeMode: "contain",
           marginTop: 25,
           marginBottom: 20,
           marginRight: 20,
@@ -40,7 +41,7 @@ const HomeScreen = ({ navigation }) => {
       </ImageBackground>
 
       <Text style={styles.text0}>
-        You can now easily find a property you like across the country
+        You can now easily find a property you like {"\n"}across the country
       </Text>
 
       <View
@@ -53,21 +54,35 @@ const HomeScreen = ({ navigation }) => {
           borderBottomRightRadius: 10,
           paddingTop: 12,
           paddingBottom: 10,
-          marginLeft: 3,
+          marginLeft: 0,
           alignContent: "center",
+          marginHorizontal: 10,
         }}
       >
         <Text
           style={{
             fontSize: 25,
-            marginBottom: 5,
+            marginBottom: 0,
             textAlign: "center",
             fontFamily: "PoppinsSemiBold",
           }}
         >
           Rent
         </Text>
-        <HomeCategories style={{ marginHorizontal: -10 }} />
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#58d2b5",
+            padding: 2,
+            marginHorizontal: 167,
+            alignItems: "center",
+            justifyContent: "center",
+            alignContent: "center",
+            marginBottom: 10,
+            marginTop: -10,
+            borderRadius: 2,
+          }}
+        ></TouchableOpacity>
+        <HomeCategories />
       </View>
 
       <View
@@ -94,6 +109,19 @@ const HomeScreen = ({ navigation }) => {
         >
           Buy
         </Text>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#ffb18b",
+            padding: 2,
+            marginHorizontal: 166,
+            alignItems: "center",
+            justifyContent: "center",
+            alignContent: "center",
+            marginBottom: 10,
+            marginTop: -15,
+            borderRadius: 2,
+          }}
+        ></TouchableOpacity>
         <BuyHomeCategories />
       </View>
 
@@ -102,12 +130,14 @@ const HomeScreen = ({ navigation }) => {
         Find Recently added Apartments, Houses and lands.
       </Text>
 
-      <View style={{ marginLeft: -10 }}>
+      <View style={{ marginLeft: -5 }}>
         <CardOptions />
       </View>
 
       <View style={{ flex: 1 }}>
-        <Text style={[styles.heading, tw` p-2`]}>Am selling</Text>
+        <Text style={[styles.heading, tw` p-2`]}>
+          Are you renting or selling
+        </Text>
         <Text style={[styles.subheading, tw`text-center p-3`]}>
           Lets help you sell your property with ease
         </Text>
@@ -144,7 +174,7 @@ const styles = StyleSheet.create({
     width: width - 22,
     height: 250,
     alignContent: "center",
-    resizeMode: "cover",
+    resizeMode: "stretch",
     justifyContent: "center",
     marginBottom: 40,
     marginHorizontal: 10,
@@ -165,18 +195,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     color: "black",
     padding: 12,
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: "PoppinsSemiBold",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 15,
   },
   text0: {
-    fontSize: 12,
+    fontSize: 14,
     marginTop: 10,
     marginBottom: 10,
-    marginLeft: 0,
-    textAlign: "center",
+    marginLeft: 12,
+    textAlign: "left",
     fontFamily: "PoppinsSemiBold",
   },
   text1: {
@@ -212,7 +242,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   heading: {
-    fontSize: 25,
+    fontSize: 20,
     textAlign: "center",
     textAlign: "center",
     fontFamily: "PoppinsBold",

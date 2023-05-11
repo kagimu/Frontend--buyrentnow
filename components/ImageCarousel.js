@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   image: {
     width: "97%",
     aspectRatio: 3 / 2,
-    resizeMode: "cover",
+    resizeMode: "stretch",
     borderRadius: 10,
     marginLeft: 10,
     padding: 10,

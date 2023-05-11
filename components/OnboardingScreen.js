@@ -5,7 +5,7 @@ import { Dimensions, TouchableOpacity } from "react-native";
 import { StyleSheet, Image, Button } from "react-native";
 import Onboarding from "react-native-onboarding-swiper";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 const Next = ({ ...props }) => (
   <TouchableOpacity {...props}>
@@ -47,12 +47,13 @@ const OnboardingScreen = ({ navigation }) => {
       titleStyles={{
         fontFamily: "PoppinsExtraBold",
         fontSize: 24,
-        marginTop: 30,
+        marginTop: 20,
       }}
       imageContainerStyles={{
         paddingBottom: 0,
         paddingTop: 0,
         aspectRatio: 1 / 1,
+        height: height * 0.6,
       }}
       subTitleStyles={{ fontFamily: "PoppinsSemiBold", fontSize: 12 }}
       NextButtonComponent={Next}
@@ -87,7 +88,7 @@ const OnboardingScreen = ({ navigation }) => {
               style={styles.image}
             />
           ),
-          title: "I want to own a house",
+          title: "I am looking for a Plot of land",
           subtitle:
             "Explore the latest properties, Checkout new properties, land, apartments and Houses.",
         },
@@ -100,7 +101,7 @@ const OnboardingScreen = ({ navigation }) => {
               style={styles.image}
             />
           ),
-          title: "I want to buy a Mansion",
+          title: "I want to sell my property",
           subtitle:
             "Explore the latest properties, Checkout new properties, land, apartments and Houses.",
         },
@@ -115,8 +116,8 @@ const styles = StyleSheet.create({
   image: {
     aspectRatio: 1 / 1,
     width: "100%",
-    resizeMode: "cover",
+    resizeMode: "contain",
     borderRadius: 10,
-    marginTop: 30,
+    marginTop: 20,
   },
 });
