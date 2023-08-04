@@ -76,21 +76,6 @@ export default function App() {
                   {isLogged ? (
                     <>
                       <Stack.Screen
-                        name="Onboarding"
-                        component={OnboardingScreen}
-                        options={{ headerShown: false }}
-                      />
-                      <Stack.Screen
-                        name="Login"
-                        component={LoginScreen}
-                        options={{ headerShown: false }}
-                      />
-                      <Stack.Screen
-                        name="RegisterScreen"
-                        component={RegisterScreen}
-                        options={{ headerShown: false }}
-                      />
-                      <Stack.Screen
                         name="TabNavigator"
                         component={TabNavigator}
                         options={{ headerShown: false }}
