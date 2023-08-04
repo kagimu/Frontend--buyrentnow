@@ -35,8 +35,8 @@ const ImageCarousel = ({ data }) => {
       loop={false}
       autoplay={false}
       autoplayInterval={10000}
-      dotColor="#387981"
-      inactiveDotColor="white"
+      dotColor="#fff"
+      inactiveDotColor="#808080"
       fadeInDuration={500} // Set a duration in milliseconds for fade-in transition
       fadeOutDuration={500}
     />

@@ -1,17 +1,17 @@
 {
   "expo": {
     "name": "Propatiz",
-    "slug": "Propatiz",
-    "version": "1.0.0",
+    "slug": "propatiz",
+    "version": "1.2.0",
     "orientation": "portrait",
-    "icon": "./assets/propatiz.jpg",
+    "icon": "./assets/smaller.png",
     "userInterfaceStyle": "light",
-    "scheme": "com.jaypkagimu.landville",
+    "scheme": "com.jaypkagimu.propatiz",
+    "jsEngine": "hermes",
     "splash": {
-      "image": "./assets/firstpage.jpg",
-      "resizeMode": "fill",
+      "image": "./assets/firstPage.png",
+      "resizeMode": "contain",
       "backgroundColor": "#072c3e"
-    
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,37 +21,46 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.jaypkagimu.landville"
+      "bundleIdentifier": "com.jaypkagimu.propatiz",
+      "buildNumber": "1.0.0",
+      "jsEngine": "jsc"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#212E52"
+        "foregroundImage": "./assets/smaller.png",
+        "backgroundColor": "#072c3e"
       },
       "permissions": [
-      "CAMERA_ROLL",
-      "READ_EXTERNAL_STORAGE",
-      "WRITE_EXTERNAL_STORAGE",
-      "AUDIO_RECORDING"
-    ],
-      "package": "com.jaypkagimu.landville"
+        "android.permission.CAMERA_ROLL",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.AUDIO_RECORDING",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ],
+      "package": "com.jaypkagimu.propatiz",
+      "versionCode": 1
     },
     "web": {
-      "favicon": "./assets/logo.png"
+      "favicon": "./assets/smaller.png"
     },
     "extra": {
       "eas": {
-        "projectId": "d6146daf-2fa5-46bd-8dd0-60636c065145"
+        "projectId": "9833f4de-3b37-4a0b-a089-26df87041109"
       }
     },
+    
     "plugins": [
       "expo-image-picker",
+      
       [
         "expo-av",
         {
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
         }
       ]
-    ]
-  }
+    ],
+    "sdkVersion": "47.0.0"
+  },
+  "name": "propatiz"
 }

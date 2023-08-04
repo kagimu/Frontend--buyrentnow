@@ -11,7 +11,7 @@ const BookStack = () => {
   return (
     <Stack.Navigator
       initialRouteName="Posts"
-      screenOptions={{ headerTransparent: true, title: "" }}
+      screenOptions={{ headerTransparent: true, title: "", headerShown: false }}
     >
       <Stack.Screen name="Saved Places" component={SavedPage} />
     </Stack.Navigator>

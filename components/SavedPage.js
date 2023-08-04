@@ -36,7 +36,7 @@ const SavedPage = () => {
   const dispatch = useDispatch();
 
   const removeFromBookmarkList = (book) => dispatch(removeBookmark(book));
-
+  const navigation = useNavigation();
   const handleRemoveBookmark = (book) => {
     removeFromBookmarkList(book);
   };
@@ -45,28 +45,22 @@ const SavedPage = () => {
     return (
       <View
         style={{
-          textAlign: "center",
-          alignItems: "center",
-          alignSelf: "center",
-          position: "absolute",
           backgroundColor: "#f6f8fc",
+          alignItems: "center",
+          justifyContent: "center",
+          alignContent: "center",
+          flex: 1,
         }}
       >
-        <Text
-          style={{
-            fontFamily: "PoppinsSemiBold",
-            fontSize: 18,
-            flex: 1,
-            marginTop: 50,
-          }}
-        >
-          Your Liked Posts Will Appear Here.
-        </Text>
+        <Image
+          style={{ width: 200, height: 200, resizeMode: "contain" }}
+          source={{ uri: "https://i.imgur.com/pwe8wB6.png" }}
+        />
       </View>
     );
   } else {
     return (
-      <View style={{ paddingBottom: 120, backgroundColor: "#f6f8fc" }}>
+      <View style={{ flex: 1, paddingBottom: 50, backgroundColor: "#f6f8fc" }}>
         <Text
           style={{
             fontSize: 24,
@@ -74,6 +68,7 @@ const SavedPage = () => {
             fontFamily: "PoppinsSemiBold",
             padding: 10,
             marginLeft: 8,
+            marginTop: 15,
           }}
         >
           Saved Properties
@@ -100,7 +95,7 @@ const SavedPage = () => {
                   >
                     <AntDesign
                       name="heart"
-                      color="#fff"
+                      color="#ff8B53"
                       size={40}
                       style={styles.likeIcon}
                     />
@@ -207,12 +202,12 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   image: {
-    width: 300,
+    width: 200,
     height: 200,
     alignContent: "center",
     justifyContent: "center",
     resizeMode: "contain",
-    marginLeft: 30,
+
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,

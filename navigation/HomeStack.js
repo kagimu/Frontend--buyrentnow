@@ -1,8 +1,9 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import * as React from "react";
 import HomeScreen from "../components/HomeScreen";
+import { HeaderBackButton } from "@react-navigation/stack";
 import LoginScreen from "../components/login/LoginScreen";
 import RegisterScreen from "../components/login/RegisterScreen";
 import BookingConfirmation from "../components/BookingConfirmation";
@@ -35,6 +36,8 @@ const HomeStack = () => {
         headerShadowVisible: false,
         headerTransparent: true,
         title: "",
+        headerBackTitleStyle: "top:50",
+        headerTitleStyle: { marginTop: 40 },
       }}
     >
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
@@ -42,176 +45,58 @@ const HomeStack = () => {
         name="ApartmentsBuy"
         component={ApartmentsBuy}
         options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons
-                name="ios-chevron-back"
-                size={35}
-                color="black"
-                style={{
-                  borderColor: "#fff",
-                  marginTop: 25,
-                  borderWidth: 1,
-                  borderRadius: 15,
-                  backgroundColor: "#fff",
-                }}
-              />
-            </TouchableOpacity>
-          ),
+          headerBackButtonMenuEnable: true,
         }}
       />
       <Stack.Screen
         name="CommercialBuy"
         component={CommercialBuy}
         options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons
-                name="ios-chevron-back"
-                size={35}
-                color="black"
-                style={{
-                  borderColor: "#fff",
-                  marginTop: 25,
-                  borderWidth: 1,
-                  borderRadius: 15,
-                  backgroundColor: "#fff",
-                }}
-              />
-            </TouchableOpacity>
-          ),
+          headerBackButtonMenuEnable: true,
         }}
       />
       <Stack.Screen
         name="HousesBuy"
         component={HousesBuy}
         options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons
-                name="ios-chevron-back"
-                size={35}
-                color="black"
-                style={{
-                  borderColor: "#fff",
-                  marginTop: 25,
-                  borderWidth: 1,
-                  borderRadius: 15,
-                  backgroundColor: "#fff",
-                }}
-              />
-            </TouchableOpacity>
-          ),
+          headerBackButtonMenuEnable: true,
         }}
       />
       <Stack.Screen
         name="LandBuy"
         component={LandBuy}
         options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons
-                name="ios-chevron-back"
-                size={35}
-                color="black"
-                style={{
-                  borderColor: "#fff",
-                  marginTop: 25,
-                  borderWidth: 1,
-                  borderRadius: 15,
-                  backgroundColor: "#fff",
-                }}
-              />
-            </TouchableOpacity>
-          ),
+          headerBackButtonMenuEnable: true,
         }}
       />
       <Stack.Screen
         name="ApartmentsRent"
         component={ApartmentsRent}
         options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons
-                name="ios-chevron-back"
-                size={35}
-                color="black"
-                style={{
-                  borderColor: "#fff",
-                  marginTop: 25,
-                  borderWidth: 1,
-                  borderRadius: 15,
-                  backgroundColor: "#fff",
-                }}
-              />
-            </TouchableOpacity>
-          ),
+          headerBackButtonMenuEnable: true,
+          headerBackTitleStyle: "top:50",
+          headerTitleStyle: { marginTop: 40 },
         }}
       />
       <Stack.Screen
         name="CommercialRent"
         component={CommercialRent}
         options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons
-                name="ios-chevron-back"
-                size={35}
-                color="black"
-                style={{
-                  borderColor: "#fff",
-                  marginTop: 25,
-                  borderWidth: 1,
-                  borderRadius: 15,
-                  backgroundColor: "#fff",
-                }}
-              />
-            </TouchableOpacity>
-          ),
+          headerBackButtonMenuEnable: true,
         }}
       />
       <Stack.Screen
         name="HousesRent"
         component={HousesRent}
         options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons
-                name="ios-chevron-back"
-                size={35}
-                color="black"
-                style={{
-                  borderColor: "#fff",
-                  marginTop: 25,
-                  borderWidth: 1,
-                  borderRadius: 15,
-                  backgroundColor: "#fff",
-                }}
-              />
-            </TouchableOpacity>
-          ),
+          headerBackButtonMenuEnable: true,
         }}
       />
       <Stack.Screen
         name="LandRent"
         component={LandRent}
         options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons
-                name="ios-chevron-back"
-                size={35}
-                color="black"
-                style={{
-                  borderColor: "#fff",
-                  marginTop: 25,
-                  borderWidth: 1,
-                  borderRadius: 15,
-                  backgroundColor: "#fff",
-                }}
-              />
-            </TouchableOpacity>
-          ),
+          headerBackButtonMenuEnable: true,
         }}
       />
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
@@ -219,22 +104,7 @@ const HomeStack = () => {
         name="RegisterScreen"
         component={RegisterScreen}
         options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons
-                name="ios-chevron-back"
-                size={35}
-                color="black"
-                style={{
-                  borderColor: "#fff",
-                  marginTop: 25,
-                  borderWidth: 1,
-                  borderRadius: 15,
-                  backgroundColor: "#fff",
-                }}
-              />
-            </TouchableOpacity>
-          ),
+          headerBackButtonMenuEnable: true,
         }}
       />
       <Stack.Screen name="RegisterForm" component={RegisterForm} />
@@ -243,88 +113,28 @@ const HomeStack = () => {
         name="PostDetails"
         component={PostDetails}
         options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons
-                name="ios-chevron-back"
-                size={30}
-                color="black"
-                style={{
-                  borderColor: "#fff",
-                  marginTop: 25,
-                  borderWidth: 1,
-                  borderRadius: 15,
-                  backgroundColor: "#fff",
-                }}
-              />
-            </TouchableOpacity>
-          ),
+          headerBackButtonMenuEnable: true,
         }}
       />
       <Stack.Screen
         name="AllCategory"
         component={AllCategory}
         options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons
-                name="ios-chevron-back"
-                size={35}
-                color="black"
-                style={{
-                  borderColor: "#fff",
-                  marginTop: 25,
-                  borderWidth: 1,
-                  borderRadius: 15,
-                  backgroundColor: "#fff",
-                }}
-              />
-            </TouchableOpacity>
-          ),
+          headerBackButtonMenuEnable: true,
         }}
       />
       <Stack.Screen
         name="AllCategoryBuy"
         component={AllCategoryBuy}
         options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons
-                name="ios-chevron-back"
-                size={35}
-                color="black"
-                style={{
-                  borderColor: "#fff",
-                  marginTop: 25,
-                  borderWidth: 1,
-                  borderRadius: 15,
-                  backgroundColor: "#fff",
-                }}
-              />
-            </TouchableOpacity>
-          ),
+          headerBackButtonMenuEnable: true,
         }}
       />
       <Stack.Screen
         name="AgentForm"
         component={AgentForm}
         options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons
-                name="ios-chevron-back"
-                size={30}
-                color="black"
-                style={{
-                  borderColor: "#fff",
-                  marginTop: 15,
-                  borderWidth: 1,
-                  borderRadius: 15,
-                  backgroundColor: "#fff",
-                }}
-              />
-            </TouchableOpacity>
-          ),
+          headerBackButtonMenuEnable: true,
         }}
       />
       <Stack.Screen

@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import RegisterForm from "./RegisterForm";
 import { BASE_URL } from "@env";
@@ -13,14 +13,15 @@ const RegisterScreen = () => {
   const navigation = useNavigation();
   const [token, setToken] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const register = async (first_name, last_name, email, phone, password) => {
-    if (!phone || !password || !first_name || !last_name) {
+  const register = async (last_name, first_name, email, phone, password) => {
+    if (!phone || !password || !first_name || !email) {
       alert("Please enter all the required fields");
       return;
     }
 
     try {
-      setIsLoading(true); // set isLoading to true
+      setIsLoading(true);
+
       const response = await fetch(`${BASE_URL}/api/register`, {
         method: "POST",
         headers: {
@@ -36,23 +37,29 @@ const RegisterScreen = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Registration failed");
+        throw new Error("Registartion failed");
       }
 
       const { token } = await response.json();
+      Alert.alert("Success", "Registration successful");
       setToken(token);
+      await AsyncStorage.setItem("keepLoggedIn", JSON.stringify(true));
       await AsyncStorage.setItem("token", token);
       console.log("Token:", token);
       navigation.navigate("TabNavigator");
     } catch (error) {
       console.log(error);
+      Alert.alert(
+        "Error",
+        "Registration failed. Make sure you have internet and try again."
+      );
     } finally {
-      setIsLoading(false); // set isLoading to false after the request completes
+      setIsLoading(false);
     }
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <RegisterForm navigation={navigation} onSubmit={register} />
       {isLoading && (
         <View style={styles.loadingContainer}>
@@ -71,6 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F6F8FC",
     paddingTop: 20,
     paddingHorizontal: 12,
+    //paddingBottom: 50,
   },
   logoContainer: {
     alignItems: "center",
@@ -89,7 +97,6 @@ const styles = StyleSheet.create({
     letterSpacing: -2,
   },
   loadingContainer: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },

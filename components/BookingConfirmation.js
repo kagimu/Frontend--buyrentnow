@@ -19,9 +19,11 @@ import * as MailComposer from "expo-mail-composer";
 import tw from "twrnc";
 import { Button } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import { Entypo } from "@expo/vector-icons";
 
 const BookingConfirmation = ({ navigation }) => {
   const [type, setType] = useState("");
+  const [formValid, setFormValid] = useState(false);
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [price, setPrice] = useState("");
@@ -34,11 +36,12 @@ const BookingConfirmation = ({ navigation }) => {
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       selectionLimit: 10,
       aspect: [9, 16],
       quality: 1.0,
       allowsMultipleSelection: true,
+      //allowsEditing: true,
     });
     console.log(result);
     if (!result.canceled) {
@@ -46,13 +49,35 @@ const BookingConfirmation = ({ navigation }) => {
     }
   };
 
+  const validateForm = () => {
+    if (
+      type.trim() === "" ||
+      name.trim() === "" ||
+      desc.trim() === "" ||
+      price.trim() === "" ||
+      location.trim() === "" ||
+      size.trim() === "" ||
+      status.trim() === "" ||
+      host.trim() === "" ||
+      number.trim() === ""
+    ) {
+      return false; // Return false if any required field is empty
+    }
+    return true; // Return true if all required fields are filled
+  };
+
   const onSubmit = () => {
+    if (!validateForm()) {
+      Alert.alert("Error", "Please fill in all required fields.");
+      return;
+    }
+
     // Format the form data as a string
     const body = `Type of Property: ${type}\n\nProperty Name: ${name}\n\nDescription: ${desc}\n\nPrice: ${price}\n\nLocation: ${location}\n\nSize of Property: ${size}\n\nStatus: ${status}\n\nSender's Name: ${host}\n\nSender's Contact: ${number}\n\n`;
 
     // Create a mail object with the form data
     const mail = {
-      recipients: ["kagimujayp01@gmail.com"], // Replace with your email address
+      recipients: ["propatiz9@gmail.com"], // Replace with your email address
       subject: "New Property Application For Propatiz",
       body: body,
       isHtml: false,
@@ -197,14 +222,34 @@ const BookingConfirmation = ({ navigation }) => {
             multiline={true}
           />
         </View>
-        <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 15,
+            marginTop: 20,
+            backgroundColor: "#fff",
+            marginHorizontal: 20,
+            borderRadius: 8,
+          }}
+        >
           <Text
-            onPress={pickImage}
-            style={{ fontFamily: "PoppinsSemiBold", fontSize: 15 }}
+            style={{
+              fontFamily: "PoppinsSemiBold",
+              fontSize: 14,
+              paddingBottom: 10,
+              textAlign: "left",
+            }}
           >
             Upload an image showing your property
           </Text>
-
+          <Entypo
+            name="upload"
+            size={26}
+            color="black"
+            onPress={pickImage}
+            style={{ paddingBottom: 10 }}
+          />
           {image && (
             <Image
               source={{ uri: image }}
@@ -212,21 +257,14 @@ const BookingConfirmation = ({ navigation }) => {
                 width: 70,
                 height: 70,
                 paddingTop: 30,
+                paddingBottom: 0,
                 borderRadius: 10,
               }}
             />
           )}
         </View>
 
-        <View
-          style={{
-            alignContent: "center",
-            justifyContent: "center",
-            alignItems: "center",
-            marginHorizontal: 30,
-            paddingTop: 30,
-          }}
-        >
+        <View style={{ marginHorizontal: 70, top: 20 }}>
           <TouchableOpacity
             onPress={onSubmit}
             style={{
@@ -238,7 +276,8 @@ const BookingConfirmation = ({ navigation }) => {
               borderWidth: 2,
               borderColor: "#fff",
               elevation: 1,
-              marginHorizontal: 10,
+              opacity: formValid ? 1 : 0.5, // Disable the button if the form is not valid
+              marginHorizontal: 0,
             }}
           >
             <Text style={[tw` text-center `, styles.register]}>

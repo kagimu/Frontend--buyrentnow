@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     alignItems: "flex-start",
     justifyContent: "space-between",
-    resizeMode: "stretch",
+    resizeMode: "cover",
   },
   modalBackground: {
     flex: 1,
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   expandedImage: {
     width: width - 40,
     height: width - 40,
-    resizeMode: "stretch",
+    resizeMode: "cover",
     borderRadius: 10,
   },
 });

@@ -1,10 +1,10 @@
-import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TabBar from "../components/TabBar";
 import ProfileStack from "../navigation/ProfileStack";
 import BookingConfirmation from "../components/BookingConfirmation";
 import SavedPage from "../components/SavedPage";
 import HomeStack from "./HomeStack";
+import * as React from "react";
 
 const Tab = createBottomTabNavigator();
 
@@ -13,6 +13,7 @@ const TabNavigator = () => {
     <Tab.Navigator
       tabBar={(props) => <TabBar {...props} />}
       screenOptions={{
+        headerShown: false,
         headerTransparent: true,
         title: "",
         backBehavior: "history",

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
-
+import * as Font from "expo-font";
 import { Dimensions, TouchableOpacity } from "react-native";
 import { StyleSheet, Image, Button } from "react-native";
 import Onboarding from "react-native-onboarding-swiper";
@@ -41,21 +41,52 @@ const Done = ({ ...props }) => (
 );
 
 const OnboardingScreen = ({ navigation }) => {
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadFont = async () => {
+      await Font.loadAsync({
+        Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
+        PoppinsExtraBold: require("../assets/fonts/Poppins-ExtraBold.ttf"),
+        PoppinsSemiBold: require("../assets/fonts/Poppins-SemiBold.ttf"),
+      });
+      setFontLoaded(true);
+    };
+
+    loadFont();
+  }, []);
+
+  if (!fontLoaded) {
+    return null; // Render a loading state or splash screen until the font is loaded
+  }
   return (
     <Onboarding
       bottomBarColor="#fff"
       titleStyles={{
         fontFamily: "PoppinsExtraBold",
-        fontSize: 24,
-        marginTop: 20,
+        marginTop: 10,
+        fontSize: 25,
+        marginTop: 30,
+        textAlign: "left",
+        marginHorizontal: 5,
       }}
       imageContainerStyles={{
-        paddingBottom: 0,
+        //flex: 1,
+        resizeMode: "contain",
+        paddingBottom: 10,
         paddingTop: 0,
         aspectRatio: 1 / 1,
-        height: height * 0.6,
+        height: height * 0.7,
       }}
-      subTitleStyles={{ fontFamily: "PoppinsSemiBold", fontSize: 12 }}
+      subTitleStyles={{
+        fontFamily: "PoppinsSemiBold",
+        fontSize: 15,
+        textAlign: "left",
+        marginHorizontal: 0,
+        position: "absolute",
+        top: -15,
+        left: -148,
+      }}
       NextButtonComponent={Next}
       DoneButtonComponent={Done}
       onSkip={() => navigation.replace("Login")}
@@ -74,9 +105,9 @@ const OnboardingScreen = ({ navigation }) => {
               style={styles.image}
             />
           ),
-          title: "Am Looking for a Rental",
+          title: "Find your dream home",
           subtitle:
-            "Explore the latest properties, Checkout new properties, land, apartments and Houses.",
+            "Our app makes finding and buying homes simple and stress-free.",
           bottomBarColor: "#fff",
         },
         {
@@ -90,7 +121,7 @@ const OnboardingScreen = ({ navigation }) => {
           ),
           title: "I am looking for a Plot of land",
           subtitle:
-            "Explore the latest properties, Checkout new properties, land, apartments and Houses.",
+            "Whether you are a first-time  buyer or an experienced investor, our app makes it easy to find the perfect plot of land you need.",
         },
         {
           backgroundColor: "#fff",
@@ -103,7 +134,7 @@ const OnboardingScreen = ({ navigation }) => {
           ),
           title: "I want to sell my property",
           subtitle:
-            "Explore the latest properties, Checkout new properties, land, apartments and Houses.",
+            "Whether you are a landlord or manager, our app will help you market and find the right buyers for your properties.",
         },
       ]}
     />

@@ -80,100 +80,125 @@ const CardOptions = () => {
 
   return (
     <View style={tw`pl-2`}>
-      <FlatList
-        data={books}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => navigation.navigate("PostDetails", { post: item })}
-          >
-            <View style={[styles.card, tw`pb-8 pt--2 bg-gray-100 m-1 pl-2`]}>
-              <Image
-                style={[styles.image, tw``]}
-                source={{ uri: `${BASE_URL}${item.images[0]}` }}
-              />
-              <TouchableOpacity
-                style={styles.likeButton}
-                onPress={() =>
-                  ifExists(item)
-                    ? handleRemoveBookmark(item)
-                    : handleAddBookmark(item)
-                }
-              >
-                {ifExists(item) ? (
-                  <AntDesign
-                    name="heart"
-                    color="#fff"
-                    size={40}
-                    style={styles.likeIcon}
-                  />
-                ) : (
-                  <AntDesign
-                    name="hearto"
-                    color="#fff"
-                    size={40}
-                    style={styles.likeIcon}
-                  />
-                )}
-              </TouchableOpacity>
-              <View
-                style={{
-                  flexDirection: "row",
-                  marginLeft: 5,
-                }}
-              >
-                <Text style={[styles.price, tw` pl-2 mt-2`]}>{item.price}</Text>
-                <View style={{ flexDirection: "row" }}>
-                  <FontAwesome5
-                    name="tape"
-                    size={13}
-                    color="#6495ED"
-                    style={{ marginLeft: 58, marginTop: 10 }}
-                  />
-                  <Text style={[styles.row, tw` pl-1 mt-2`]}>{item.size}</Text>
-                </View>
-                <View style={{ flexDirection: "row" }}>
-                  <FontAwesome5
-                    name="circle-notch"
-                    size={13}
-                    color="#6495ED"
-                    style={{ marginLeft: 18, marginTop: 10 }}
-                  />
-                  <Text style={[styles.row, tw` pl-1 mt-2`]}>
-                    {item.status}
-                  </Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  marginLeft: 5,
-                }}
-              >
-                <Text
-                  style={[styles.title, tw` pl-2 mt-2`]}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
+      {books.length > 0 ? (
+        <FlatList
+          data={books}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("PostDetails", { post: item })}
+            >
+              <View style={[styles.card, tw`pb-8 m-1`]}>
+                <Image
+                  style={[styles.image, tw``]}
+                  source={{ uri: `${BASE_URL}${item.images[0]}` }}
+                />
+                <TouchableOpacity
+                  style={styles.likeButton}
+                  onPress={() =>
+                    ifExists(item)
+                      ? handleRemoveBookmark(item)
+                      : handleAddBookmark(item)
+                  }
                 >
-                  {item.name.substring(0, MAX_CHARS)}
-                </Text>
-                <View styles={{ flexDirection: "row" }}>
-                  <Octicons
-                    name="location"
-                    size={14}
-                    color="#45A76E"
-                    style={{ marginTop: 1, marginLeft: 8 }}
-                  />
-                  <Text style={[styles.row, tw` ml-5 mt--4`]}>
-                    {item.location}
+                  {ifExists(item) ? (
+                    <AntDesign
+                      name="heart"
+                      color="#fff"
+                      size={40}
+                      style={styles.likeIcon}
+                    />
+                  ) : (
+                    <AntDesign
+                      name="hearto"
+                      color="#fff"
+                      size={40}
+                      style={styles.likeIcon}
+                    />
+                  )}
+                </TouchableOpacity>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    marginLeft: 5,
+                  }}
+                >
+                  <Text style={[styles.price, tw` pl-2 mt-2`]}>
+                    {item.price}
                   </Text>
+                  <View style={{ flexDirection: "row" }}>
+                    <FontAwesome5
+                      name="tape"
+                      size={13}
+                      color="#45A76E"
+                      style={{ marginLeft: 58, marginTop: 10 }}
+                    />
+                    <Text style={[styles.row, tw` pl-1 mt-2`]}>
+                      {item.size}
+                    </Text>
+                  </View>
+                  <View style={{ flexDirection: "row" }}>
+                    <FontAwesome5
+                      name="circle-notch"
+                      size={13}
+                      color="#45A76E"
+                      style={{ marginLeft: 18, marginTop: 10 }}
+                    />
+                    <Text style={[styles.row, tw` pl-1 mt-2`]}>
+                      {item.status}
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    marginLeft: 5,
+                  }}
+                >
+                  <Text
+                    style={[styles.title, tw` pl-2 mt-2`]}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    {item.name.substring(0, MAX_CHARS)}
+                  </Text>
+                  <View styles={{ flexDirection: "row" }}>
+                    <Octicons
+                      name="location"
+                      size={14}
+                      color="#45A76E"
+                      style={{ marginTop: 1, marginLeft: 8 }}
+                    />
+                    <Text style={[styles.row, tw` ml-5 mt--4`]}>
+                      {item.location}
+                    </Text>
+                  </View>
                 </View>
               </View>
-            </View>
-          </TouchableOpacity>
-        )}
-      />
+            </TouchableOpacity>
+          )}
+        />
+      ) : (
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
+          <Ionicons name="ios-alert-circle" size={50} color="red" />
+          <Text
+            style={{
+              fontFamily: "PoppinsSemiBold",
+              fontSize: 18,
+              color: "#387981",
+            }}
+          >
+            No Internet Connection
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -185,7 +210,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 10,
     right: 10,
-    left: 250,
+    left: 260,
   },
   likeIcon: {
     width: 40,
@@ -200,12 +225,17 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    marginLeft: 2,
+    padding: 10,
   },
   card: {
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
     marginBottom: 200,
+    backgroundColor: "#fff",
+    elevation: 2,
+    padding: 8,
   },
   row: {
     fontSize: 12,

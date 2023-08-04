@@ -1,64 +1,62 @@
-import React, { useState } from "react";
-import { useFonts } from "expo-font";
-import { LogBox, SafeAreaView, StyleSheet, Text } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import {
+  LogBox,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import TabNavigator from "./navigation/TabNavigator";
-import "react-native-gesture-handler";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SplashScreen from "expo-splash-screen";
+import * as WebBrowser from "expo-web-browser";
+
 import GlobalStyles from "./GlobalStyles";
+import TabNavigator from "./navigation/TabNavigator";
 import LoginScreen from "./components/login/LoginScreen";
 import OnboardingScreen from "./components/OnboardingScreen";
 import RegisterScreen from "./components/login/RegisterScreen";
-import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
-import { PersistGate } from "redux-persist/integration/react";
-import { useEffect } from "react";
-import { Dimensions } from "react-native";
-import { View } from "react-native";
-import * as SplashScreen from "expo-splash-screen";
-import { useCallback } from "react";
+import FontLoader from "./FontLoader";
+import { all } from "axios";
 
 SplashScreen.preventAutoHideAsync();
+WebBrowser.maybeCompleteAuthSession();
 
-LogBox.ignoreLogs([
-  "Setting a timer",
-  "AsyncStorage has been extracted from react-native core and will be removed in a future release.",
-  " expo-app-loading is deprecated in favor of expo-splash-screen: use SplashScreen.preventAutoHideAsync() and SplashScreen.hideAsync() instead. https://docs.expo.dev/versions/latest/sdk/splash-screen/ ",
-]);
+LogBox.ignoreLogs(["Setting a timer"]);
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  let [fontsLoaded] = useFonts({
-    Poppins: require("./assets/fonts/Poppins-Regular.ttf"),
-    PoppinsExtraBold: require("./assets/fonts/Poppins-ExtraBold.ttf"),
-    PoppinsBold: require("./assets/fonts/Poppins-Bold.ttf"),
-    PoppinsSemiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
-  });
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [token, setToken] = useState(null);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [isLogged, setIsLogged] = useState(false);
   const { width, height } = Dimensions.get("window");
+  const retrieveData = async () => {
+    try {
+      const data = await AsyncStorage.getItem("keepLoggedIn");
+      console.log(data);
+      setIsLogged(data);
+    } catch (error) {}
+  };
+  const onLayoutRootView = useCallback(async () => {
+    await SplashScreen.hideAsync();
+  }, []);
 
   useEffect(() => {
     const checkToken = async () => {
-      const token = await AsyncStorage.getItem("userToken");
-      if (token !== null) {
-        setIsLoggedIn(true);
+      const storedToken = await AsyncStorage.getItem("token");
+      if (storedToken !== null) {
+        setToken(storedToken);
       }
     };
     checkToken();
+    retrieveData();
   }, []);
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <View
@@ -68,31 +66,61 @@ export default function App() {
       }}
       onLayout={onLayoutRootView}
     >
+      <FontLoader />
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <SafeAreaView style={GlobalStyles.droidSafeArea}>
             <NavigationContainer>
-              <Stack.Navigator
-                initialRouteName={isLoggedIn ? "TabNavigator" : "Onboarding"}
-                screenOptions={{ headerShown: false }}
-              >
-                <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-                <Stack.Screen
-                  name="Login"
-                  component={LoginScreen}
-                  options={{ header: () => null }}
-                />
-                <Stack.Screen
-                  name="RegisterScreen"
-                  component={RegisterScreen}
-                />
-                <Stack.Screen
-                  name="TabNavigator"
-                  component={TabNavigator}
-                  options={({ navigation }) => ({
-                    header: () => null,
-                  })}
-                />
+              <Stack.Navigator screenOptions={{ header: () => null }}>
+                <>
+                  {isLogged ? (
+                    <>
+                      <Stack.Screen
+                        name="Onboarding"
+                        component={OnboardingScreen}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name="Login"
+                        component={LoginScreen}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name="RegisterScreen"
+                        component={RegisterScreen}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name="TabNavigator"
+                        component={TabNavigator}
+                        options={{ headerShown: false }}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Stack.Screen
+                        name="Onboarding"
+                        component={OnboardingScreen}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name="Login"
+                        component={LoginScreen}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name="RegisterScreen"
+                        component={RegisterScreen}
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name="TabNavigator"
+                        component={TabNavigator}
+                        options={{ headerShown: false }}
+                      />
+                    </>
+                  )}
+                </>
               </Stack.Navigator>
             </NavigationContainer>
           </SafeAreaView>
@@ -101,12 +129,3 @@ export default function App() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

@@ -24,8 +24,8 @@ import Form from "./TopTabs/Form";
 const AgentForm = ({ route }) => {
   const { post } = route.params;
   const navigation = useNavigation();
-  const [selectedChoice, setSelectedChoice] = useState(null);
-
+  const [selectedChoice, setSelectedChoice] = useState("");
+  const [formErrors, setFormErrors] = useState({});
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -37,20 +37,40 @@ const AgentForm = ({ route }) => {
     post.location.match(new RegExp(`.{1,${MAX_LINE_LENGTH}}`, "g")) || [];
 
   const onSubmit = () => {
-    const contactMethod = callMe ? "Call Me" : "Text Me";
+    // Perform form validation
+    const errors = {};
+
+    if (name.trim() === "") {
+      errors.name = "Name is required";
+    }
+
+    if (phone.trim() === "") {
+      errors.phone = "Phone is required";
+    }
+
+    if (email.trim() === "") {
+      errors.email = "Email is required";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      // Set the form errors and prevent form submission
+      setFormErrors(errors);
+      return;
+    }
+
     // Format the form data as a string
-    const body = `Way Of Contact:${contactMethod}\n\nProperty Name: ${name}\n\nDescription: ${phone}\n\nPrice: ${email}\n\nPost Name: ${
+    const body = `Way Of Contact:${selectedChoice}\n\nProperty Name: ${name}\n\nDescription: ${phone}\n\nPrice: ${email}\n\nPost Name: ${
       post.name
-    }\n\nPost Images: ${post.images
-      .map((image) => BASE_URL + image)
-      .join(",")}\n\nLocation: ${post.location}\n\nPrice: ${post.price}\n\n`;
+    }\n\nPost Images: ${post.images.map(
+      (image) => BASE_URL + image
+    )}\n\nLocation: ${post.location}\n\nPrice: ${post.price}\n\n`;
 
     //Create a mail object with the form data
     const mail = {
-      recipients: ["kagimujayp01@gmail.com"], // Replace with your email address
-      subject: "Need of Services for Property below",
+      recipients: ["propatiz9@gmail.com"], // Replace with your email address
+      subject: "New Client to Visit Property below",
       body: body,
-      isHtml: true, // Set this option to true
+      isHtml: false, // Set this option to true
     };
 
     // Send the email
@@ -167,6 +187,10 @@ const AgentForm = ({ route }) => {
               multiline={true}
             />
           </View>
+          {formErrors.name && (
+            <Text style={styles.error}>{formErrors.name}</Text>
+          )}
+
           <Text style={styles.label}>Phone</Text>
           <View style={styles.input3}>
             <TextInput
@@ -176,6 +200,10 @@ const AgentForm = ({ route }) => {
               multiline={true}
             />
           </View>
+          {formErrors.phone && (
+            <Text style={styles.error}>{formErrors.phone}</Text>
+          )}
+
           <Text style={styles.label}>Email</Text>
           <View style={styles.input3}>
             <TextInput
@@ -185,6 +213,9 @@ const AgentForm = ({ route }) => {
               multiline={true}
             />
           </View>
+          {formErrors.email && (
+            <Text style={styles.error}>{formErrors.email}</Text>
+          )}
 
           <View
             style={{
@@ -217,6 +248,11 @@ const AgentForm = ({ route }) => {
 export default AgentForm;
 
 const styles = StyleSheet.create({
+  error: {
+    color: "red",
+    marginLeft: 20,
+    marginTop: -10,
+  },
   section: {
     flexDirection: "row",
     alignItems: "center",

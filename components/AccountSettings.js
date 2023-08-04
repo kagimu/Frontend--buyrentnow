@@ -1,15 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import tw from 'twrnc';
+import { Image, StyleSheet, Text, View } from "react-native";
+import React from "react";
 
 const AccountSettings = () => {
-    return (
-        <View>
-            <Text styles={tw`text-center p-4x`}>AccountSettings</Text>
-        </View>
-    )
-}
+  return (
+    <View style={{ flex: 1 }}>
+      <Image
+        style={{ resizeMode: "contain" }}
+        source={{ uri: require("../assets/firstpage.png") }}
+      />
+    </View>
+  );
+};
 
-export default AccountSettings
+export default AccountSettings;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

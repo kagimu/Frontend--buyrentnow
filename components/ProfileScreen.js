@@ -15,6 +15,7 @@ import axios from "axios";
 import { BASE_URL } from "@env";
 import ImageList from "./ImageList";
 import { LogBox } from "react-native";
+import { useEffect } from "react";
 
 LogBox.ignoreLogs([
   "Setting a timer",
@@ -23,7 +24,8 @@ LogBox.ignoreLogs([
 ]);
 
 const ProfileScreen = ({ navigation }) => {
-  const [profilePicture, setProfilePicture] = useState(null);
+  const [image, setImage] = useState(null);
+  const [name, setName] = useState("");
   const data = [{ key: "1" }];
 
   const handleImagePicker = async () => {
@@ -44,31 +46,74 @@ const ProfileScreen = ({ navigation }) => {
 
     if (!result.canceled) {
       const { assets } = result;
-      setProfilePicture(assets[0].uri);
-      uploadProfilePicture(assets[0].uri);
+      setImage(assets[0].uri);
+      uploadProfilePicture(result.uri);
+      AsyncStorage.setItem("profileImage", result.uri); // Store the image URI in AsyncStorage
     }
   };
 
   const uploadProfilePicture = async (uri) => {
     try {
+      const token = await AsyncStorage.getItem("token");
       const formData = new FormData();
       formData.append("image", {
-        uri,
+        uri: uri,
+        type: "image/jpeg", // Modify the type according to your image format
+        name: "profile_picture.jpg", // Provide a suitable file name
       });
 
-      const token = await AsyncStorage.getItem("token"); // Retrieve the token from AsyncStorage
-      const response = await axios.post(`${BASE_URL}/api/profile/avatar`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "Application/json",
-        }, // Set the Authorization header
-      });
+      const response = await axios.post(
+        `${BASE_URL}/api/profile/avatar`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       console.log("Profile picture uploaded:", response.data);
     } catch (error) {
       console.log("Error uploading profile picture:", error.message);
     }
   };
+
+  const getName = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token"); // Retrieve the token from AsyncStorage
+      const response = await fetch(`${BASE_URL}/api/profile`, {
+        headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header
+      });
+
+      if (!response.ok) {
+        throw new Error("Request failed with status code " + response.status);
+      }
+
+      const name = await response.json();
+      console.log("Data from API:", name); // log data to the console
+      setName(name);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const retrieveProfileImage = async () => {
+      try {
+        const storedImage = await AsyncStorage.getItem("profileImage");
+        if (storedImage) {
+          setImage(storedImage);
+        }
+      } catch (error) {
+        console.log("Error retrieving profile image:", error.message);
+      }
+    };
+
+    retrieveProfileImage();
+    uploadProfilePicture();
+    getName();
+  }, []);
 
   return (
     <FlatList
@@ -93,9 +138,9 @@ const ProfileScreen = ({ navigation }) => {
             }}
             onPress={handleImagePicker}
           >
-            {profilePicture ? (
+            {image ? (
               <Image
-                source={{ uri: profilePicture }}
+                source={{ uri: image }}
                 style={{
                   width: "100%",
                   height: "100%",
@@ -110,7 +155,10 @@ const ProfileScreen = ({ navigation }) => {
             )}
           </TouchableOpacity>
 
-          <Text style={styles.text}>Martha Segawa</Text>
+          <Text style={styles.text}>
+            {name.first_name}
+            {name.last_name}
+          </Text>
 
           <View>
             <Text style={styles.text1}>Saved</Text>
@@ -132,9 +180,9 @@ const ProfileScreen = ({ navigation }) => {
                 color: "#347794",
                 fontFamily: "PoppinsSemiBold",
               }}
-              onPress={() => navigation.navigate("AccountSettings")}
+              // onPress={() => navigation.navigate("AccountSettings")}
             >
-              Account Settings
+              Propatiz
             </Text>
           </View>
         </View>

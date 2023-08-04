@@ -70,191 +70,9 @@ const LandRent = ({ navigation }) => {
     fetchBooks();
   }, []);
 
-  return (
-    <View
-      style={{
-        paddingBottom: 200,
-        paddingVertical: 5,
-        backgroundColor: "#f6f8fc",
-      }}
-    >
-      <ScrollView
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        style={{}}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            paddingLeft: 55,
-            marginHorizontal: 5,
-            paddingTop: 10,
-          }}
-        >
-          <TouchableOpacity
-            style={[tw`text-center w-18`, styles.b4]}
-            onPress={() => navigation.navigate("AllCategory")}
-          >
-            <Text style={styles.Text}>All</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[tw`text-center w-20`, styles.buttonActive]}
-            onPress={() => navigation.navigate("LandRent")}
-          >
-            <Text style={styles.ActiveText}>Land</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.b4}
-            onPress={() => navigation.navigate("ApartmentsRent")}
-          >
-            <Text style={styles.Text}>Apartments</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.b4}
-            onPress={() => navigation.navigate("HousesRent")}
-          >
-            <Text style={styles.Text}>Houses</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.b4}
-            onPress={() => navigation.navigate("CommercialRent")}
-          >
-            <Text style={styles.Text}>Commercial</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-      <Text
-        style={{
-          fontSize: 30,
-          fontWeight: "bold",
-          textAlign: "left",
-          padding: 4,
-          marginLeft: 10,
-        }}
-      >
-        Rent Land
-      </Text>
-      {books.length > 0 ? (
-        <FlatList
-          data={books.filter(
-            (post) => post.status == "rental" && post.category_id == "4"
-          )}
-          showsHorizontalScrollIndicator={false}
-          removeClippedSubviews={true}
-          maxToRenderPerBatch={10}
-          updateCellsBatchingPeriod={50}
-          initialNumToRender={10}
-          windowSize={21}
-          legacyImplementation={true}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={[styles.card, tw`pb-7 pt-2`]}>
-              <View>
-                <ImageCarousel data={item.images} />
-                <TouchableOpacity
-                  style={styles.likeButton}
-                  onPress={() =>
-                    ifExists(item)
-                      ? handleRemoveBookmark(item)
-                      : handleAddBookmark(item)
-                  }
-                >
-                  {ifExists(item) ? (
-                    <AntDesign
-                      name="heart"
-                      color="#fff"
-                      size={40}
-                      style={styles.likeIcon}
-                    />
-                  ) : (
-                    <AntDesign
-                      name="hearto"
-                      color="#fff"
-                      size={40}
-                      style={styles.likeIcon}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  marginLeft: 5,
-                }}
-              >
-                <Text style={[styles.price, tw` pl-2 mt-2`]}>{item.price}</Text>
-                <View style={{ flexDirection: "row" }}>
-                  <Ionicons
-                    name="md-bed-outline"
-                    size={15}
-                    color="#6495ED"
-                    style={{
-                      position: "absolute",
-                      top: 13,
-                      left: 60,
-                    }}
-                  />
-
-                  <Text style={[styles.row, tw` pl-21 mt-3`]}>{item.size}</Text>
-                </View>
-                <View style={{ flexDirection: "row" }}>
-                  <FontAwesome5
-                    name="bath"
-                    size={12}
-                    color="#6495ED"
-                    style={{
-                      position: "absolute",
-                      top: 15,
-                      left: 25,
-                    }}
-                  />
-                  <Text style={[styles.row, tw` pl-11 mt-3`]}>
-                    {item.status}
-                  </Text>
-                </View>
-              </View>
-              <TouchableOpacity
-                style={{
-                  marginLeft: 5,
-                }}
-                onPress={() =>
-                  navigation.navigate("PostDetails", { post: item })
-                }
-              >
-                <Text style={[styles.name, tw` pl-2 mt-2 text-sm`]}>
-                  {item.name}
-                </Text>
-                <View
-                  styles={{
-                    flexDirection: "row",
-                    position: "absolute",
-                  }}
-                >
-                  <Octicons
-                    name="location"
-                    size={14}
-                    color="#45A76E"
-                    style={{
-                      marginTop: 31,
-                      marginLeft: 8,
-                    }}
-                  />
-                  <Text style={[styles.row, tw` pl-6 mt--4.5`]}>
-                    {item.location}
-                  </Text>
-
-                  <View></View>
-                </View>
-              </TouchableOpacity>
-            </View>
-          )}
-        />
-      ) : (
-        //<ActivityIndicator size="large" color="#387981" />
+  if (bookmarks.length == 0) {
+    return (
+      <View style={{ flex: 1, backgroundColor: "#f6f8fc" }}>
         <View
           style={{
             alignItems: "center",
@@ -262,14 +80,233 @@ const LandRent = ({ navigation }) => {
             alignContent: "center",
           }}
         >
-          <Ionicons name="ios-alert-circle" size={50} color="black" />
-          <Text style={{ fontFamily: "PoppinsSemiBold", fontSize: 24, ali }}>
+          <Ionicons name="ios-alert-circle" size={50} color="red" />
+          <Text
+            style={{
+              fontFamily: "PoppinsSemiBold",
+              fontSize: 22,
+              color: "#387981",
+            }}
+          >
             No Land For Rent Yet
           </Text>
         </View>
-      )}
-    </View>
-  );
+      </View>
+    );
+  } else {
+    return (
+      <View style={{ flex: 1, backgroundColor: "#f6f8fc" }}>
+        <View
+          style={{
+            marginBottom: 230,
+            paddingVertical: 5,
+            backgroundColor: "#f6f8fc",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 28,
+              fontFamily: "PoppinsSemiBold",
+              textAlign: "center",
+              paddingTop: 0,
+              marginLeft: 10,
+            }}
+          >
+            Rent Land
+          </Text>
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ padding: 5, top: -10, paddingLeft: -5 }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                marginHorizontal: 0,
+                paddingTop: 0,
+              }}
+            >
+              <TouchableOpacity
+                style={[tw`text-center w-18`, styles.b4]}
+                onPress={() => navigation.navigate("AllCategory")}
+              >
+                <Text style={styles.Text}>All</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[tw`text-center w-20`, styles.buttonActive]}
+                onPress={() => navigation.navigate("LandRent")}
+              >
+                <Text style={styles.ActiveText}>Land</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.b4}
+                onPress={() => navigation.navigate("ApartmentsRent")}
+              >
+                <Text style={styles.Text}>Apartments</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.b4}
+                onPress={() => navigation.navigate("HousesRent")}
+              >
+                <Text style={styles.Text}>Houses</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.b4}
+                onPress={() => navigation.navigate("CommercialRent")}
+              >
+                <Text style={styles.Text}>Commercial</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+
+          {books.length > 0 ? (
+            <FlatList
+              data={books.filter(
+                (post) => post.status == "rental" && post.category_id == "4"
+              )}
+              showsVerticalScrollIndicator={false}
+              removeClippedSubviews={true}
+              maxToRenderPerBatch={10}
+              updateCellsBatchingPeriod={50}
+              initialNumToRender={10}
+              windowSize={21}
+              legacyImplementation={true}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View style={[styles.card, tw`pb-7`]}>
+                  <View>
+                    <ImageCarousel data={item.images} />
+                    <TouchableOpacity
+                      style={styles.likeButton}
+                      onPress={() =>
+                        ifExists(item)
+                          ? handleRemoveBookmark(item)
+                          : handleAddBookmark(item)
+                      }
+                    >
+                      {ifExists(item) ? (
+                        <AntDesign
+                          name="heart"
+                          color="#ff8B53"
+                          size={40}
+                          style={styles.likeIcon}
+                        />
+                      ) : (
+                        <AntDesign
+                          name="hearto"
+                          color="#fff"
+                          size={40}
+                          style={styles.likeIcon}
+                        />
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      marginLeft: 5,
+                    }}
+                  >
+                    <Text style={[styles.price, tw` pl-2 mt-2`]}>
+                      {item.price}
+                    </Text>
+                    <View style={{ flexDirection: "row" }}>
+                      <Ionicons
+                        name="md-bed-outline"
+                        size={15}
+                        color="#6495ED"
+                        style={{
+                          position: "absolute",
+                          top: 13,
+                          left: 60,
+                        }}
+                      />
+
+                      <Text style={[styles.row, tw` pl-21 mt-3`]}>
+                        {item.size}
+                      </Text>
+                    </View>
+                    <View style={{ flexDirection: "row" }}>
+                      <FontAwesome5
+                        name="bath"
+                        size={12}
+                        color="#6495ED"
+                        style={{
+                          position: "absolute",
+                          top: 15,
+                          left: 25,
+                        }}
+                      />
+                      <Text style={[styles.row, tw` pl-11 mt-3`]}>
+                        {item.status}
+                      </Text>
+                    </View>
+                  </View>
+                  <TouchableOpacity
+                    style={{
+                      marginLeft: 5,
+                    }}
+                    onPress={() =>
+                      navigation.navigate("PostDetails", { post: item })
+                    }
+                  >
+                    <Text style={[styles.name, tw` pl-2 mt-2 text-sm`]}>
+                      {item.name}
+                    </Text>
+                    <View
+                      styles={{
+                        flexDirection: "row",
+                        position: "absolute",
+                      }}
+                    >
+                      <Octicons
+                        name="location"
+                        size={14}
+                        color="#45A76E"
+                        style={{
+                          marginTop: 31,
+                          marginLeft: 8,
+                        }}
+                      />
+                      <Text style={[styles.row, tw` pl-6 mt--4.5`]}>
+                        {item.location}
+                      </Text>
+
+                      <View></View>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              )}
+            />
+          ) : (
+            //<ActivityIndicator size="large" color="#387981" />
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                alignContent: "center",
+              }}
+            >
+              <Ionicons name="ios-alert-circle" size={50} color="red" />
+              <Text
+                style={{
+                  fontFamily: "PoppinsSemiBold",
+                  fontSize: 22,
+                  color: "#387981",
+                }}
+              >
+                No Land For Rent Yet
+              </Text>
+            </View>
+          )}
+        </View>
+      </View>
+    );
+  }
 };
 
 export default LandRent;
@@ -322,14 +359,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   ActiveText: {
-    fontWeight: "bold",
+    fontFamily: "PoppinsSemiBold",
     textAlign: "center",
     alignContent: "center",
     padding: 15,
     color: "#fff",
   },
   Text: {
-    fontWeight: "bold",
+    fontFamily: "PoppinsSemiBold",
     color: "#000",
     textAlign: "center",
     alignContent: "center",

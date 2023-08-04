@@ -16,25 +16,25 @@ const data = [
   {
     id: "1",
     title: "Land",
-    image: "https://i.imgur.com/rrx2APb.jpg",
+    image: "https://i.imgur.com/uzXfUA3.jpg",
     screen: "CategoryScreen",
   },
   {
     id: "2",
     title: "Apartments",
-    image: "https://i.imgur.com/Vh9Tjyo.jpg",
+    image: "https://i.imgur.com/rDA1UYY.jpg",
     screen: "CategoryScreen",
   },
   {
     id: "3",
     title: "Houses",
-    image: "https://i.imgur.com/3a5J8VD.jpg",
+    image: "https://i.imgur.com/QLMLSZy.jpg",
     screen: "CategoryScreen",
   },
   {
     id: "4",
     title: "Commercial",
-    image: "https://i.imgur.com/E7LjeCk.jpg",
+    image: "https://i.imgur.com/ip3wkg1.jpg",
     screen: "CategoryScreen",
   },
 ];
@@ -44,13 +44,20 @@ const BuyHomeCategories = () => {
 
   return (
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-      <View style={{ paddingLeft: 5, flexDirection: "row" }}>
+      <View
+        style={{
+          paddingLeft: 0,
+          flexDirection: "row",
+          justifyContent: "space-around",
+          marginHorizontal: 20,
+        }}
+      >
         <View style={[tw`mr-4 mb-2 mt-2`]}>
           <View style={[styles.card2]}>
             <TouchableOpacity onPress={() => navigation.navigate("LandBuy")}>
               <Image
                 style={[styles.image, tw``]}
-                source={{ uri: "https://i.imgur.com/rrx2APb.jpg" }}
+                source={{ uri: "https://i.imgur.com/uzXfUA3.jpg" }}
               />
             </TouchableOpacity>
           </View>
@@ -63,7 +70,7 @@ const BuyHomeCategories = () => {
             >
               <Image
                 style={[styles.image, tw``]}
-                source={{ uri: "https://i.imgur.com/Vh9Tjyo.jpg" }}
+                source={{ uri: "https://i.imgur.com/rDA1UYY.jpg" }}
               />
             </TouchableOpacity>
           </View>
@@ -74,7 +81,7 @@ const BuyHomeCategories = () => {
             <TouchableOpacity onPress={() => navigation.navigate("HousesBuy")}>
               <Image
                 style={[styles.image, tw``]}
-                source={{ uri: "https://i.imgur.com/3a5J8VD.jpg" }}
+                source={{ uri: "https://i.imgur.com/QLMLSZy.jpg" }}
               />
             </TouchableOpacity>
           </View>
@@ -87,7 +94,7 @@ const BuyHomeCategories = () => {
             >
               <Image
                 style={[styles.image, tw``]}
-                source={{ uri: "https://i.imgur.com/E7LjeCk.jpg" }}
+                source={{ uri: "https://i.imgur.com/ip3wkg1.jpg" }}
               />
             </TouchableOpacity>
           </View>

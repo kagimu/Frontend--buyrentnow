@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
+import * as React from "react";
 import ProfileScreen from "../components/ProfileScreen";
 import AccountSettings from "../components/AccountSettings";
 import PostDetails from "../components/PostDetails";
@@ -12,6 +12,7 @@ const ProfileStack = () => {
     <Stack.Navigator
       initialRouteName="ProfileScreen"
       screenOptions={{
+        headerShown: false,
         headerTransparent: true,
         title: "",
         cardStyle: { backgroundColor: "#fff" },
