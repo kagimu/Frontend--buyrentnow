@@ -33,6 +33,11 @@ const BookingConfirmation = ({ navigation }) => {
   const [host, setHost] = useState("");
   const [number, setNumber] = useState("");
   const [image, setImage] = useState(null);
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [bedrooms, setBedrooms] = useState("");
+  const [bathrooms, setBathrooms] = useState("");
+  const [images, setImages] = useState([]);
+  const [video, setVideo] = useState(null);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -45,7 +50,23 @@ const BookingConfirmation = ({ navigation }) => {
     });
     console.log(result);
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      const selectedImages = result.assets.map((asset) => asset.uri);
+      setImages(selectedImages);
+    }
+  };
+
+  const [videoUri, setVideoUri] = useState(null);
+
+  const pickVideo = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+      allowsEditing: true,
+      aspect: [16, 9],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setVideoUri(result.uri);
     }
   };
 
@@ -156,7 +177,7 @@ const BookingConfirmation = ({ navigation }) => {
             multiline={true}
           />
         </View>
-        <Text style={styles.label}>Price</Text>
+        <Text style={styles.label}>Price In Uganda Shillings</Text>
         <View style={styles.input}>
           <TextInput
             placeholderTextColor="#D3D3D3"
@@ -171,6 +192,27 @@ const BookingConfirmation = ({ navigation }) => {
             placeholderTextColor="#D3D3D3"
             onChangeText={(text) => setLocation(text)}
             value={location}
+            multiline={true}
+          />
+        </View>
+        {/* Number of Bedrooms */}
+        <Text style={styles.label}>Number of Bedrooms</Text>
+        <View style={styles.input}>
+          <TextInput
+            placeholderTextColor="#D3D3D3"
+            onChangeText={(text) => setBedrooms(text)}
+            value={bedrooms}
+            multiline={true}
+          />
+        </View>
+
+        {/* Number of Bathrooms */}
+        <Text style={styles.label}>Number of Bathrooms</Text>
+        <View style={styles.input}>
+          <TextInput
+            placeholderTextColor="#D3D3D3"
+            onChangeText={(text) => setBathrooms(text)}
+            value={bathrooms}
             multiline={true}
           />
         </View>
@@ -241,7 +283,7 @@ const BookingConfirmation = ({ navigation }) => {
               textAlign: "left",
             }}
           >
-            Upload an image showing your property
+            Upload atleast 4 images showing your property
           </Text>
           <Entypo
             name="upload"
@@ -262,6 +304,89 @@ const BookingConfirmation = ({ navigation }) => {
               }}
             />
           )}
+        </View>
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 15,
+            marginTop: 20,
+            backgroundColor: "#fff",
+            marginHorizontal: 20,
+            borderRadius: 8,
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: "PoppinsSemiBold",
+              fontSize: 14,
+              paddingBottom: 10,
+              textAlign: "left",
+            }}
+          >
+            Select a Video showing the property:
+          </Text>
+          <Entypo
+            name="upload"
+            size={26}
+            color="black"
+            onPress={pickImage}
+            style={{ paddingBottom: 10 }}
+          />
+          {videoUri && (
+            <Text>Selected Video: {videoUri}</Text>
+            // You can display the video URI or a video player here
+          )}
+        </View>
+        <View
+          style={{
+            top: 20,
+            backgroundColor: "#fff",
+            marginHorizontal: 20,
+            borderRadius: 8,
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: "PoppinsSemiBold",
+              fontSize: 14,
+              paddingBottom: 10,
+              textAlign: "center",
+              marginTop: 10,
+            }}
+          >
+            Upload your Profile Picture
+          </Text>
+          <View
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 10,
+              backgroundColor: "#fff",
+              marginHorizontal: 20,
+              borderRadius: 8,
+            }}
+          >
+            <Entypo
+              name="upload"
+              size={26}
+              color="black"
+              onPress={pickImage}
+              style={{ paddingBottom: 10 }}
+            />
+            {profilePicture && (
+              <Image
+                source={{ uri: profilePicture }}
+                style={{
+                  width: 70,
+                  height: 70,
+                  paddingTop: 5,
+                  paddingBottom: 0,
+                  borderRadius: 10,
+                }}
+              />
+            )}
+          </View>
         </View>
 
         <View style={{ marginHorizontal: 70, top: 20 }}>

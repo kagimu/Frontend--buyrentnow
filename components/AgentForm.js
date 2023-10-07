@@ -59,11 +59,11 @@ const AgentForm = ({ route }) => {
     }
 
     // Format the form data as a string
-    const body = `Way Of Contact:${selectedChoice}\n\nProperty Name: ${name}\n\nDescription: ${phone}\n\nPrice: ${email}\n\nPost Name: ${
+    const body = `Way Of Contact:${selectedChoice}\n\nClient's Name: ${name}\n\nPhone Number: ${phone}\n\nEmail of Client: ${email}\n\nPost Name: ${
       post.name
     }\n\nPost Images: ${post.images.map(
       (image) => BASE_URL + image
-    )}\n\nLocation: ${post.location}\n\nPrice: ${post.price}\n\n`;
+    )}\n\nLocation: ${post.location}\n\nPrice of Property: ${post.price}\n\n`;
 
     //Create a mail object with the form data
     const mail = {
@@ -102,7 +102,7 @@ const AgentForm = ({ route }) => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={[styles.card, tw``]}>
-              <View style={{}}>
+              <View>
                 <Image
                   style={styles.image}
                   source={{ uri: `${BASE_URL}${post.images[0]}` }}

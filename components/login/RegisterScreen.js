@@ -51,7 +51,7 @@ const RegisterScreen = () => {
       console.log(error);
       Alert.alert(
         "Error",
-        "Registration failed. Make sure you have internet and try again."
+        "Registration failed. Make sure you have internet and try again, or your phone number is already taken."
       );
     } finally {
       setIsLoading(false);

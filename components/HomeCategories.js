@@ -6,12 +6,14 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import tw from "twrnc";
 //import { BASE_URL } from '@env'
 
+const { width, height } = Dimensions.get("window");
 const data = [
   {
     id: "1",
@@ -49,7 +51,7 @@ const HomeCategories = () => {
           paddingLeft: 0,
           flexDirection: "row",
           // justifyContent: "space-around",
-          marginHorizontal: 20,
+          marginHorizontal: 10,
         }}
       >
         <View style={[tw`mr-4 mb-2 mt-2`]}>
@@ -109,9 +111,9 @@ export default HomeCategories;
 
 const styles = StyleSheet.create({
   image: {
-    width: 85,
-    height: 88,
-    resizeMode: "stretch",
+    width: width - 274,
+    height: height * 0.13,
+    resizeMode: "contain",
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
     borderBottomLeftRadius: 30,
@@ -129,9 +131,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   word: {
-    padding: 6,
+    padding: width * 0.02,
     fontFamily: "PoppinsSemiBold",
-    fontSize: 12,
+    fontSize: width * 0.033,
     alignContent: "center",
     textAlign: "center",
   },

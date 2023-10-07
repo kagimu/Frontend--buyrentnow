@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   wrapper: {},
   slide: {
     flexWrap: "wrap",
-    paddingVertical: 20,
+    paddingVertical: 0,
     marginLeft: -18,
   },
   video: {

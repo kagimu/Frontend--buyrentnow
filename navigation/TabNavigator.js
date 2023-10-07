@@ -14,12 +14,12 @@ const TabNavigator = () => {
       tabBar={(props) => <TabBar {...props} />}
       screenOptions={{
         headerShown: false,
+        unmountOnBlur: true,
         headerTransparent: true,
         title: "",
         backBehavior: "history",
       }}
       initialRouteName="Home"
-      backBehavior="history"
     >
       <Tab.Screen
         name="ProfileStack"

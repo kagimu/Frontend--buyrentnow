@@ -22,9 +22,12 @@ import { AntDesign } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { getBooks, addBookmark, removeBookmark } from "../../redux/actions";
+import { getTimeAgo } from "../TopTabs/getTimeAgo";
 
+const { width, height } = Dimensions.get("window");
 const ApartmentsRent = ({ navigation }) => {
   const [data, setData] = useState([]);
+  const [createdAt, setCreatedAt] = useState([]);
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -85,11 +88,11 @@ const ApartmentsRent = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={{ backgroundColor: "#f6f8fc" }}>
+    <View style={{ backgroundColor: "#f6f8fc", marginTop: height * 0.035 }}>
       <View
         style={{
-          marginBottom: 340,
-          paddingVertical: 5,
+          marginBottom: height * 0.53,
+          // paddingVertical: 5,
           backgroundColor: "#f6f8fc",
         }}
       >
@@ -98,8 +101,8 @@ const ApartmentsRent = ({ navigation }) => {
             fontSize: 28,
             fontFamily: "PoppinsSemiBold",
             textAlign: "center",
-            paddingTop: 0,
-            marginLeft: 10,
+            paddingTop: height * 0.01,
+            marginLeft: width * 0.06,
           }}
         >
           Rent Apartments
@@ -107,7 +110,10 @@ const ApartmentsRent = ({ navigation }) => {
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ padding: 5, top: -10, paddingLeft: -5 }}
+          contentContainerStyle={{
+            padding: height * 0.01,
+            paddingLeft: width * 0.02,
+          }}
         >
           <View
             style={{
@@ -182,19 +188,24 @@ const ApartmentsRent = ({ navigation }) => {
                     {ifExists(item) ? (
                       <AntDesign
                         name="heart"
-                        color="#ff8B53"
-                        size={40}
+                        color="red"
+                        size={35}
                         style={styles.likeIcon}
                       />
                     ) : (
                       <AntDesign
                         name="hearto"
                         color="#fff"
-                        size={40}
+                        size={35}
                         style={styles.likeIcon}
                       />
                     )}
                   </TouchableOpacity>
+                </View>
+                <View>
+                  <Text style={[styles.time, tw` pl-3 mt-2`]}>
+                    Posted {getTimeAgo(createdAt)}
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -202,22 +213,22 @@ const ApartmentsRent = ({ navigation }) => {
                     marginLeft: 5,
                   }}
                 >
-                  <Text style={[styles.price, tw` pl-2 mt-2`]}>
+                  <Text style={[styles.price, tw` pl-2 mt-1`]}>
                     {item.price}
                   </Text>
                   <View style={{ flexDirection: "row" }}>
                     <Ionicons
                       name="md-bed-outline"
                       size={15}
-                      color="#6495ED"
+                      color="#00b173"
                       style={{
                         position: "absolute",
-                        top: 13,
+                        top: 9,
                         left: 60,
                       }}
                     />
 
-                    <Text style={[styles.row, tw` pl-21 mt-3`]}>
+                    <Text style={[styles.row, tw` pl-21 mt-2`]}>
                       {item.size}
                     </Text>
                   </View>
@@ -225,17 +236,20 @@ const ApartmentsRent = ({ navigation }) => {
                     <FontAwesome5
                       name="bath"
                       size={12}
-                      color="#6495ED"
+                      color="#00b173"
                       style={{
                         position: "absolute",
-                        top: 15,
+                        top: 10,
                         left: 25,
                       }}
                     />
-                    <Text style={[styles.row, tw` pl-11 mt-3`]}>
+                    <Text style={[styles.row, tw` pl-11 mt-2`]}>
                       {item.status}
                     </Text>
                   </View>
+                </View>
+                <View>
+                  <Text style={[styles.per, tw` pl-4`]}>Per Month</Text>
                 </View>
                 <TouchableOpacity
                   style={{
@@ -245,7 +259,7 @@ const ApartmentsRent = ({ navigation }) => {
                     navigation.navigate("PostDetails", { post: item })
                   }
                 >
-                  <Text style={[styles.name, tw` pl-2 mt-2 text-sm`]}>
+                  <Text style={[styles.name, tw` pl-2 text-lg`]}>
                     {item.name}
                   </Text>
                   <View
@@ -257,7 +271,7 @@ const ApartmentsRent = ({ navigation }) => {
                     <Octicons
                       name="location"
                       size={14}
-                      color="#45A76E"
+                      color="#00b173"
                       style={{
                         marginTop: 31,
                         marginLeft: 8,
@@ -333,7 +347,7 @@ const styles = StyleSheet.create({
     fontFamily: "PoppinsSemiBold",
   },
   buttonActive: {
-    backgroundColor: "#387981",
+    backgroundColor: "#25749b",
     marginTop: 5,
     paddingLeft: 0,
     justifyContent: "space-between",
@@ -394,8 +408,19 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     fontFamily: "Poppins",
   },
+  time: {
+    fontSize: width * 0.03,
+    fontFamily: "Poppins",
+    color: "#808080",
+  },
+  per: {
+    fontSize: width * 0.035,
+    fontFamily: "Poppins",
+    top: -6,
+    color: "#808080",
+  },
   price: {
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: "PoppinsSemiBold",
   },
   button: {

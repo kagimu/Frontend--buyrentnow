@@ -5,14 +5,17 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
 import React from "react";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
-import { Octicons, FontAwesome5 } from "@expo/vector-icons";
+import { Octicons, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { BASE_URL } from "@env";
 import List from "./List";
 import { Video } from "expo-av";
+
+const { width, height } = Dimensions.get("window");
 
 const data = [
   {
@@ -52,11 +55,54 @@ const PostDetails = ({ route }) => {
               isLooping
               shouldPlay={true}
             />
-            <Text style={[styles.name, tw` pl-2 mt-2 text-lg`]}>
+
+            <View
+              style={{
+                flexDirection: "row",
+                padding: height * 0.01,
+                marginLeft: width * 0.025,
+              }}
+            >
+              <Image
+                source={{ uri: "https://i.imgur.com/78lC493.jpg" }}
+                style={{
+                  width: width - 328,
+                  height: height * 0.049,
+                  borderRadius: 50,
+                }}
+              />
+              <View style={{ marginLeft: width * 0.02 }}>
+                <Text
+                  style={{
+                    fontSize: width * 0.035,
+                    fontFamily: "PoppinsSemiBold",
+                    color: "#808080",
+                  }}
+                >
+                  Godfrey M
+                </Text>
+                <Text
+                  style={{
+                    fontSize: width * 0.03,
+                    fontFamily: "Poppins",
+                    color: "#808080",
+                    top: -height * 0.01,
+                  }}
+                >
+                  Landlord
+                </Text>
+              </View>
+            </View>
+            <Text style={[styles.name, tw` pl-5 mt-2 text-lg`]}>
               {post.name}
             </Text>
-
-            <View styles={{ flexDirection: "row", marginTop: 7 }}>
+            <View
+              styles={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginTop: 7,
+              }}
+            >
               <Octicons
                 name="location"
                 size={14}
@@ -67,44 +113,44 @@ const PostDetails = ({ route }) => {
                 {post.location}
               </Text>
             </View>
-
             <View
               style={{
                 flexDirection: "row",
                 marginTop: 10,
               }}
             >
-              <View style={{ flexDirection: "row" }}>
-                <FontAwesome5
-                  name="tape"
+              <View
+                style={{
+                  flexDirection: "row",
+                }}
+              >
+                <Ionicons
+                  name="md-bed-outline"
                   size={12}
                   color="#45A76E"
                   style={{ marginLeft: 21, marginTop: 10 }}
                 />
                 <Text style={[styles.row, tw` pl-1 mt-2`]}>{post.size}</Text>
               </View>
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: "row", marginLeft: width * 0.2 }}>
                 <FontAwesome5
-                  name="circle-notch"
+                  name="bath"
                   size={12}
                   color="#45A76E"
                   style={{ marginLeft: 50, marginTop: 10 }}
                 />
                 <Text style={[styles.row, tw` pl-2 mt-2`]}>{post.status}</Text>
               </View>
-              <Text style={[styles.type, tw` pl-10 mt-2 `]}>Type</Text>
-              <Text style={[styles.price, tw` pl-2 mt-2 `]}>{post.type}</Text>
             </View>
-
-            <List post={post} />
-
+            <View style={[tw`pl-3`]}>
+              <List post={post} />
+            </View>
             <View>
               <Text style={[styles.desc, tw` pl-6 text-sm`]}>Description</Text>
               <Text style={[styles.desc1, tw` pl-6 mt-2 `]}>{post.desc}</Text>
             </View>
             <View
               style={{
-                flexDirection: "row",
                 backgroundColor: "#fff",
                 padding: 10,
                 paddingBottom: 10,
@@ -115,16 +161,23 @@ const PostDetails = ({ route }) => {
                 marginBottom: -10,
               }}
             >
-              <View style={tw`pl-1 pt-3`}>
-                <Text style={{ fontFamily: "Poppins" }}>Price</Text>
-                <Text style={{ fontFamily: "PoppinsSemiBold", fontSize: 14 }}>
+              <View style={tw`pl-1`}>
+                <Text style={{ fontFamily: "Poppins", fontSize: width * 0.03 }}>
+                  Rent Permonth
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: "PoppinsSemiBold",
+                    fontSize: width * 0.04,
+                  }}
+                >
                   {post.price}
                 </Text>
               </View>
               <View
                 style={{
-                  marginLeft: 40,
-                  backgroundColor: "#34779A",
+                  marginLeft: 10,
+                  backgroundColor: "#ff0061",
                   padding: 15,
                   justifyContent: "center",
                   borderRadius: 20,
@@ -136,12 +189,13 @@ const PostDetails = ({ route }) => {
                       color: "white",
                       fontFamily: "PoppinsSemiBold",
                       fontSize: 18,
+                      textAlign: "center",
                     }}
                     onPress={() =>
                       navigation.navigate("AgentForm", { post: post })
                     }
                   >
-                    Contact an agent
+                    Call owner
                   </Text>
                 </TouchableOpacity>
               </View>

@@ -56,14 +56,14 @@ const HomeScreen = ({ navigation }) => {
               <Text
                 style={{
                   position: "absolute",
-                  top: 75,
-                  left: 25,
+                  top: height * 0.13,
+                  left: width * 0.07,
                   color: "#fff",
-                  fontFamily: "PoppinsExtraBold",
-                  fontSize: 20,
+                  fontFamily: "PoppinsSemiBold",
+                  fontSize: width * 0.043,
                 }}
               >
-                Find the right {"\n"}buyers
+                Connect directly{"\n"}with the landlord
               </Text>
             </View>
             <View>
@@ -74,27 +74,29 @@ const HomeScreen = ({ navigation }) => {
               <Text
                 style={{
                   position: "absolute",
-                  top: 75,
-                  left: 25,
+                  top: height * 0.13,
+                  left: width * 0.07,
                   color: "#fff",
-                  fontFamily: "PoppinsExtraBold",
-                  fontSize: 20,
+                  fontFamily: "PoppinsSemiBold",
+                  fontSize: width * 0.043,
                 }}
               >
-                Making Property {"\n"}Searching easy
+                Empowering you to {"\n"}find your dream home
               </Text>
             </View>
           </ScrollView>
         </View>
       </View>
 
-      <Text style={styles.text0}>
-        The easiest way to buy, sell and rent {"\n"}real estate properties
+      <Text style={styles.text7}>
+        Our marketplace helps you connect directly {"\n"}with property managers
+        and owners with {"\n"}ease.
       </Text>
 
       <View
         style={{
           marginTop: 20,
+          marginLeft: 5,
           backgroundColor: "#fff",
           borderTopRightRadius: 10,
           borderTopLeftRadius: 10,
@@ -102,14 +104,12 @@ const HomeScreen = ({ navigation }) => {
           borderBottomRightRadius: 10,
           paddingTop: 12,
           paddingBottom: 10,
-          marginLeft: 0,
           alignContent: "center",
-          marginHorizontal: 0,
         }}
       >
         <Text
           style={{
-            fontSize: 25,
+            fontSize: 0.07 * width,
             marginBottom: 0,
             textAlign: "center",
             fontFamily: "PoppinsSemiBold",
@@ -122,78 +122,35 @@ const HomeScreen = ({ navigation }) => {
             backgroundColor: "#58d2b5",
             position: "absolute",
             padding: 1.5,
-            marginHorizontal: 166,
             alignItems: "center",
             justifyContent: "center",
             alignContent: "center",
             marginBottom: 10,
-            top: 43,
-            left: 8,
-            width: 15,
+            top: 0.065 * height,
+            left: 0.47 * width,
+            width: 0.04 * width,
             borderRadius: 2,
           }}
         ></TouchableOpacity>
         <HomeCategories />
       </View>
 
-      <View
-        style={{
-          marginTop: 20,
-          backgroundColor: "#fff",
-          borderTopRightRadius: 10,
-          borderTopLeftRadius: 10,
-          borderBottomLeftRadius: 10,
-          borderBottomRightRadius: 10,
-          marginHorizontal: 0,
-          paddingTop: 12,
-          paddingBottom: 10,
-          marginLeft: 3,
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 25,
-            marginBottom: 5,
-            textAlign: "center",
-            fontFamily: "PoppinsSemiBold",
-          }}
-        >
-          Buy
-        </Text>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#ffb18b",
-            position: "absolute",
-            padding: 1.5,
-            marginHorizontal: 166,
-            alignItems: "center",
-            justifyContent: "center",
-            alignContent: "center",
-            marginBottom: 10,
-            top: 43,
-            left: 8,
-            width: 15,
-            borderRadius: 2,
-          }}
-        ></TouchableOpacity>
-        <BuyHomeCategories />
-      </View>
-
-      <Text style={styles.text1}>Recently Added</Text>
+      <Text style={styles.textRecently}>Recently Added</Text>
       <Text style={styles.text3}>
         Find Recently added Apartments, Houses and lands.
       </Text>
 
-      <View style={{ marginLeft: -5 }}>
+      <View style={{}}>
         <CardOptions />
       </View>
 
-      <View style={{ paddingTop: 30 }}>
+      <View style={{ paddingTop: 15 }}>
         <Text style={[styles.heading, tw` p-2`]}>
-          Are you renting or selling
+          Post your rental property
         </Text>
         <Text style={[styles.subheading, tw`text-center p-3`]}>
-          Lets help you sell your property with ease
+          Add your rental property and directly {"\n"}connect with potential
+          renters
         </Text>
 
         <ImageBackground
@@ -223,7 +180,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 0,
   },
   subtitleContainer: {
     position: "absolute",
@@ -244,20 +200,20 @@ const styles = StyleSheet.create({
     marginTop: 0,
     backgroundColor: "#F6F8FC",
     marginBottom: 30,
+    marginLeft: 10,
   },
   image: {
-    width: width - 22,
-    height: 250,
+    width: width - 35,
+    height: height * 0.3, // Adjust image height proportionally
     alignContent: "center",
-    resizeMode: "stretch",
+    resizeMode: "contain",
     justifyContent: "center",
     marginBottom: 40,
-    marginHorizontal: 10,
-    marginRight: 30,
+    marginHorizontal: width - 350,
   },
   image2: {
     width: width - 35,
-    height: 200,
+    height: height * 0.3, // Adjust image height proportionally
     alignContent: "center",
     resizeMode: "contain",
     justifyContent: "center",
@@ -272,12 +228,12 @@ const styles = StyleSheet.create({
     fontFamily: "PoppinsSemiBold",
   },
   Button: {
-    margin: 10,
-    marginLeft: 55,
-    marginRight: 50,
+    margin: width * 0.03,
+    marginLeft: width * 0.2,
+    marginRight: width * 0.155,
     backgroundColor: "#fff",
     color: "black",
-    padding: 12,
+    padding: height * 0.025,
     fontSize: 16,
     fontFamily: "PoppinsSemiBold",
     justifyContent: "center",
@@ -285,25 +241,40 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   text0: {
-    fontSize: 16,
+    fontSize: 0.04 * width,
     marginTop: 0,
     marginBottom: 10,
-    marginLeft: 14,
+    marginLeft: 0.02 * width,
+    textAlign: "left",
+    fontFamily: "PoppinsSemiBold",
+    color: "#121212",
+  },
+  text7: {
+    fontSize: 0.04 * width,
+    marginTop: -8,
+    marginBottom: 10,
+    marginLeft: 0.02 * width,
     textAlign: "left",
     fontFamily: "PoppinsSemiBold",
     color: "#121212",
   },
   text1: {
-    fontSize: 20,
-    marginTop: 40,
-    marginLeft: 15,
+    fontSize: 0.06 * width, // Adjust font size based on screen width
+    marginTop: 0.04 * height, // Adjust margin based on screen height
+    marginLeft: 0.02 * width, // Adjust margin based on screen width
+    fontFamily: "PoppinsSemiBold",
+  },
+  textRecently: {
+    fontSize: 0.04 * width, // Adjust font size based on screen width
+    marginTop: 0.04 * height, // Adjust margin based on screen height
+    marginLeft: 0.02 * width, // Adjust margin based on screen width
     fontFamily: "PoppinsSemiBold",
   },
   text3: {
-    fontSize: 12,
-    marginTop: 0,
+    fontSize: 0.03 * width,
+    marginTop: -3,
     marginBottom: 10,
-    marginLeft: 15,
+    marginLeft: 0.02 * width,
     fontFamily: "Poppins",
   },
   homeLower: {
@@ -326,13 +297,13 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   heading: {
-    fontSize: 20,
+    fontSize: 0.065 * width,
     textAlign: "center",
     textAlign: "center",
     fontFamily: "PoppinsSemiBold",
   },
   subheading: {
-    fontSize: 12,
+    fontSize: 0.035 * width,
     fontWeight: "200",
     textAlign: "center",
     marginTop: -20,

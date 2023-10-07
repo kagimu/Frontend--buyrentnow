@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import Tab from "./Tab";
+import { CommonActions } from "@react-navigation/native";
 
 const { width } = Dimensions.get("screen");
 
@@ -20,14 +21,21 @@ const TabBar = ({ state, navigation }) => {
   const handlePress = (activeTab, index) => {
     if (state.index !== index) {
       setSelected(activeTab);
-      navigation.navigate(activeTab);
+
+      // Reset the navigation stack to the initial screen of the selected tab
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: activeTab }],
+        })
+      );
     }
   };
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "position" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0} // set to the height of your tabBar
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
       style={styles.wrapper}
     >
       <View style={styles.container}>

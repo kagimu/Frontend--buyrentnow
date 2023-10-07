@@ -2,6 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import * as React from "react";
+import { useEffect } from "react";
 import HomeScreen from "../components/HomeScreen";
 import { HeaderBackButton } from "@react-navigation/stack";
 import LoginScreen from "../components/login/LoginScreen";
@@ -29,6 +30,17 @@ const Stack = createNativeStackNavigator();
 
 const HomeStack = () => {
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      // When the HomeStack is focused, navigate to the HomeScreen
+      navigation.navigate("HomeScreen");
+    });
+
+    // Return a cleanup function to remove the listener when the component unmounts
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <Stack.Navigator
       initialRouteName="HomeScreen"

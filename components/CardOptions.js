@@ -79,7 +79,7 @@ const CardOptions = () => {
   }, []);
 
   return (
-    <View style={tw`pl-2`}>
+    <View style={tw``}>
       {books.length > 0 ? (
         <FlatList
           data={books}
@@ -107,14 +107,14 @@ const CardOptions = () => {
                     <AntDesign
                       name="heart"
                       color="#fff"
-                      size={40}
+                      size={35}
                       style={styles.likeIcon}
                     />
                   ) : (
                     <AntDesign
                       name="hearto"
                       color="#fff"
-                      size={40}
+                      size={35}
                       style={styles.likeIcon}
                     />
                   )}
@@ -122,20 +122,29 @@ const CardOptions = () => {
                 <View
                   style={{
                     flexDirection: "row",
-                    marginLeft: 5,
                   }}
                 >
-                  <Text style={[styles.price, tw` pl-2 mt-2`]}>
-                    {item.price}
-                  </Text>
+                  <Text style={[styles.price, tw` mt-2`]}>{item.price}</Text>
                   <View style={{ flexDirection: "row" }}>
                     <FontAwesome5
                       name="tape"
-                      size={13}
+                      size={11}
                       color="#45A76E"
-                      style={{ marginLeft: 58, marginTop: 10 }}
+                      style={{
+                        position: "absolute",
+                        left: width * 0.2,
+                        marginTop: 10,
+                      }}
                     />
-                    <Text style={[styles.row, tw` pl-1 mt-2`]}>
+                    <Text
+                      style={{
+                        position: "absolute",
+                        fontSize: 10,
+                        left: width * 0.25,
+                        fontFamily: "Poppins",
+                        top: 9,
+                      }}
+                    >
                       {item.size}
                     </Text>
                   </View>
@@ -144,20 +153,28 @@ const CardOptions = () => {
                       name="circle-notch"
                       size={13}
                       color="#45A76E"
-                      style={{ marginLeft: 18, marginTop: 10 }}
+                      style={{
+                        position: "absolute",
+                        left: width * 0.38,
+                        marginTop: 10,
+                      }}
                     />
-                    <Text style={[styles.row, tw` pl-1 mt-2`]}>
+                    <Text
+                      style={{
+                        position: "absolute",
+                        fontSize: 10,
+                        left: width * 0.43,
+                        fontFamily: "Poppins",
+                        top: 9,
+                      }}
+                    >
                       {item.status}
                     </Text>
                   </View>
                 </View>
-                <View
-                  style={{
-                    marginLeft: 5,
-                  }}
-                >
+                <View>
                   <Text
-                    style={[styles.title, tw` pl-2 mt-2`]}
+                    style={[styles.title, tw`mt-2`]}
                     numberOfLines={1}
                     ellipsizeMode="tail"
                   >
@@ -168,9 +185,9 @@ const CardOptions = () => {
                       name="location"
                       size={14}
                       color="#45A76E"
-                      style={{ marginTop: 1, marginLeft: 8 }}
+                      style={{ marginTop: 1, marginLeft: 1 }}
                     />
-                    <Text style={[styles.row, tw` ml-5 mt--4`]}>
+                    <Text style={[styles.row, tw` ml-3 mt--4`]}>
                       {item.location}
                     </Text>
                   </View>
@@ -208,18 +225,17 @@ export default CardOptions;
 const styles = StyleSheet.create({
   likeButton: {
     position: "absolute",
-    top: 10,
-    right: 10,
-    left: 260,
+    top: height * 0.02,
+    left: width * 0.7,
   },
   likeIcon: {
-    width: 40,
-    height: 40,
+    width: width - 30,
+    height: height * 0.2,
     resizeMode: "cover",
   },
   image: {
     width: width - 65,
-    height: 190,
+    height: height * 0.25,
     resizeMode: "stretch",
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
@@ -233,12 +249,12 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
     marginBottom: 200,
-    backgroundColor: "#fff",
-    elevation: 2,
+    backgroundColor: "#F6F8FC",
+    elevation: 0,
     padding: 8,
   },
   row: {
-    fontSize: 12,
+    fontSize: 10,
     paddingLeft: 5,
     fontFamily: "Poppins",
   },
