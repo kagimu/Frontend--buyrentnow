@@ -1,30 +1,30 @@
 import { StyleSheet, Text, View } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import CategoryScreen from "../components/CategoryScreen";
-import CategoryDetails from "../components/CategoryDetails";
 import BookingConfirmation from "../components/BookingConfirmation";
-import Category from "../components/Category";
+import ImageUploader from "../components/ImageUploader";
+import BookingAlert from "../components/TopTabs/BookingAlert";
+import HomeScreen from "../components/HomeScreen";
 
 const Stack = createNativeStackNavigator();
 
 const CategoryStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="CategoryScreen"
+      initialRouteName="BookingConfirmation"
       screenOptions={{
         headerShadowVisible: false,
         headerTransparent: true,
         title: "",
       }}
     >
-      <Stack.Screen name="Categories" component={CategoryScreen} />
-      <Stack.Screen name="Category" component={Category} />
-      <Stack.Screen name="CategoryDetails" component={CategoryDetails} />
+      <Stack.Screen name="ImageUploader" component={ImageUploader} />
       <Stack.Screen
         name="BookingConfirmation"
         component={BookingConfirmation}
       />
+      <Stack.Screen name="BookingAlert" component={BookingAlert} />
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
     </Stack.Navigator>
   );
 };

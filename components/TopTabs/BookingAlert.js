@@ -32,8 +32,9 @@ const BookingAlert = () => {
               marginBottom: 20,
             }}
           >
-            Our Agent will reach out and schedule a site visit with you to help
-            you market your property better on Propatiz Marketplace.
+            Your Property has been successfully uploaded and will be viewed by
+            other potential rental space seekers. Thank you once again for
+            choosing Propatiz.
           </Text>
         </View>
       </View>
@@ -50,7 +51,7 @@ const BookingAlert = () => {
       >
         <Text
           style={{ fontFamily: "PoppinsSemiBold", fontSize: 17, color: "#fff" }}
-          onPress={() => navigation.goBack("HomeScreen")}
+          onPress={() => navigation.navigate("HomeScreen")}
         >
           Find more listings
         </Text>

@@ -5,6 +5,9 @@ import BookingConfirmation from "../components/BookingConfirmation";
 import SavedPage from "../components/SavedPage";
 import HomeStack from "./HomeStack";
 import * as React from "react";
+import ImageUploader from "../components/ImageUploader";
+import BookStack from "./BookStack";
+import CategoryStack from "./CategoryStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -31,9 +34,10 @@ const TabNavigator = () => {
         component={HomeStack}
         initialParams={{ icon: "home" }}
       />
+
       <Tab.Screen
-        name="CategoryStack"
-        component={BookingConfirmation}
+        name="category"
+        component={CategoryStack}
         initialParams={{ icon: "plus-circle" }}
       />
       <Tab.Screen

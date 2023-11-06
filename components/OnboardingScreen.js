@@ -105,9 +105,9 @@ const OnboardingScreen = ({ navigation }) => {
               style={styles.image}
             />
           ),
-          title: "Find your dream home",
+          title: "",
           subtitle:
-            "Our app makes finding and buying homes simple and stress-free.",
+            "Empowering you to find your dream home or perfect rental with ease.",
           bottomBarColor: "#fff",
         },
         {
@@ -119,9 +119,9 @@ const OnboardingScreen = ({ navigation }) => {
               style={styles.image}
             />
           ),
-          title: "I am looking for a Plot of land",
+          title: "",
           subtitle:
-            "Whether you are a first-time  buyer or an experienced investor, our app makes it easy to find the perfect plot of land you need.",
+            "No more waiting for agents; take control of your rental search.",
         },
         {
           backgroundColor: "#fff",
@@ -132,9 +132,9 @@ const OnboardingScreen = ({ navigation }) => {
               style={styles.image}
             />
           ),
-          title: "I want to sell my property",
+          title: "",
           subtitle:
-            "Whether you are a landlord or manager, our app will help you market and find the right buyers for your properties.",
+            "List your property hustle-free and directly connect with potential buyers and renters.",
         },
       ]}
     />

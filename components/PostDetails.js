@@ -48,7 +48,7 @@ const PostDetails = ({ route }) => {
         renderItem={({ item }) => (
           <View style={[styles.card, tw` bg-gray-100 pb-20 `]}>
             <Video
-              source={{ uri: `${BASE_URL}${post.videos[0]}` }}
+              source={{ uri: `${BASE_URL}${post.video}` }}
               style={[styles.image, tw``]}
               resizeMode="cover"
               isMuted
@@ -64,10 +64,10 @@ const PostDetails = ({ route }) => {
               }}
             >
               <Image
-                source={{ uri: "https://i.imgur.com/78lC493.jpg" }}
+                source={{ uri: `${post.profile_pic}` }}
                 style={{
-                  width: width - 328,
-                  height: height * 0.049,
+                  width: width - 326,
+                  height: height * 0.052,
                   borderRadius: 50,
                 }}
               />
@@ -79,7 +79,7 @@ const PostDetails = ({ route }) => {
                     color: "#808080",
                   }}
                 >
-                  Godfrey M
+                  {post.owner}
                 </Text>
                 <Text
                   style={{
@@ -105,7 +105,7 @@ const PostDetails = ({ route }) => {
             >
               <Octicons
                 name="location"
-                size={14}
+                size={16}
                 color="#45A76E"
                 style={{ marginTop: 15, marginLeft: 20 }}
               />
@@ -126,20 +126,24 @@ const PostDetails = ({ route }) => {
               >
                 <Ionicons
                   name="md-bed-outline"
-                  size={12}
+                  size={18}
                   color="#45A76E"
-                  style={{ marginLeft: 21, marginTop: 10 }}
+                  style={{ marginLeft: 21, marginTop: 6 }}
                 />
-                <Text style={[styles.row, tw` pl-1 mt-2`]}>{post.size}</Text>
+                <Text style={[styles.row, tw` pl-1 mt-2`]}>
+                  {post.bedroom} bedrooms
+                </Text>
               </View>
               <View style={{ flexDirection: "row", marginLeft: width * 0.2 }}>
                 <FontAwesome5
                   name="bath"
-                  size={12}
+                  size={15}
                   color="#45A76E"
                   style={{ marginLeft: 50, marginTop: 10 }}
                 />
-                <Text style={[styles.row, tw` pl-2 mt-2`]}>{post.status}</Text>
+                <Text style={[styles.row, tw` pl-2 mt-2`]}>
+                  {post.bathroom} bathrooms
+                </Text>
               </View>
             </View>
             <View style={[tw`pl-3`]}>
@@ -171,7 +175,7 @@ const PostDetails = ({ route }) => {
                     fontSize: width * 0.04,
                   }}
                 >
-                  {post.price}
+                  UGX {post.price}
                 </Text>
               </View>
               <View

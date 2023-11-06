@@ -229,7 +229,7 @@ const ApartmentsRent = ({ navigation }) => {
                     />
 
                     <Text style={[styles.row, tw` pl-21 mt-2`]}>
-                      {item.size}
+                      {item.bedroom} beds
                     </Text>
                   </View>
                   <View style={{ flexDirection: "row" }}>
@@ -244,7 +244,7 @@ const ApartmentsRent = ({ navigation }) => {
                       }}
                     />
                     <Text style={[styles.row, tw` pl-11 mt-2`]}>
-                      {item.status}
+                      {item.bathroom} baths
                     </Text>
                   </View>
                 </View>

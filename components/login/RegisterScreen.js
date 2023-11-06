@@ -37,7 +37,7 @@ const RegisterScreen = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Registartion failed");
+        throw new Error("Registration failed");
       }
 
       const { token } = await response.json();
