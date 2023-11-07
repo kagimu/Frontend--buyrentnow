@@ -20,13 +20,10 @@ const List = ({ post }) => {
   };
 
   const renderSmallImages = () => {
-    return post.images.map((image, index) => {
+    return post.post_images.map((image, index) => {
       return (
         <TouchableOpacity key={index} onPress={() => handleImageClick(image)}>
-          <Image
-            style={styles.smallImage}
-            source={{ uri: `${BASE_URL}${image}` }}
-          />
+          <Image style={styles.smallImage} source={{ uri: `${post_image}` }} />
         </TouchableOpacity>
       );
     });

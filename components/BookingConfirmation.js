@@ -148,20 +148,25 @@ const BookingConfirmation = ({ navigation }) => {
     formData.append("contact", contact);
     // Add other form fields to formData
 
-    // Add images and video to formData (if needed)
-    images.forEach((image, index) => {
-      formData.append(`image_${index}`, {
-        uri: image.uri,
-        type: "image/jpeg", // Adjust the content type as needed
-        name: `image_${index}.jpg`,
+    console.log(`images`, images);
+    if (images.length > 0) {
+      images.forEach((file, index) => {
+        const fileObj = {
+          uri: file.uri,
+          type: file.type,
+          name: `file_${index}.${file.type.split("/")[1]}`,
+        };
+        formData.append(`images[${index}]`, fileObj);
       });
-    });
+    }
 
     if (video) {
+      const videoIndex = 0; // Define your desired index here
+      const fileType = video.type ? video.type.split("/")[1] : ""; // Check if video.type is defined
       formData.append("video", {
-        uri: video,
-        type: "video/mp4", // Adjust the content type as needed
-        name: "video.mp4",
+        uri: video.uri,
+        type: video.type, // Adjust the content type as needed
+        name: `file_${videoIndex}.${fileType}`,
       });
     }
 

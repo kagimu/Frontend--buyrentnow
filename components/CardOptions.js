@@ -93,7 +93,7 @@ const CardOptions = () => {
               <View style={[styles.card, tw`pb-8 m-1`]}>
                 <Image
                   style={[styles.image, tw``]}
-                  source={{ uri: `${BASE_URL}${item.images[0]}` }}
+                  source={{ uri: `${item.post_images[0]}` }}
                 />
                 <TouchableOpacity
                   style={styles.likeButton}
@@ -145,7 +145,7 @@ const CardOptions = () => {
                         top: 9,
                       }}
                     >
-                      {item.size}
+                      {item.bedroom} beds
                     </Text>
                   </View>
                   <View style={{ flexDirection: "row" }}>
@@ -168,7 +168,7 @@ const CardOptions = () => {
                         top: 9,
                       }}
                     >
-                      {item.status}
+                      {item.bathroom} baths
                     </Text>
                   </View>
                 </View>
