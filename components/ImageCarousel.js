@@ -18,7 +18,7 @@ const ImageCarousel = ({ data }) => {
       <View style={styles.itemContainer}>
         <Image
           source={{
-            uri: `${BASE_URL}${item}`,
+            uri: `${item}`,
           }}
           style={styles.image}
         />

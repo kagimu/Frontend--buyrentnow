@@ -48,7 +48,7 @@ const PostDetails = ({ route }) => {
         renderItem={({ item }) => (
           <View style={[styles.card, tw` bg-gray-100 pb-20 `]}>
             <Video
-              source={{ uri: `${BASE_URL}${post.video}` }}
+              source={{ uri: `${post.video_url}` }}
               style={[styles.image, tw``]}
               resizeMode="cover"
               isMuted
@@ -64,7 +64,7 @@ const PostDetails = ({ route }) => {
               }}
             >
               <Image
-                source={{ uri: `${post.profile_pic}` }}
+                source={{ uri: `${post.profile_pic_url}` }}
                 style={{
                   width: width - 326,
                   height: height * 0.052,

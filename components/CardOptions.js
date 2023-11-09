@@ -93,7 +93,7 @@ const CardOptions = () => {
               <View style={[styles.card, tw`pb-8 m-1`]}>
                 <Image
                   style={[styles.image, tw``]}
-                  source={{ uri: `${BASE_URL}${item.images[0]}` }}
+                  source={{ uri: `${item.post_images[0]}` }}
                 />
                 <TouchableOpacity
                   style={styles.likeButton}
@@ -126,49 +126,49 @@ const CardOptions = () => {
                 >
                   <Text style={[styles.price, tw` mt-2`]}>{item.price}</Text>
                   <View style={{ flexDirection: "row" }}>
-                    <FontAwesome5
-                      name="tape"
-                      size={11}
+                    <Ionicons
+                      name="md-bed-outline"
+                      size={16}
                       color="#45A76E"
                       style={{
                         position: "absolute",
-                        left: width * 0.2,
-                        marginTop: 10,
+                        left: width * 0.25,
+                        marginTop: 8,
                       }}
                     />
                     <Text
                       style={{
                         position: "absolute",
                         fontSize: 10,
-                        left: width * 0.25,
+                        left: width * 0.3,
                         fontFamily: "Poppins",
                         top: 9,
                       }}
                     >
-                      {item.size}
+                      {item.bedroom} beds
                     </Text>
                   </View>
                   <View style={{ flexDirection: "row" }}>
                     <FontAwesome5
-                      name="circle-notch"
+                      name="bath"
                       size={13}
                       color="#45A76E"
                       style={{
                         position: "absolute",
-                        left: width * 0.38,
-                        marginTop: 10,
+                        left: width * 0.46,
+                        marginTop: 8,
                       }}
                     />
                     <Text
                       style={{
                         position: "absolute",
                         fontSize: 10,
-                        left: width * 0.43,
+                        left: width * 0.5,
                         fontFamily: "Poppins",
                         top: 9,
                       }}
                     >
-                      {item.status}
+                      {item.bathroom} baths
                     </Text>
                   </View>
                 </View>

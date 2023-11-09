@@ -88,7 +88,7 @@ const SavedPage = () => {
             renderItem={({ item }) => (
               <View style={[styles.card, tw`pb-7`]}>
                 <View>
-                  <ImageCarousel data={item.images} />
+                  <ImageCarousel data={item.post_images} />
                   <TouchableOpacity
                     style={styles.likeButton}
                     onPress={() => handleRemoveBookmark(item)}
@@ -111,8 +111,8 @@ const SavedPage = () => {
                     {item.price}
                   </Text>
                   <View style={{ flexDirection: "row" }}>
-                    <FontAwesome5
-                      name="tape"
+                    <Ionicons
+                      name="md-bed-outline"
                       size={15}
                       color="#6495ED"
                       style={{
@@ -122,12 +122,12 @@ const SavedPage = () => {
                       }}
                     />
                     <Text style={[styles.row, tw` pl-21 mt-3`]}>
-                      {item.size}
+                      {item.bedroom} Bedrooms
                     </Text>
                   </View>
                   <View style={{ flexDirection: "row" }}>
                     <FontAwesome5
-                      name="circle-notch"
+                      name="bath"
                       size={12}
                       color="#6495ED"
                       style={{
@@ -137,7 +137,7 @@ const SavedPage = () => {
                       }}
                     />
                     <Text style={[styles.row, tw` pl-11 mt-3`]}>
-                      {item.status}
+                      {item.bath} Bathrooms
                     </Text>
                   </View>
                 </View>

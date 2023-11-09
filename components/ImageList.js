@@ -46,7 +46,7 @@ const ImageList = () => {
             >
               <Image
                 style={styles.image}
-                source={{ uri: `${BASE_URL}${item.images[0]}` }}
+                source={{ uri: `${BASE_URL}/storage/${item.images[0]}` }}
               />
             </TouchableOpacity>
           )}

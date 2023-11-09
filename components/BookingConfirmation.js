@@ -19,6 +19,7 @@ import tw from "twrnc";
 import { Entypo } from "@expo/vector-icons";
 import { BASE_URL } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import MultipleImages from "./MultipleImages";
 
 const BookingConfirmation = ({ navigation }) => {
   const [type, setType] = useState("Apartment");
@@ -51,6 +52,10 @@ const BookingConfirmation = ({ navigation }) => {
     })();
   }, []);
 
+  const handleImagesSelected = (images) => {
+    setImages(images);
+  };
+
   const handleTypeChange = (itemValue) => {
     setType(itemValue);
 
@@ -75,23 +80,6 @@ const BookingConfirmation = ({ navigation }) => {
   };
 
   // After successful authentication, set the user ID
-
-  const pickImage = async () => {
-    try {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsMultipleSelection: true,
-      });
-
-      console.log(result);
-
-      if (!result.canceled) {
-        setImages([...images, result.assets[0]]);
-      }
-    } catch (error) {
-      console.error("Error picking profile pic:", error);
-    }
-  };
 
   const pickProfilePic = async () => {
     try {
@@ -149,13 +137,17 @@ const BookingConfirmation = ({ navigation }) => {
     // Add other form fields to formData
 
     // Add images and video to formData (if needed)
-    images.forEach((image, index) => {
-      formData.append(`image_${index}`, {
-        uri: image.uri,
-        type: "image/jpeg", // Adjust the content type as needed
-        name: `image_${index}.jpg`,
+    console.log(`images`, images);
+    if (images.length > 0) {
+      images.forEach((file, index) => {
+        const fileObj = {
+          uri: file.uri,
+          type: file.type,
+          name: `file_${index}.${file.type ? file.type.split("/")[1] : "jpg"}`,
+        };
+        formData.append(`images[${index}]`, fileObj);
       });
-    });
+    }
 
     if (video) {
       formData.append("video", {
@@ -402,26 +394,9 @@ const BookingConfirmation = ({ navigation }) => {
                   borderRadius: 8,
                 }}
               >
-                <Entypo
-                  name="upload"
-                  size={26}
-                  color="black"
-                  onPress={pickImage}
-                  style={{ paddingBottom: 10 }}
-                />
-                {images.map((image, index) => (
-                  <Image
-                    key={index}
-                    source={{ uri: image.uri }} // Change this to access the URI from the array
-                    style={{
-                      width: 70,
-                      height: 70,
-                      paddingTop: 5,
-                      paddingBottom: 0,
-                      borderRadius: 10,
-                    }}
-                  />
-                ))}
+                <View>
+                  <MultipleImages onImagesSelected={handleImagesSelected} />
+                </View>
               </View>
             </View>
             <View

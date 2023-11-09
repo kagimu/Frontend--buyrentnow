@@ -176,7 +176,7 @@ const ApartmentsRent = ({ navigation }) => {
             renderItem={({ item }) => (
               <View style={[styles.card, tw`pb-7`]}>
                 <View>
-                  <ImageCarousel data={item.images} />
+                  <ImageCarousel data={item.post_images} />
                   <TouchableOpacity
                     style={styles.likeButton}
                     onPress={() =>
