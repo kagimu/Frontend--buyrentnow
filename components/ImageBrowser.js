@@ -128,7 +128,9 @@ export default class ImageBrowser extends React.Component {
           this.getImages();
         }}
         onEndReachedThreshold={0.5}
-        ListEmptyComponent={<Text>Loading...</Text>}
+        ListEmptyComponent={
+          <Text style={styles.loading}>Loading Your Images...</Text>
+        }
         initialNumToRender={24}
         getItemLayout={this.getItemLayout}
       />
@@ -180,5 +182,12 @@ const styles = StyleSheet.create({
     fontFamily: "PoppinsSemiBold",
     fontSize: 15,
     color: "#ff0061",
+  },
+  loading: {
+    alignContent: "center",
+    textAlign: "center",
+    fontFamily: "PoppinsSemiBold",
+    fontSize: 12,
+    color: "#808080",
   },
 });

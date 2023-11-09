@@ -204,7 +204,7 @@ const ApartmentsRent = ({ navigation }) => {
                 </View>
                 <View>
                   <Text style={[styles.time, tw` pl-3 mt-2`]}>
-                    Posted {getTimeAgo(createdAt)}
+                    Posted {getTimeAgo(item.created_at)}
                   </Text>
                 </View>
                 <View
