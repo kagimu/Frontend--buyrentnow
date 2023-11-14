@@ -41,11 +41,19 @@ const RegisterScreen = () => {
       }
 
       const { token } = await response.json();
-      Alert.alert("Success", "Registration successful");
-      setToken(token);
-      await AsyncStorage.setItem("keepLoggedIn", JSON.stringify(true));
+
+      // Save token to AsyncStorage
       await AsyncStorage.setItem("token", token);
+
+      // Save user information to AsyncStorage
+      // await AsyncStorage.setItem("user", JSON.stringify(user));
+
+      // Set keepLoggedIn flag
+      await AsyncStorage.setItem("keepLoggedIn", JSON.stringify(true));
+
+      Alert.alert("Welcome", "Login successful");
       console.log("Token:", token);
+      //console.log("User:", user);
       navigation.navigate("TabNavigator");
     } catch (error) {
       console.log(error);

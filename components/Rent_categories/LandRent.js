@@ -20,6 +20,8 @@ import { AntDesign } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { getBooks, addBookmark, removeBookmark } from "../../redux/actions";
 
+const { width, height } = Dimensions.get("window");
+
 const LandRent = ({ navigation }) => {
   const [data, setData] = useState([]);
 
@@ -95,21 +97,21 @@ const LandRent = ({ navigation }) => {
     );
   } else {
     return (
-      <View style={{ flex: 1, backgroundColor: "#f6f8fc" }}>
+      <View style={{ backgroundColor: "#f6f8fc", marginTop: height * 0.035 }}>
         <View
           style={{
-            marginBottom: 230,
-            paddingVertical: 5,
+            marginBottom: height * 0.55,
+            // paddingVertical: 5,
             backgroundColor: "#f6f8fc",
           }}
         >
           <Text
             style={{
-              fontSize: 28,
+              fontSize: 22,
               fontFamily: "PoppinsSemiBold",
               textAlign: "center",
-              paddingTop: 0,
-              marginLeft: 10,
+              paddingTop: height * 0.015,
+              marginLeft: width * 0.06,
             }}
           >
             Rent Land
@@ -215,8 +217,8 @@ const LandRent = ({ navigation }) => {
                       {item.price}
                     </Text>
                     <View style={{ flexDirection: "row" }}>
-                      <Ionicons
-                        name="md-bed-outline"
+                      <FontAwesome5
+                        name="tape"
                         size={15}
                         color="#6495ED"
                         style={{
@@ -232,7 +234,7 @@ const LandRent = ({ navigation }) => {
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <FontAwesome5
-                        name="bath"
+                        name="circle-notch"
                         size={12}
                         color="#6495ED"
                         style={{
@@ -327,7 +329,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   buttonActive: {
-    backgroundColor: "#387981",
+    backgroundColor: "#25749b",
     marginTop: 5,
     paddingLeft: 0,
     justifyContent: "space-between",

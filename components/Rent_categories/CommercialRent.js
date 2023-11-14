@@ -91,17 +91,17 @@ const CommercialRent = ({ navigation }) => {
     <View style={{ backgroundColor: "#f6f8fc", marginTop: height * 0.035 }}>
       <View
         style={{
-          marginBottom: height * 0.53,
+          marginBottom: height * 0.55,
           // paddingVertical: 5,
           backgroundColor: "#f6f8fc",
         }}
       >
         <Text
           style={{
-            fontSize: 24,
+            fontSize: 22,
             fontFamily: "PoppinsSemiBold",
             textAlign: "center",
-            paddingTop: height * 0.01,
+            paddingTop: height * 0.02,
             marginLeft: width * 0.06,
           }}
         >
@@ -133,7 +133,7 @@ const CommercialRent = ({ navigation }) => {
               style={styles.buttonActive}
               onPress={() => navigation.navigate("CommercialRent")}
             >
-              <Text style={styles.ActiveText}>Coomercial</Text>
+              <Text style={styles.ActiveText}>Commercial</Text>
             </TouchableOpacity>
 
             <TouchableOpacity

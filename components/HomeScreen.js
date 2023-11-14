@@ -140,7 +140,7 @@ const HomeScreen = ({ navigation }) => {
         Find Recently added Apartments, Houses and lands.
       </Text>
 
-      <View style={{}}>
+      <View>
         <CardOptions />
       </View>
 
@@ -225,7 +225,6 @@ const styles = StyleSheet.create({
     marginTop: 40,
     color: "white",
     marginLeft: 30,
-    fontFamily: "PoppinsSemiBold",
   },
   Button: {
     margin: width * 0.03,

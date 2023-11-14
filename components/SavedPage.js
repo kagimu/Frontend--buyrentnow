@@ -5,6 +5,7 @@ import {
   Text,
   View,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
@@ -17,6 +18,9 @@ import ImageCarousel from "../components/ImageCarousel";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { removeBookmark } from "../redux/actions";
+import { getTimeAgo } from "./TopTabs/getTimeAgo";
+
+const { width, height } = Dimensions.get("window");
 
 const SavedPage = () => {
   const CustomHeaderBackButton = () => {
@@ -65,7 +69,7 @@ const SavedPage = () => {
           style={{
             fontSize: 24,
             textAlign: "left",
-            fontFamily: "PoppinsSemiBold",
+            fontFamily: "PoppinsExtraBold",
             padding: 10,
             marginLeft: 8,
             marginTop: 15,
@@ -95,11 +99,16 @@ const SavedPage = () => {
                   >
                     <AntDesign
                       name="heart"
-                      color="#ff8B53"
-                      size={40}
+                      color="red"
+                      size={35}
                       style={styles.likeIcon}
                     />
                   </TouchableOpacity>
+                </View>
+                <View>
+                  <Text style={[styles.time, tw` pl-3 mt-2`]}>
+                    Posted {getTimeAgo(item.created_at)}
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -107,39 +116,43 @@ const SavedPage = () => {
                     marginLeft: 5,
                   }}
                 >
-                  <Text style={[styles.price, tw` pl-2 mt-2`]}>
+                  <Text style={[styles.price, tw` pl-2 mt-1`]}>
                     {item.price}
                   </Text>
                   <View style={{ flexDirection: "row" }}>
                     <Ionicons
                       name="md-bed-outline"
                       size={15}
-                      color="#6495ED"
+                      color="#00b173"
                       style={{
-                        marginLeft: 60,
-                        marginTop: 13,
                         position: "absolute",
+                        top: 9,
+                        left: 60,
                       }}
                     />
-                    <Text style={[styles.row, tw` pl-21 mt-3`]}>
-                      {item.bedroom} Bedrooms
+
+                    <Text style={[styles.row, tw` pl-21 mt-2`]}>
+                      {item.bedroom} bedrooms
                     </Text>
                   </View>
                   <View style={{ flexDirection: "row" }}>
                     <FontAwesome5
                       name="bath"
                       size={12}
-                      color="#6495ED"
+                      color="#00b173"
                       style={{
-                        marginLeft: 25,
-                        marginTop: 15,
                         position: "absolute",
+                        top: 10,
+                        left: 25,
                       }}
                     />
-                    <Text style={[styles.row, tw` pl-11 mt-3`]}>
-                      {item.bath} Bathrooms
+                    <Text style={[styles.row, tw` pl-11 mt-2`]}>
+                      {item.bathroom} bathrooms
                     </Text>
                   </View>
+                </View>
+                <View>
+                  <Text style={[styles.per, tw` pl-4`]}>Per Month</Text>
                 </View>
                 <TouchableOpacity
                   style={{
@@ -149,7 +162,7 @@ const SavedPage = () => {
                     navigation.navigate("PostDetails", { post: item })
                   }
                 >
-                  <Text style={[styles.name, tw` pl-2 mt-2 text-sm`]}>
+                  <Text style={[styles.name, tw` pl-2 text-lg`]}>
                     {item.name}
                   </Text>
                   <View
@@ -161,7 +174,7 @@ const SavedPage = () => {
                     <Octicons
                       name="location"
                       size={14}
-                      color="#45A76E"
+                      color="#00b173"
                       style={{
                         marginTop: 31,
                         marginLeft: 8,
@@ -170,6 +183,20 @@ const SavedPage = () => {
                     <Text style={[styles.row, tw` pl-6 mt--4.5`]}>
                       {item.location}
                     </Text>
+                    <Text
+                      style={{
+                        fontFamily: "Poppins",
+                        fontSize: 11,
+                        position: "absolute",
+                        top: 45,
+                        left: 25,
+                        color: "#808080",
+                      }}
+                    >
+                      See more
+                    </Text>
+
+                    <View></View>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -199,7 +226,6 @@ const styles = StyleSheet.create({
   likeIcon: {
     width: 40,
     height: 40,
-    resizeMode: "cover",
   },
   image: {
     width: 200,
@@ -302,5 +328,16 @@ const styles = StyleSheet.create({
   video: {
     width: 330,
     height: 300,
+  },
+  time: {
+    fontSize: width * 0.03,
+    fontFamily: "Poppins",
+    color: "#808080",
+  },
+  per: {
+    fontSize: width * 0.035,
+    fontFamily: "Poppins",
+    top: -6,
+    color: "#808080",
   },
 });

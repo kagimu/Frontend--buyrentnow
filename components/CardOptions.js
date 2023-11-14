@@ -57,9 +57,12 @@ const CardOptions = () => {
   const getPosts = async () => {
     try {
       const token = await AsyncStorage.getItem("token"); // Retrieve the token from AsyncStorage
-      const response = await fetch(`${BASE_URL}/api/posts`, {
-        headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header
-      });
+      const response = await fetch(
+        `https://e9b4-41-210-143-73.ngrok-free.app/api/posts`,
+        {
+          headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Request failed with status code " + response.status);
@@ -106,7 +109,7 @@ const CardOptions = () => {
                   {ifExists(item) ? (
                     <AntDesign
                       name="heart"
-                      color="#fff"
+                      color="red"
                       size={35}
                       style={styles.likeIcon}
                     />
@@ -231,7 +234,6 @@ const styles = StyleSheet.create({
   likeIcon: {
     width: width - 30,
     height: height * 0.2,
-    resizeMode: "cover",
   },
   image: {
     width: width - 65,

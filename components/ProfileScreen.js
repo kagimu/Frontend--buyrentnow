@@ -8,14 +8,18 @@ import {
   StyleSheet,
   ScrollView,
   FlatList,
+  Dimensions,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 import { BASE_URL } from "@env";
 import ImageList from "./ImageList";
+import ImageList2 from "./ImageList2";
 import { LogBox } from "react-native";
 import { useEffect } from "react";
+
+const { width, height } = Dimensions.get("window");
 
 LogBox.ignoreLogs([
   "Setting a timer",
@@ -26,7 +30,7 @@ LogBox.ignoreLogs([
 const ProfileScreen = ({ navigation }) => {
   const [image, setImage] = useState(null);
   const [name, setName] = useState("");
-  const data = [{ key: "1" }];
+  const data = [{ key: "2" }];
 
   const handleImagePicker = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -82,9 +86,12 @@ const ProfileScreen = ({ navigation }) => {
   const getName = async () => {
     try {
       const token = await AsyncStorage.getItem("token"); // Retrieve the token from AsyncStorage
-      const response = await fetch(`${BASE_URL}/api/profile`, {
-        headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header
-      });
+      const response = await fetch(
+        `https://68f0-41-210-143-73.ngrok-free.app/api/profile`,
+        {
+          headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Request failed with status code " + response.status);
@@ -121,6 +128,8 @@ const ProfileScreen = ({ navigation }) => {
       renderItem={({ item }) => (
         <View
           style={{
+            flex: 1,
+            marginTop: height * 0.38,
             justifyContent: "center",
             alignContent: "center",
             alignItems: "center",
@@ -156,18 +165,26 @@ const ProfileScreen = ({ navigation }) => {
           </TouchableOpacity>
 
           <Text style={styles.text}>
-            {name.first_name}
-            {name.last_name}
+            {name.first_name} {name.last_name}
           </Text>
 
-          <View>
-            <Text style={styles.text1}>Saved</Text>
-            <Text style={styles.text2}>
-              Property listing you have saved over
-            </Text>
+          <View
+            style={{
+              flex: 1,
+              alignContent: "center",
+              justifyContent: "center",
+              marginTop: height * 0.05,
+              marginBottom: height * 0.05,
+            }}
+          >
+            <View style={{ top: 20, marginLeft: width * 0.06 }}>
+              <Text style={styles.text2}>My properties</Text>
+              <ImageList2 />
+            </View>
           </View>
 
-          <View style={{ top: 20 }}>
+          <View style={{ marginLeft: width * 0.06 }}>
+            <Text style={styles.text2}>Saved listings</Text>
             <ImageList />
           </View>
 
@@ -221,18 +238,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingTop: 10,
     fontFamily: "PoppinsSemiBold",
-    fontSize: 20,
+    fontSize: 17,
   },
   text1: {
-    fontSize: 16,
+    fontSize: 14,
     textAlign: "center",
     paddingTop: 20,
     fontFamily: "PoppinsSemiBold",
   },
   text2: {
-    fontSize: 13,
+    fontSize: 15,
     fontFamily: "Poppins",
-    textAlign: "center",
-    paddingTop: 2,
+    alignContent: "flex-start",
+    left: width * 0.04,
+    paddingBottom: height * 0.01,
+    paddingTop: 10,
   },
 });

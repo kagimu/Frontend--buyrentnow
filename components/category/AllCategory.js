@@ -1,28 +1,44 @@
 import {
   ActivityIndicator,
-  Button,
   Dimensions,
   FlatList,
   Image,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import tw from "twrnc";
 import { Octicons, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import { BASE_URL } from "@env";
 import ImageCarousel from "../ImageCarousel";
+import { BackHandler } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 import { getBooks, addBookmark, removeBookmark } from "../../redux/actions";
+import { getTimeAgo } from "../TopTabs/getTimeAgo";
 
+const { width, height } = Dimensions.get("window");
 const AllCategory = ({ navigation }) => {
   const [data, setData] = useState([]);
+  const [createdAt, setCreatedAt] = useState([]);
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        navigation.goBack(); // Navigate back when the back button is pressed
+        return true; // Prevent default behavior
+      }
+    );
+    return () => backHandler.remove(); // Cleanup subscription when component unmounts
+  }, [navigation]);
 
   const { books, bookmarks } = useSelector((state) => state.booksReducer);
   const dispatch = useDispatch();
@@ -72,11 +88,11 @@ const AllCategory = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={{ backgroundColor: "#f6f8fc" }}>
+    <View style={{ backgroundColor: "#f6f8fc", marginTop: height * 0.035 }}>
       <View
         style={{
-          marginBottom: 340,
-          paddingVertical: 5,
+          marginBottom: height * 0.55,
+          // paddingVertical: 5,
           backgroundColor: "#f6f8fc",
         }}
       >
@@ -85,8 +101,8 @@ const AllCategory = ({ navigation }) => {
             fontSize: 28,
             fontFamily: "PoppinsSemiBold",
             textAlign: "center",
-            paddingTop: 0,
-            marginLeft: 10,
+            paddingTop: -height * 0.04,
+            marginLeft: width * 0.06,
           }}
         >
           Rent
@@ -94,7 +110,10 @@ const AllCategory = ({ navigation }) => {
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ padding: 5, top: -10, paddingLeft: -5 }}
+          contentContainerStyle={{
+            padding: height * 0.01,
+            paddingLeft: width * 0.02,
+          }}
         >
           <View
             style={{
@@ -139,6 +158,7 @@ const AllCategory = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </ScrollView>
+
         {books.length > 0 ? (
           <FlatList
             data={books.filter((post) => post.status == "rental")}
@@ -148,13 +168,13 @@ const AllCategory = ({ navigation }) => {
             maxToRenderPerBatch={10}
             updateCellsBatchingPeriod={50}
             initialNumToRender={10}
-            windowSize={21}
+            windowSize={10}
             legacyImplementation={true}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <View style={[styles.card, tw`pb-7`]}>
                 <View>
-                  <ImageCarousel data={item.images} />
+                  <ImageCarousel data={item.post_images} />
                   <TouchableOpacity
                     style={styles.likeButton}
                     onPress={() =>
@@ -166,19 +186,24 @@ const AllCategory = ({ navigation }) => {
                     {ifExists(item) ? (
                       <AntDesign
                         name="heart"
-                        color="#ff8B53"
-                        size={40}
+                        color="red"
+                        size={35}
                         style={styles.likeIcon}
                       />
                     ) : (
                       <AntDesign
                         name="hearto"
                         color="#fff"
-                        size={40}
+                        size={35}
                         style={styles.likeIcon}
                       />
                     )}
                   </TouchableOpacity>
+                </View>
+                <View>
+                  <Text style={[styles.time, tw` pl-3 mt-2`]}>
+                    Posted {getTimeAgo(item.created_at)}
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -186,40 +211,43 @@ const AllCategory = ({ navigation }) => {
                     marginLeft: 5,
                   }}
                 >
-                  <Text style={[styles.price, tw` pl-2 mt-2`]}>
+                  <Text style={[styles.price, tw` pl-2 mt-1`]}>
                     {item.price}
                   </Text>
                   <View style={{ flexDirection: "row" }}>
                     <Ionicons
                       name="md-bed-outline"
                       size={15}
-                      color="#6495ED"
+                      color="#00b173"
                       style={{
                         position: "absolute",
-                        top: 13,
+                        top: 9,
                         left: 60,
                       }}
                     />
 
-                    <Text style={[styles.row, tw` pl-21 mt-3`]}>
-                      {item.size}
+                    <Text style={[styles.row, tw` pl-21 mt-2`]}>
+                      {item.bedroom} beds
                     </Text>
                   </View>
                   <View style={{ flexDirection: "row" }}>
                     <FontAwesome5
                       name="bath"
                       size={12}
-                      color="#6495ED"
+                      color="#00b173"
                       style={{
                         position: "absolute",
-                        top: 15,
+                        top: 10,
                         left: 25,
                       }}
                     />
-                    <Text style={[styles.row, tw` pl-11 mt-3`]}>
-                      {item.status}
+                    <Text style={[styles.row, tw` pl-11 mt-2`]}>
+                      {item.bathroom} baths
                     </Text>
                   </View>
+                </View>
+                <View>
+                  <Text style={[styles.per, tw` pl-4`]}>Per Month</Text>
                 </View>
                 <TouchableOpacity
                   style={{
@@ -229,7 +257,7 @@ const AllCategory = ({ navigation }) => {
                     navigation.navigate("PostDetails", { post: item })
                   }
                 >
-                  <Text style={[styles.nameo, tw` pl-2 mt-2`]}>
+                  <Text style={[styles.name, tw` pl-2 text-lg`]}>
                     {item.name}
                   </Text>
                   <View
@@ -241,7 +269,7 @@ const AllCategory = ({ navigation }) => {
                     <Octicons
                       name="location"
                       size={14}
-                      color="#45A76E"
+                      color="#00b173"
                       style={{
                         marginTop: 31,
                         marginLeft: 8,
@@ -249,6 +277,18 @@ const AllCategory = ({ navigation }) => {
                     />
                     <Text style={[styles.row, tw` pl-6 mt--4.5`]}>
                       {item.location}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: "Poppins",
+                        fontSize: 11,
+                        position: "absolute",
+                        top: 45,
+                        left: 25,
+                        color: "#808080",
+                      }}
+                    >
+                      See more
                     </Text>
 
                     <View></View>
@@ -282,33 +322,36 @@ const AllCategory = ({ navigation }) => {
   );
 };
 
+AllCategory.navigationOptions = ({ navigation }) => ({
+  headerLeft: () => <CustomHeaderBackButton />,
+});
 export default AllCategory;
 
 const styles = StyleSheet.create({
   likeButton: {
     position: "absolute",
     top: 10,
-    right: 10,
-    left: 310,
+    right: 20,
+    left: 300,
   },
   likeIcon: {
+    position: "absolute",
     width: 40,
     height: 40,
     resizeMode: "cover",
   },
-  nameo: {
+  name: {
     position: "absolute",
     fontFamily: "PoppinsSemiBold",
   },
   buttonActive: {
-    backgroundColor: "#387981",
+    backgroundColor: "#25749b",
     marginTop: 5,
     paddingLeft: 0,
     justifyContent: "space-between",
     marginHorizontal: 8,
     marginBottom: 35,
     padding: 0,
-
     height: 50,
     justifyContent: "center",
     alignItems: "center",
@@ -321,7 +364,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     marginTop: 5,
     padding: 0,
-
     height: 50,
     justifyContent: "center",
     alignItems: "center",
@@ -336,7 +378,7 @@ const styles = StyleSheet.create({
     fontFamily: "PoppinsSemiBold",
     textAlign: "center",
     alignContent: "center",
-    padding: 15,
+    padding: 16,
     color: "#fff",
   },
   Text: {
@@ -344,7 +386,7 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "center",
     alignContent: "center",
-    padding: 15,
+    padding: 16,
   },
   image: {
     width: 360,
@@ -360,98 +402,28 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 10,
   },
   row: {
-    fontSize: 14,
+    fontSize: 12,
     paddingLeft: 0,
     fontFamily: "Poppins",
   },
+  time: {
+    fontSize: width * 0.03,
+    fontFamily: "Poppins",
+    color: "#808080",
+  },
+  per: {
+    fontSize: width * 0.035,
+    fontFamily: "Poppins",
+    top: -6,
+    color: "#808080",
+  },
   price: {
-    fontSize: 18,
+    fontSize: 14,
     fontFamily: "PoppinsSemiBold",
-    buttonActive: {
-      backgroundColor: "#387981",
-      marginTop: 5,
-      paddingLeft: 0,
-      justifyContent: "space-between",
-      marginHorizontal: 8,
-      marginBottom: 35,
-      padding: 0,
-
-      height: 50,
-      justifyContent: "center",
-      alignItems: "center",
-      borderTopRightRadius: 20,
-      borderTopLeftRadius: 20,
-      borderBottomLeftRadius: 20,
-      borderBottomRightRadius: 20,
-      position: "absolute",
-    },
-    b1: {
-      backgroundColor: "#fff",
-      marginTop: 5,
-      padding: 0,
-
-      height: 50,
-      justifyContent: "center",
-      alignItems: "center",
-      borderTopRightRadius: 20,
-      borderTopLeftRadius: 20,
-      borderBottomLeftRadius: 20,
-      borderBottomRightRadius: 20,
-      justifyContent: "space-between",
-      marginHorizontal: 5,
-      position: "absolute",
-    },
-    ActiveText: {
-      fontWeight: "bold",
-      textAlign: "center",
-      alignContent: "center",
-      padding: 15,
-      color: "#fff",
-      position: "absolute",
-    },
-    Text: {
-      fontWeight: "bold",
-      color: "#000",
-      textAlign: "center",
-      alignContent: "center",
-      padding: 15,
-      position: "absolute",
-    },
-    image: {
-      width: 360,
-      height: 400,
-      resizeMode: "contain",
-      borderTopRightRadius: 10,
-      borderTopLeftRadius: 10,
-      borderBottomLeftRadius: 10,
-      borderBottomRightRadius: 10,
-      position: "absolute",
-    },
-    card: {
-      borderBottomRightRadius: 10,
-      borderBottomLeftRadius: 10,
-      position: "absolute",
-    },
-    row: {
-      fontSize: 14,
-      paddingLeft: 0,
-      position: "absolute",
-    },
-    price: {
-      fontSize: 18,
-      position: "absolute",
-    },
-    button: {
-      fontSize: 20,
-      fontWeight: "bold",
-      color: "blue",
-      marginBottom: 20,
-      position: "absolute",
-    },
   },
   button: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: "PoppinsSemiBold",
     color: "blue",
     marginBottom: 20,
   },

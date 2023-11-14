@@ -91,17 +91,17 @@ const HousesRent = ({ navigation }) => {
     <View style={{ backgroundColor: "#f6f8fc", marginTop: height * 0.035 }}>
       <View
         style={{
-          marginBottom: height * 0.53,
+          marginBottom: height * 0.55,
           // paddingVertical: 5,
           backgroundColor: "#f6f8fc",
         }}
       >
         <Text
           style={{
-            fontSize: 28,
+            fontSize: 24,
             fontFamily: "PoppinsSemiBold",
             textAlign: "center",
-            paddingTop: height * 0.01,
+            paddingTop: height * 0.015,
             marginLeft: width * 0.06,
           }}
         >

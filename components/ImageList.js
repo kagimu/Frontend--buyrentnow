@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
 import React from "react";
 import tw from "twrnc";
@@ -18,6 +19,8 @@ import { Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import { removeBookmark } from "../redux/actions";
+
+const { width, height } = Dimensions.get("window");
 
 const ImageList = () => {
   const navigation = useNavigation();
@@ -36,9 +39,9 @@ const ImageList = () => {
       {bookmarks.length > 0 ? (
         <FlatList
           data={bookmarks}
+          horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id}
-          numColumns={2}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={tw``}
@@ -46,7 +49,9 @@ const ImageList = () => {
             >
               <Image
                 style={styles.image}
-                source={{ uri: `${BASE_URL}/storage/${item.images[0]}` }}
+                source={{
+                  uri: `https://68f0-41-210-143-73.ngrok-free.app/storage/${item.images[0]}`,
+                }}
               />
             </TouchableOpacity>
           )}
@@ -62,11 +67,11 @@ export default ImageList;
 
 const styles = StyleSheet.create({
   image: {
-    height: 100,
-    width: 140,
-    resizeMode: "stretch",
+    height: height * 0.13,
+    width: width * 0.3,
+    resizeMode: "contain",
     borderRadius: 15,
-    marginLeft: 5,
+    marginLeft: width * 0.03,
     marginTop: 5,
   },
 });

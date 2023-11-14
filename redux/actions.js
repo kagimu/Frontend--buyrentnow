@@ -25,9 +25,12 @@ export const getBooks = () => {
   return async (dispatch) => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await axios.get(`${BASE_URL}/api/posts`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        `https://e9b4-41-210-143-73.ngrok-free.app/api/posts`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       if (response.data) {
         dispatch({
           type: GET_BOOKS,

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  Linking,
 } from "react-native";
 import React from "react";
 import tw from "twrnc";
@@ -38,6 +39,22 @@ const data = [
 const PostDetails = ({ route }) => {
   const { post } = route.params;
   const navigation = useNavigation();
+  const handleCallOwner = () => {
+    // Check if the owner's contact number is available
+    if (post && post.contact) {
+      // Use Linking to open the phone's call app
+      const phoneNumber = `tel:${post.contact}`;
+      Linking.openURL(phoneNumber)
+        .then((supported) => {
+          if (!supported) {
+            console.log("Phone number is not supported");
+          }
+        })
+        .catch((err) => console.error("Error opening phone app:", err));
+    } else {
+      console.warn("Owner contact number is not available");
+    }
+  };
   return (
     <View>
       <FlatList
@@ -195,9 +212,7 @@ const PostDetails = ({ route }) => {
                       fontSize: 18,
                       textAlign: "center",
                     }}
-                    onPress={() =>
-                      navigation.navigate("AgentForm", { post: post })
-                    }
+                    onPress={handleCallOwner}
                   >
                     Call owner
                   </Text>

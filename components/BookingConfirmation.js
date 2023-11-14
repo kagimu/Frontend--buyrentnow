@@ -20,6 +20,10 @@ import { Entypo } from "@expo/vector-icons";
 import { BASE_URL } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MultipleImages from "./MultipleImages";
+import { post } from "../network/api";
+import * as DocumentPicker from "expo-document-picker";
+import * as FileSystem from "expo-file-system";
+import mime from "react-native-mime-types";
 
 const BookingConfirmation = ({ navigation }) => {
   const [type, setType] = useState("Apartment");
@@ -51,6 +55,46 @@ const BookingConfirmation = ({ navigation }) => {
       }
     })();
   }, []);
+
+  const handleError = (error) => {
+    console.error("Error:", error);
+    // Handle the error, show a message to the user, or perform other actions as needed.
+  };
+
+  const handleFilesUpload = async () => {
+    try {
+      const results = await DocumentPicker.getDocumentAsync({
+        type: "image/*",
+        multiple: true,
+      });
+
+      const files = [];
+      for (const result of results.docs) {
+        const fileUri = result.uri;
+        const fileType = result.type;
+        const fileContent = await FileSystem.readAsStringAsync(fileUri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+        const isImage = fileType && fileType.startsWith("image/");
+
+        files.push({
+          uri: fileUri,
+          type: fileType,
+          content: fileContent,
+          isImage: isImage,
+          isOnline: false,
+        });
+      }
+
+      setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
+      Alert.alert(
+        "Information",
+        "Before saving any uploaded files, make sure that you have uploaded the correct file. If it's not the intended file, you can click on the uploaded file to remove it before proceeding with the data-saving process."
+      );
+    } catch (err) {
+      handleError(err);
+    }
+  };
 
   const handleImagesSelected = (images) => {
     setImages(images);
@@ -115,15 +159,17 @@ const BookingConfirmation = ({ navigation }) => {
   };
 
   const submitForm = async () => {
-    setIsLoading(true); // Start loading indicator
+    setIsLoading(true);
 
     const token = await AsyncStorage.getItem("token");
+    const userString = await AsyncStorage.getItem("user");
 
-    // Get the user ID from the state or AsyncStorage
+    const user = JSON.parse(userString);
+    const user_id = user ? user.id : null;
 
-    // Prepare the form data
     const formData = new FormData();
-    formData.append("status", "rental"); // Set the default value of status
+    formData.append("status", "rental");
+    formData.append("user_id", user_id);
     formData.append("category_id", category_id);
     formData.append("name", name);
     formData.append("desc", desc);
@@ -134,64 +180,47 @@ const BookingConfirmation = ({ navigation }) => {
     formData.append("size", size);
     formData.append("owner", owner);
     formData.append("contact", contact);
-    // Add other form fields to formData
 
-    // Add images and video to formData (if needed)
-    console.log(`images`, images);
-    if (images.length > 0) {
-      images.forEach((file, index) => {
-        const fileObj = {
-          uri: file.uri,
-          type: file.type,
-          name: `file_${index}.${file.type ? file.type.split("/")[1] : "jpg"}`,
-        };
-        formData.append(`images[${index}]`, fileObj);
+    console.log("Type of images:", typeof images);
+    console.log("Images:", images);
+
+    for (let index = 0; index < images.length; index++) {
+      const file = images[index];
+      const fileInfo = await FileSystem.getInfoAsync(file.uri, {
+        mimeType: "*",
       });
+
+      const fileType =
+        fileInfo.mimeType || mime.lookup(file.uri) || "image/jpeg"; // Default to JPEG if type is not recognized
+      const fileObj = {
+        uri: file.uri,
+        type: fileType,
+        name: `file_${index}.${fileType.split("/")[1] || "jpg"}`,
+      };
+
+      formData.append(`images[${index}]`, fileObj);
     }
 
     if (video) {
       formData.append("video", {
         uri: video,
-        type: "video/mp4", // Adjust the content type as needed
+        type: "video/mp4",
         name: "video.mp4",
       });
     }
 
-    // Add profile_pic to formData (if selected)
     if (profile_pic) {
       formData.append("profile_pic", {
         uri: profile_pic,
-        type: "image/jpeg", // Adjust the content type as needed
+        type: "image/jpeg",
         name: "profile_pic.jpg",
       });
     }
-
     try {
-      const response = await fetch(`${BASE_URL}/api/posts`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-        body: formData,
-      });
-      console.log(response);
-      if (response.ok) {
-        // Successful submission, handle accordingly
-        alert("Successful submission");
-        console.log("Property uploaded successfully");
-        navigation.navigate("BookingAlert");
-      } else {
-        // Handle the case where the server returns an error
-        alert("Upload failed, try again");
-        console.log("Property upload failed");
-      }
-    } catch (error) {
-      // Handle network errors or other exceptions
-      alert("Network error, try again");
-      console.error("Error:", error);
-    } finally {
-      setIsLoading(false); // Stop loading indicator
+      const response = await post("/posts", formData, true);
+      console.log(`API returned response: `, response);
+      alert("Successful submission");
+      navigation.navigate("TabNavigator");
 
       // Reset the form fields
       setType("");
@@ -208,6 +237,11 @@ const BookingConfirmation = ({ navigation }) => {
       setVideo(null);
       setProfile_pic(null);
       setImages([]);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
+      console.log(`Request sent!`);
     }
   };
 
@@ -333,16 +367,19 @@ const BookingConfirmation = ({ navigation }) => {
                 multiline={true}
               />
             </View>
-            <Text style={styles.label}>Size of Property</Text>
+            <Text style={styles.label}>
+              Size of Property Incase its Land (if its not, enter number "0")
+            </Text>
             <View style={styles.input}>
               <TextInput
                 placeholderTextColor="#D3D3D3"
+                placeholder="0 square meters"
                 onChangeText={(text) => setSize(text)}
                 value={size}
                 multiline={true}
               />
             </View>
-            <Text style={styles.label}>Your Name</Text>
+            <Text style={styles.label}>Name of Landlord</Text>
             <View style={styles.input}>
               <TextInput
                 placeholder="Your Full Name"
@@ -352,7 +389,7 @@ const BookingConfirmation = ({ navigation }) => {
                 multiline={true}
               />
             </View>
-            <Text style={styles.label}>Your Contact Number</Text>
+            <Text style={styles.label}>Contact of Landlord</Text>
             <View style={styles.input}>
               <TextInput
                 placeholder="0758000111/0777000111"
@@ -461,7 +498,7 @@ const BookingConfirmation = ({ navigation }) => {
                   marginTop: 10,
                 }}
               >
-                Upload your Profile Picture
+                Upload Profile Picture of Landlord
               </Text>
               <View
                 style={{

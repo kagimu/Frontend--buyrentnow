@@ -16,6 +16,7 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [token, setToken] = useState("");
+  const [user, setUser] = useState("");
 
   const login = async (phone, password) => {
     if (!phone || !password) {
@@ -25,24 +26,36 @@ const LoginScreen = () => {
 
     try {
       setIsLoading(true);
-      const response = await fetch(`${BASE_URL}/api/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ phone: phone, password: password }),
-      });
+      const response = await fetch(
+        `https://e9b4-41-210-143-73.ngrok-free.app/api/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ phone: phone, password: password }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Login failed");
       }
 
-      const { token } = await response.json();
-      Alert.alert("Welcome", "Login successful");
-      setToken(token);
-      await AsyncStorage.setItem("keepLoggedIn", JSON.stringify(true));
+      const { token, ...user } = await response.json();
+
+      // Save token to AsyncStorage
       await AsyncStorage.setItem("token", token);
+
+      // Save user information to AsyncStorage
+      await AsyncStorage.setItem("user", JSON.stringify(user));
+
+      // Set keepLoggedIn flag
+      await AsyncStorage.setItem("keepLoggedIn", JSON.stringify(true));
+
+      Alert.alert("Welcome", "Login successful");
       console.log("Token:", token);
+      console.log("User:", user);
+
       navigation.navigate("TabNavigator");
     } catch (error) {
       console.log(error);
