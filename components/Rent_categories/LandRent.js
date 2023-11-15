@@ -323,7 +323,6 @@ const styles = StyleSheet.create({
   likeIcon: {
     width: 40,
     height: 40,
-    resizeMode: "cover",
   },
   name: {
     position: "absolute",

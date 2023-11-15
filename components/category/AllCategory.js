@@ -66,7 +66,7 @@ const AllCategory = ({ navigation }) => {
   const getPosts = async () => {
     try {
       const token = await AsyncStorage.getItem("token"); // Retrieve the token from AsyncStorage
-      const response = await fetch(`${BASE_URL}/api/posts`, {
+      const response = await fetch(`https://propatizadmin.com/api/posts`, {
         headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header
       });
 
@@ -338,7 +338,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 40,
     height: 40,
-    resizeMode: "cover",
   },
   name: {
     position: "absolute",
@@ -412,7 +411,7 @@ const styles = StyleSheet.create({
     color: "#808080",
   },
   per: {
-    fontSize: width * 0.035,
+    fontSize: width * 0.03,
     fontFamily: "Poppins",
     top: -6,
     color: "#808080",

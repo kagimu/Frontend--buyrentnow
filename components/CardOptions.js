@@ -57,12 +57,9 @@ const CardOptions = () => {
   const getPosts = async () => {
     try {
       const token = await AsyncStorage.getItem("token"); // Retrieve the token from AsyncStorage
-      const response = await fetch(
-        `https://e9b4-41-210-143-73.ngrok-free.app/api/posts`,
-        {
-          headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header
-        }
-      );
+      const response = await fetch(`https://propatizadmin.com/api/posts`, {
+        headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header
+      });
 
       if (!response.ok) {
         throw new Error("Request failed with status code " + response.status);

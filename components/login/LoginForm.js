@@ -51,7 +51,7 @@ const LoginForm = ({ onSubmit }) => {
             style={{ fontSize: 16, fontFamily: "Poppins" }}
             placeholder="Phone number"
             value={phone}
-            textContentType="phone"
+            textContentType="telephoneNumber"
             autoFocus={true}
             onChangeText={(text) => setPhone(text)}
           />

@@ -29,12 +29,9 @@ const ImageList2 = () => {
   const getName = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await fetch(
-        `https://e9b4-41-210-143-73.ngrok-free.app/api/profile`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await fetch(`https://propatizadmin.com/api/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       if (!response.ok) {
         throw new Error("Request failed with status code " + response.status);
@@ -55,34 +52,41 @@ const ImageList2 = () => {
   return (
     <View>
       {data.length > 0 ? (
-        <FlatList
-          data={data}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={{}}>
-              <TouchableOpacity
-                style={tw``}
-                onPress={() =>
-                  navigation.navigate("PostDetails", { post: item })
-                }
-              >
-                {item.post_images[0] &&
-                  // Check if the first image exists before logging
-                  console.log("Image URI:", item.post_images[0])}
-                <Image
-                  style={styles.image}
-                  source={{
-                    uri: `${item.post_images[0]}`,
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-          )}
-        />
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {data.map((item) => (
+            <TouchableOpacity
+              key={item.id}
+              onPress={() => navigation.navigate("PostDetails", { post: item })}
+            >
+              {item.post_images[0] &&
+                // Check if the first image exists before logging
+                console.log("Image URI:", item.post_images[0])}
+              <Image
+                style={styles.image}
+                source={{
+                  uri: `${item.post_images[0]}`,
+                }}
+              />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
       ) : (
-        <ActivityIndicator size="large" color="#387981" />
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <ActivityIndicator size="large" color="#34779a" />
+          <Text
+            style={{
+              fontFamily: "Poppins",
+              color: "#808080",
+              fontSize: 10,
+              justifyContent: "center",
+              alignItems: "center",
+              left: 100,
+              top: -25,
+            }}
+          >
+            Your uploaded properties {"\n"}appear here
+          </Text>
+        </View>
       )}
     </View>
   );
@@ -95,7 +99,7 @@ const styles = StyleSheet.create({
     height: height * 0.13,
     width: width * 0.3,
     resizeMode: "contain",
-    borderRadius: 15,
+    borderRadius: 10,
     marginLeft: width * 0.03,
     marginTop: 5,
   },

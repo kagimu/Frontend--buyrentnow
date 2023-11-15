@@ -229,8 +229,8 @@ const PostDetails = ({ route }) => {
 export default PostDetails;
 
 const styles = StyleSheet.create({
-  desc: { fontFamily: "PoppinsSemiBold" },
-  desc1: { fontFamily: "Poppins", fontSize: 12 },
+  desc: { fontFamily: "PoppinsSemiBold", color: "#808080" },
+  desc1: { fontFamily: "Poppins", fontSize: 12, color: "#808080" },
   name: {
     fontFamily: "PoppinsSemiBold",
   },

@@ -5,8 +5,6 @@ import {
   View,
   FlatList,
   Dimensions,
-  Platform,
-  Button,
   Pressable,
 } from "react-native";
 import * as MediaLibrary from "expo-media-library";
@@ -44,7 +42,7 @@ export default class ImageBrowser extends React.Component {
   };
 
   getImages = () => {
-    let params = { first: 50, mediaType: "photo" };
+    let params = { first: 3000, mediaType: "photo" };
     if (this.state.after) params.after = this.state.after;
     if (!this.state.has_next_page) return;
     MediaLibrary.getAssetsAsync(params).then(this.processImages);
@@ -55,7 +53,7 @@ export default class ImageBrowser extends React.Component {
     if (this.state.after === endCursor) return;
     const uris = assets.map((asset) => asset.uri);
     this.setState({
-      images: [...this.state.images, ...uris], // Replace "photos" with "images" here
+      images: [...this.state.images, ...uris],
       after: endCursor,
       has_next_page: hasNextPage,
     });
@@ -131,7 +129,7 @@ export default class ImageBrowser extends React.Component {
         ListEmptyComponent={
           <Text style={styles.loading}>Loading Your Images...</Text>
         }
-        initialNumToRender={24}
+        initialNumToRender={30}
         getItemLayout={this.getItemLayout}
       />
     );

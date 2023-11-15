@@ -1,24 +1,26 @@
 // FontLoader.js
-import * as Font from "expo-font";
+
+import { useFonts } from "expo-font";
+import { useCallback } from "react";
+import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect, useState } from "react";
 
+SplashScreen.preventAutoHideAsync();
+
 export default function FontLoader() {
-  const [fontLoaded, setFontLoaded] = useState(false);
+  const [fontsLoaded] = useFonts({
+    Poppins: require("./assets/fonts/Poppins-Regular.ttf"),
+    PoppinsExtraBold: require("./assets/fonts/Poppins-ExtraBold.ttf"),
+    PoppinsSemiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
+  });
 
-  useEffect(() => {
-    const loadFont = async () => {
-      await Font.loadAsync({
-        Poppins: require("./assets/fonts/Poppins-Regular.ttf"),
-        PoppinsExtraBold: require("./assets/fonts/Poppins-ExtraBold.ttf"),
-        PoppinsSemiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
-      });
-      setFontLoaded(true);
-    };
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
 
-    loadFont();
-  }, []);
-
-  if (!fontLoaded) {
-    return null; // Render a loading state or splash screen until the font is loaded
+  if (!fontsLoaded) {
+    return null;
   }
 }

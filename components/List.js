@@ -43,7 +43,7 @@ const List = ({ post }) => {
         >
           <Image
             style={styles.expandedImage}
-            source={{ uri: `${BASE_URL}${selectedImage}` }}
+            source={{ uri: `https://propatizadmin.com${selectedImage}` }}
           />
         </TouchableOpacity>
       </Modal>

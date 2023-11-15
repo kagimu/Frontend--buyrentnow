@@ -10,12 +10,6 @@ import {
   Dimensions,
 } from "react-native";
 import React from "react";
-import tw from "twrnc";
-import { BASE_URL } from "@env";
-import { useEffect } from "react";
-import { useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import { removeBookmark } from "../redux/actions";
@@ -44,20 +38,35 @@ const ImageList = () => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <TouchableOpacity
-              style={tw``}
+              style={{}}
               onPress={() => navigation.navigate("PostDetails", { post: item })}
             >
               <Image
                 style={styles.image}
                 source={{
-                  uri: `https://68f0-41-210-143-73.ngrok-free.app/storage/${item.images[0]}`,
+                  uri: `https://propatizadmin.com/storage/${item.images[0]}`,
                 }}
               />
             </TouchableOpacity>
           )}
         />
       ) : (
-        <ActivityIndicator size="large" color="#387981" />
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <ActivityIndicator size="large" color="#34779a" />
+          <Text
+            style={{
+              fontFamily: "Poppins",
+              color: "#808080",
+              fontSize: 10,
+              justifyContent: "center",
+              alignItems: "center",
+              left: 100,
+              top: -30,
+            }}
+          >
+            Your liked properties {"\n"}appear here
+          </Text>
+        </View>
       )}
     </View>
   );
@@ -70,7 +79,7 @@ const styles = StyleSheet.create({
     height: height * 0.13,
     width: width * 0.3,
     resizeMode: "contain",
-    borderRadius: 15,
+    borderRadius: 10,
     marginLeft: width * 0.03,
     marginTop: 5,
   },

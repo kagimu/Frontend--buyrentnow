@@ -340,7 +340,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 40,
     height: 40,
-    resizeMode: "cover",
   },
   name: {
     position: "absolute",
@@ -414,7 +413,7 @@ const styles = StyleSheet.create({
     color: "#808080",
   },
   per: {
-    fontSize: width * 0.035,
+    fontSize: width * 0.03,
     fontFamily: "Poppins",
     top: -6,
     color: "#808080",

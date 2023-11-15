@@ -62,30 +62,19 @@ const OnboardingScreen = ({ navigation }) => {
   return (
     <Onboarding
       bottomBarColor="#fff"
-      titleStyles={{
-        fontFamily: "PoppinsExtraBold",
-        marginTop: 10,
-        fontSize: 25,
-        marginTop: 30,
-        textAlign: "left",
-        marginHorizontal: 5,
-      }}
       imageContainerStyles={{
         //flex: 1,
         resizeMode: "contain",
-        paddingBottom: 10,
-        paddingTop: 0,
+        top: 50,
         aspectRatio: 1 / 1,
         height: height * 0.7,
       }}
       subTitleStyles={{
         fontFamily: "PoppinsSemiBold",
-        fontSize: 15,
-        textAlign: "left",
+        fontSize: width * 0.06,
+        top: 30,
+        textAlign: "center",
         marginHorizontal: 0,
-        position: "absolute",
-        top: -15,
-        left: -148,
       }}
       NextButtonComponent={Next}
       DoneButtonComponent={Done}
@@ -107,7 +96,7 @@ const OnboardingScreen = ({ navigation }) => {
           ),
           title: "",
           subtitle:
-            "Empowering you to find your dream home or perfect rental with ease.",
+            "Empowering you to find\n your dream home or\n perfect rental with ease.",
           bottomBarColor: "#fff",
         },
         {
@@ -121,7 +110,7 @@ const OnboardingScreen = ({ navigation }) => {
           ),
           title: "",
           subtitle:
-            "No more waiting for agents; take control of your rental search.",
+            "No more waiting for\n agents; take control\n of your rental search.",
         },
         {
           backgroundColor: "#fff",
@@ -134,7 +123,7 @@ const OnboardingScreen = ({ navigation }) => {
           ),
           title: "",
           subtitle:
-            "List your property hustle-free and directly connect with potential buyers and renters.",
+            "List your property\n hustle-free and\n directly connect with potential buyers and renters.",
         },
       ]}
     />

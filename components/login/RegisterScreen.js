@@ -22,7 +22,7 @@ const RegisterScreen = () => {
     try {
       setIsLoading(true);
 
-      const response = await fetch(`${BASE_URL}/api/register`, {
+      const response = await fetch(`https://propatizadmin.com/api/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

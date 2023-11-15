@@ -30,7 +30,6 @@ LogBox.ignoreLogs([
 const ProfileScreen = ({ navigation }) => {
   const [image, setImage] = useState(null);
   const [name, setName] = useState("");
-  const data = [{ key: "2" }];
 
   const handleImagePicker = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -86,19 +85,16 @@ const ProfileScreen = ({ navigation }) => {
   const getName = async () => {
     try {
       const token = await AsyncStorage.getItem("token"); // Retrieve the token from AsyncStorage
-      const response = await fetch(
-        `https://68f0-41-210-143-73.ngrok-free.app/api/profile`,
-        {
-          headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header
-        }
-      );
+      const response = await fetch(`https://propatizadmin.com/api/profile`, {
+        headers: { Authorization: `Bearer ${token}` }, // Set the Authorization header
+      });
 
       if (!response.ok) {
         throw new Error("Request failed with status code " + response.status);
       }
 
       const name = await response.json();
-      console.log("Data from API:", name); // log data to the console
+      console.log("Data from API:", name);
       setName(name);
     } catch (error) {
       console.log(error);
@@ -123,135 +119,81 @@ const ProfileScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <FlatList
-      data={data}
-      renderItem={({ item }) => (
-        <View
-          style={{
-            flex: 1,
-            marginTop: height * 0.38,
-            justifyContent: "center",
-            alignContent: "center",
-            alignItems: "center",
-          }}
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.centeredContainer}>
+        <TouchableOpacity
+          style={styles.profileImageContainer}
+          onPress={handleImagePicker}
         >
-          <TouchableOpacity
-            style={{
-              marginTop: 30,
-              borderRadius: 120,
-              width: 120,
-              height: 120,
-              backgroundColor: "white",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            onPress={handleImagePicker}
-          >
-            {image ? (
-              <Image
-                source={{ uri: image }}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: 100,
-                  alignContent: "center",
-                  justifyContent: "center",
-                  marginLeft: 10,
-                }}
-              />
-            ) : (
-              <Text style={{ fontSize: 24 }}>+</Text>
-            )}
-          </TouchableOpacity>
+          {image ? (
+            <Image source={{ uri: image }} style={styles.profileImage} />
+          ) : (
+            <Text style={styles.plusIcon}>+</Text>
+          )}
+        </TouchableOpacity>
 
-          <Text style={styles.text}>
-            {name.first_name} {name.last_name}
-          </Text>
+        <Text style={styles.text1}>
+          {name.first_name} {name.last_name}
+        </Text>
 
-          <View
-            style={{
-              flex: 1,
-              alignContent: "center",
-              justifyContent: "center",
-              marginTop: height * 0.05,
-              marginBottom: height * 0.05,
-            }}
-          >
-            <View style={{ top: 20, marginLeft: width * 0.06 }}>
-              <Text style={styles.text2}>My properties</Text>
-              <ImageList2 />
-            </View>
+        <View style={{ top: 30, left: 15 }}>
+          <Text style={styles.text}>My properties</Text>
+          <View style={styles.imageListContainer}>
+            <ImageList2 />
           </View>
 
-          <View style={{ marginLeft: width * 0.06 }}>
-            <Text style={styles.text2}>Saved listings</Text>
+          <Text style={styles.text}>Saved listings</Text>
+          <View style={styles.imageListContainer}>
             <ImageList />
           </View>
-
-          <View>
-            <Text
-              style={{
-                textAlign: "center",
-                marginTop: 40,
-                fontSize: 16,
-                color: "#347794",
-                fontFamily: "PoppinsSemiBold",
-              }}
-              // onPress={() => navigation.navigate("AccountSettings")}
-            >
-              Propatiz
-            </Text>
-          </View>
         </View>
-      )}
-    />
+      </View>
+    </ScrollView>
   );
 };
 
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
-  otherImagesContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    marginHorizontal: 35,
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  otherImage: {
-    height: 100,
-    width: 140,
-    resizeMode: "stretch",
-    borderRadius: 15,
-    marginLeft: 5,
-    marginTop: 5,
-  },
   container: {
-    flex: 0,
+    flexGrow: 1,
     paddingBottom: 150,
-    marginTop: 10,
+  },
+  centeredContainer: {
+    flex: 1,
+    marginTop: height * 0.03,
     justifyContent: "center",
-    alignContent: "center",
+    alignItems: "center",
+  },
+  profileImageContainer: {
+    borderRadius: 100,
+    width: 120,
+    height: 120,
+    backgroundColor: "white",
+  },
+  profileImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 100,
+  },
+  plusIcon: {
+    fontSize: 24,
   },
   text: {
-    textAlign: "center",
-    paddingTop: 10,
+    marginLeft: width * 0.04,
+    fontFamily: "Poppins",
+    fontSize: 15,
+    color: "#808080",
+  },
+  text1: {
     fontFamily: "PoppinsSemiBold",
     fontSize: 17,
   },
-  text1: {
-    fontSize: 14,
-    textAlign: "center",
-    paddingTop: 20,
-    fontFamily: "PoppinsSemiBold",
-  },
-  text2: {
-    fontSize: 15,
-    fontFamily: "Poppins",
-    alignContent: "flex-start",
-    left: width * 0.04,
-    paddingBottom: height * 0.01,
-    paddingTop: 10,
+  imageListContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    marginTop: 10,
+    marginBottom: 30,
   },
 });

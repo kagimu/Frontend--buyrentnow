@@ -26,16 +26,13 @@ const LoginScreen = () => {
 
     try {
       setIsLoading(true);
-      const response = await fetch(
-        `https://e9b4-41-210-143-73.ngrok-free.app/api/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ phone: phone, password: password }),
-        }
-      );
+      const response = await fetch(`https://propatizadmin.com/api/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ phone: phone, password: password }),
+      });
 
       if (!response.ok) {
         throw new Error("Login failed");
