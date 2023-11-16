@@ -63,11 +63,9 @@ const OnboardingScreen = ({ navigation }) => {
     <Onboarding
       bottomBarColor="#fff"
       imageContainerStyles={{
-        //flex: 1,
+        flex: 1,
         resizeMode: "contain",
-        top: 50,
         aspectRatio: 1 / 1,
-        height: height * 0.7,
       }}
       subTitleStyles={{
         fontFamily: "PoppinsSemiBold",
@@ -89,10 +87,7 @@ const OnboardingScreen = ({ navigation }) => {
           backgroundColor: "#fff",
           fontFamily: "PoppinsSemiBold",
           image: (
-            <Image
-              source={{ uri: "https://i.imgur.com/X09Z052.png" }}
-              style={styles.image}
-            />
+            <Image source={require("../assets/01.png")} style={styles.image} />
           ),
           title: "",
           subtitle:
@@ -103,10 +98,7 @@ const OnboardingScreen = ({ navigation }) => {
           backgroundColor: "#fff",
           fontFamily: "PoppinsSemiBold",
           image: (
-            <Image
-              source={{ uri: "https://i.imgur.com/MFfKMZ3.png" }}
-              style={styles.image}
-            />
+            <Image source={require("../assets/02.png")} style={styles.image} />
           ),
           title: "",
           subtitle:
@@ -116,10 +108,7 @@ const OnboardingScreen = ({ navigation }) => {
           backgroundColor: "#fff",
           fontFamily: "PoppinsSemiBold",
           image: (
-            <Image
-              source={{ uri: "https://i.imgur.com/7UnW4ai.png" }}
-              style={styles.image}
-            />
+            <Image source={require("../assets/03.png")} style={styles.image} />
           ),
           title: "",
           subtitle:
@@ -134,8 +123,7 @@ export default OnboardingScreen;
 
 const styles = StyleSheet.create({
   image: {
-    aspectRatio: 1 / 1,
-    width: "100%",
+    width: "70%",
     resizeMode: "contain",
     borderRadius: 10,
     marginTop: 20,

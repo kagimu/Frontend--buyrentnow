@@ -179,108 +179,130 @@ const LandRent = ({ navigation }) => {
               legacyImplementation={true}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                <View style={[styles.card, tw`pb-7`]}>
-                  <View>
-                    <ImageCarousel data={item.post_images} />
-                    <TouchableOpacity
-                      style={styles.likeButton}
-                      onPress={() =>
-                        ifExists(item)
-                          ? handleRemoveBookmark(item)
-                          : handleAddBookmark(item)
-                      }
-                    >
-                      {ifExists(item) ? (
-                        <AntDesign
-                          name="heart"
-                          color="#ff8B53"
-                          size={40}
-                          style={styles.likeIcon}
-                        />
-                      ) : (
-                        <AntDesign
-                          name="hearto"
-                          color="#fff"
-                          size={40}
-                          style={styles.likeIcon}
-                        />
-                      )}
-                    </TouchableOpacity>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      marginLeft: 5,
-                    }}
-                  >
-                    <Text style={[styles.price, tw` pl-2 mt-2`]}>
-                      {item.price}
-                    </Text>
-                    <View style={{ flexDirection: "row" }}>
-                      <FontAwesome5
-                        name="tape"
-                        size={15}
-                        color="#6495ED"
-                        style={{
-                          position: "absolute",
-                          top: 13,
-                          left: 60,
-                        }}
-                      />
-
-                      <Text style={[styles.row, tw` pl-21 mt-3`]}>
-                        {item.size}
+                <View style={styles.postContainer}>
+                  <View style={[styles.card, tw`pb-7`]}>
+                    <View style={{ top: 10 }}>
+                      <ImageCarousel data={item.post_images} />
+                      <TouchableOpacity
+                        style={styles.likeButton}
+                        onPress={() =>
+                          ifExists(item)
+                            ? handleRemoveBookmark(item)
+                            : handleAddBookmark(item)
+                        }
+                      >
+                        {ifExists(item) ? (
+                          <AntDesign
+                            name="heart"
+                            color="red"
+                            size={35}
+                            style={styles.likeIcon}
+                          />
+                        ) : (
+                          <AntDesign
+                            name="hearto"
+                            color="#fff"
+                            size={35}
+                            style={styles.likeIcon}
+                          />
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                    <View>
+                      <Text style={[styles.time, tw` pl-3 mt-4`]}>
+                        Posted {getTimeAgo(item.created_at)}
                       </Text>
                     </View>
-                    <View style={{ flexDirection: "row" }}>
-                      <FontAwesome5
-                        name="circle-notch"
-                        size={12}
-                        color="#6495ED"
-                        style={{
-                          position: "absolute",
-                          top: 15,
-                          left: 25,
-                        }}
-                      />
-                      <Text style={[styles.row, tw` pl-11 mt-3`]}>
-                        {item.status}
-                      </Text>
-                    </View>
-                  </View>
-                  <TouchableOpacity
-                    style={{
-                      marginLeft: 5,
-                    }}
-                    onPress={() =>
-                      navigation.navigate("PostDetails", { post: item })
-                    }
-                  >
-                    <Text style={[styles.name, tw` pl-2 mt-2 text-sm`]}>
-                      {item.name}
-                    </Text>
                     <View
-                      styles={{
+                      style={{
                         flexDirection: "row",
-                        position: "absolute",
+                        marginLeft: 5,
                       }}
                     >
-                      <Octicons
-                        name="location"
-                        size={14}
-                        color="#45A76E"
-                        style={{
-                          marginTop: 31,
-                          marginLeft: 8,
-                        }}
-                      />
-                      <Text style={[styles.row, tw` pl-6 mt--4.5`]}>
-                        {item.location}
+                      <Text style={[styles.price, tw` pl-2 mt-1`]}>
+                        {item.price}
                       </Text>
+                      <View style={{ flexDirection: "row" }}>
+                        <Ionicons
+                          name="md-bed-outline"
+                          size={15}
+                          color="#00b173"
+                          style={{
+                            position: "absolute",
+                            top: 9,
+                            left: 60,
+                          }}
+                        />
 
-                      <View></View>
+                        <Text style={[styles.row, tw` pl-21 mt-2`]}>
+                          {item.bedroom} beds
+                        </Text>
+                      </View>
+                      <View style={{ flexDirection: "row" }}>
+                        <FontAwesome5
+                          name="bath"
+                          size={12}
+                          color="#00b173"
+                          style={{
+                            position: "absolute",
+                            top: 10,
+                            left: 25,
+                          }}
+                        />
+                        <Text style={[styles.row, tw` pl-11 mt-2`]}>
+                          {item.bathroom} baths
+                        </Text>
+                      </View>
                     </View>
-                  </TouchableOpacity>
+                    <View>
+                      <Text style={[styles.per, tw` pl-4`]}>Per Month</Text>
+                    </View>
+                    <TouchableOpacity
+                      style={{
+                        marginLeft: 5,
+                      }}
+                      onPress={() =>
+                        navigation.navigate("PostDetails", { post: item })
+                      }
+                    >
+                      <Text style={[styles.name, tw` pl-2 text-lg`]}>
+                        {item.name}
+                      </Text>
+                      <View
+                        styles={{
+                          flexDirection: "row",
+                          position: "absolute",
+                        }}
+                      >
+                        <Octicons
+                          name="location"
+                          size={14}
+                          color="#00b173"
+                          style={{
+                            marginTop: 31,
+                            marginLeft: 8,
+                          }}
+                        />
+                        <Text style={[styles.row, tw` pl-6 mt--4.5`]}>
+                          {item.location}
+                        </Text>
+                        <Text
+                          style={{
+                            fontFamily: "Poppins",
+                            fontSize: 11,
+                            position: "absolute",
+                            top: 45,
+                            left: 25,
+                            color: "#808080",
+                          }}
+                        >
+                          See more
+                        </Text>
+
+                        <View></View>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               )}
             />
@@ -314,18 +336,27 @@ const LandRent = ({ navigation }) => {
 export default LandRent;
 
 const styles = StyleSheet.create({
+  postContainer: {
+    borderRadius: 10, // Adjust the border radius as needed
+    marginBottom: 20, // Optional: Add margin between each post card
+    backgroundColor: "#fff",
+    margin: 10,
+    //elevation: 1,
+  },
   likeButton: {
     position: "absolute",
     top: 10,
     right: 10,
-    left: 310,
+    left: 290,
   },
   likeIcon: {
+    position: "absolute",
     width: 40,
     height: 40,
   },
   name: {
     position: "absolute",
+    fontFamily: "PoppinsSemiBold",
   },
   buttonActive: {
     backgroundColor: "#25749b",
@@ -335,7 +366,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     marginBottom: 35,
     padding: 0,
-
     height: 50,
     justifyContent: "center",
     alignItems: "center",
@@ -344,11 +374,10 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
-  b4: {
+  b1: {
     backgroundColor: "#fff",
     marginTop: 5,
     padding: 0,
-
     height: 50,
     justifyContent: "center",
     alignItems: "center",
@@ -363,7 +392,7 @@ const styles = StyleSheet.create({
     fontFamily: "PoppinsSemiBold",
     textAlign: "center",
     alignContent: "center",
-    padding: 15,
+    padding: 16,
     color: "#fff",
   },
   Text: {
@@ -371,7 +400,7 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "center",
     alignContent: "center",
-    padding: 15,
+    padding: 16,
   },
   image: {
     width: 360,
@@ -383,100 +412,36 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
   },
   card: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
+    backgroundColor: "#fff",
+    paddingBottom: height * 0.1,
   },
   row: {
-    fontSize: 14,
+    fontSize: 12,
     paddingLeft: 0,
+    fontFamily: "Poppins",
+  },
+  time: {
+    fontSize: width * 0.03,
+    fontFamily: "Poppins",
+    color: "#808080",
+  },
+  per: {
+    fontSize: width * 0.03,
+    fontFamily: "Poppins",
+    top: -6,
+    color: "#808080",
   },
   price: {
-    fontSize: 18,
-    buttonActive: {
-      backgroundColor: "#387981",
-      marginTop: 5,
-      paddingLeft: 0,
-      justifyContent: "space-between",
-      marginHorizontal: 8,
-      marginBottom: 35,
-      padding: 0,
-
-      height: 50,
-      justifyContent: "center",
-      alignItems: "center",
-      borderTopRightRadius: 20,
-      borderTopLeftRadius: 20,
-      borderBottomLeftRadius: 20,
-      borderBottomRightRadius: 20,
-      position: "absolute",
-    },
-    b1: {
-      backgroundColor: "#fff",
-      marginTop: 5,
-      padding: 0,
-
-      height: 50,
-      justifyContent: "center",
-      alignItems: "center",
-      borderTopRightRadius: 20,
-      borderTopLeftRadius: 20,
-      borderBottomLeftRadius: 20,
-      borderBottomRightRadius: 20,
-      justifyContent: "space-between",
-      marginHorizontal: 5,
-      position: "absolute",
-    },
-    ActiveText: {
-      fontWeight: "bold",
-      textAlign: "center",
-      alignContent: "center",
-      padding: 15,
-      color: "#fff",
-      position: "absolute",
-    },
-    Text: {
-      fontWeight: "bold",
-      color: "#000",
-      textAlign: "center",
-      alignContent: "center",
-      padding: 15,
-      position: "absolute",
-    },
-    image: {
-      width: 360,
-      height: 400,
-      resizeMode: "contain",
-      borderTopRightRadius: 10,
-      borderTopLeftRadius: 10,
-      borderBottomLeftRadius: 10,
-      borderBottomRightRadius: 10,
-      position: "absolute",
-    },
-    card: {
-      borderBottomRightRadius: 10,
-      borderBottomLeftRadius: 10,
-      position: "absolute",
-    },
-    row: {
-      fontSize: 14,
-      paddingLeft: 0,
-      position: "absolute",
-    },
-    price: {
-      fontSize: 18,
-      position: "absolute",
-    },
-    button: {
-      fontSize: 20,
-      fontWeight: "bold",
-      color: "blue",
-      marginBottom: 20,
-      position: "absolute",
-    },
+    fontSize: 14,
+    fontFamily: "PoppinsSemiBold",
   },
   button: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: "PoppinsSemiBold",
     color: "blue",
     marginBottom: 20,
   },

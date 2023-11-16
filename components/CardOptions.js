@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
   image: {
     width: width - 65,
     height: height * 0.25,
-    resizeMode: "stretch",
+    resizeMode: "cover",
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,

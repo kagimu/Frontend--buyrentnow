@@ -174,128 +174,130 @@ const CommercialRent = ({ navigation }) => {
             legacyImplementation={true}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <View style={[styles.card, tw`pb-7`]}>
-                <View>
-                  <ImageCarousel data={item.post_images} />
-                  <TouchableOpacity
-                    style={styles.likeButton}
-                    onPress={() =>
-                      ifExists(item)
-                        ? handleRemoveBookmark(item)
-                        : handleAddBookmark(item)
-                    }
-                  >
-                    {ifExists(item) ? (
-                      <AntDesign
-                        name="heart"
-                        color="red"
-                        size={35}
-                        style={styles.likeIcon}
-                      />
-                    ) : (
-                      <AntDesign
-                        name="hearto"
-                        color="#fff"
-                        size={35}
-                        style={styles.likeIcon}
-                      />
-                    )}
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <Text style={[styles.time, tw` pl-3 mt-2`]}>
-                    Posted {getTimeAgo(createdAt)}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    marginLeft: 5,
-                  }}
-                >
-                  <Text style={[styles.price, tw` pl-2 mt-1`]}>
-                    {item.price}
-                  </Text>
-                  <View style={{ flexDirection: "row" }}>
-                    <Ionicons
-                      name="md-bed-outline"
-                      size={15}
-                      color="#00b173"
-                      style={{
-                        position: "absolute",
-                        top: 9,
-                        left: 60,
-                      }}
-                    />
-
-                    <Text style={[styles.row, tw` pl-21 mt-2`]}>
-                      {item.bedroom} beds
+              <View style={styles.postContainer}>
+                <View style={[styles.card, tw`pb-7`]}>
+                  <View style={{ top: 10 }}>
+                    <ImageCarousel data={item.post_images} />
+                    <TouchableOpacity
+                      style={styles.likeButton}
+                      onPress={() =>
+                        ifExists(item)
+                          ? handleRemoveBookmark(item)
+                          : handleAddBookmark(item)
+                      }
+                    >
+                      {ifExists(item) ? (
+                        <AntDesign
+                          name="heart"
+                          color="red"
+                          size={35}
+                          style={styles.likeIcon}
+                        />
+                      ) : (
+                        <AntDesign
+                          name="hearto"
+                          color="#fff"
+                          size={35}
+                          style={styles.likeIcon}
+                        />
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                  <View>
+                    <Text style={[styles.time, tw` pl-3 mt-4`]}>
+                      Posted {getTimeAgo(item.created_at)}
                     </Text>
                   </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <FontAwesome5
-                      name="bath"
-                      size={12}
-                      color="#00b173"
-                      style={{
-                        position: "absolute",
-                        top: 10,
-                        left: 25,
-                      }}
-                    />
-                    <Text style={[styles.row, tw` pl-11 mt-2`]}>
-                      {item.bathroom} baths
-                    </Text>
-                  </View>
-                </View>
-                <View>
-                  <Text style={[styles.per, tw` pl-4`]}>Per Month</Text>
-                </View>
-                <TouchableOpacity
-                  style={{
-                    marginLeft: 5,
-                  }}
-                  onPress={() =>
-                    navigation.navigate("PostDetails", { post: item })
-                  }
-                >
-                  <Text style={[styles.name, tw` pl-2 text-lg`]}>
-                    {item.name}
-                  </Text>
                   <View
-                    styles={{
+                    style={{
                       flexDirection: "row",
-                      position: "absolute",
+                      marginLeft: 5,
                     }}
                   >
-                    <Octicons
-                      name="location"
-                      size={14}
-                      color="#00b173"
-                      style={{
-                        marginTop: 31,
-                        marginLeft: 8,
-                      }}
-                    />
-                    <Text style={[styles.row, tw` pl-6 mt--4.5`]}>
-                      {item.location}
+                    <Text style={[styles.price, tw` pl-2 mt-1`]}>
+                      {item.price}
                     </Text>
-                    <Text
-                      style={{
-                        fontFamily: "Poppins",
-                        fontSize: 11,
+                    <View style={{ flexDirection: "row" }}>
+                      <Ionicons
+                        name="md-bed-outline"
+                        size={15}
+                        color="#00b173"
+                        style={{
+                          position: "absolute",
+                          top: 9,
+                          left: 60,
+                        }}
+                      />
+
+                      <Text style={[styles.row, tw` pl-21 mt-2`]}>
+                        {item.bedroom} beds
+                      </Text>
+                    </View>
+                    <View style={{ flexDirection: "row" }}>
+                      <FontAwesome5
+                        name="bath"
+                        size={12}
+                        color="#00b173"
+                        style={{
+                          position: "absolute",
+                          top: 10,
+                          left: 25,
+                        }}
+                      />
+                      <Text style={[styles.row, tw` pl-11 mt-2`]}>
+                        {item.bathroom} baths
+                      </Text>
+                    </View>
+                  </View>
+                  <View>
+                    <Text style={[styles.per, tw` pl-4`]}>Per Month</Text>
+                  </View>
+                  <TouchableOpacity
+                    style={{
+                      marginLeft: 5,
+                    }}
+                    onPress={() =>
+                      navigation.navigate("PostDetails", { post: item })
+                    }
+                  >
+                    <Text style={[styles.name, tw` pl-2 text-lg`]}>
+                      {item.name}
+                    </Text>
+                    <View
+                      styles={{
+                        flexDirection: "row",
                         position: "absolute",
-                        top: 45,
-                        left: 25,
-                        color: "#808080",
                       }}
                     >
-                      See more
-                    </Text>
+                      <Octicons
+                        name="location"
+                        size={14}
+                        color="#00b173"
+                        style={{
+                          marginTop: 31,
+                          marginLeft: 8,
+                        }}
+                      />
+                      <Text style={[styles.row, tw` pl-6 mt--4.5`]}>
+                        {item.location}
+                      </Text>
+                      <Text
+                        style={{
+                          fontFamily: "Poppins",
+                          fontSize: 11,
+                          position: "absolute",
+                          top: 45,
+                          left: 25,
+                          color: "#808080",
+                        }}
+                      >
+                        See more
+                      </Text>
 
-                    <View></View>
-                  </View>
-                </TouchableOpacity>
+                      <View></View>
+                    </View>
+                  </TouchableOpacity>
+                </View>
               </View>
             )}
           />
@@ -330,11 +332,18 @@ CommercialRent.navigationOptions = ({ navigation }) => ({
 export default CommercialRent;
 
 const styles = StyleSheet.create({
+  postContainer: {
+    borderRadius: 10, // Adjust the border radius as needed
+    marginBottom: 20, // Optional: Add margin between each post card
+    backgroundColor: "#fff",
+    margin: 10,
+    //elevation: 1,
+  },
   likeButton: {
     position: "absolute",
     top: 10,
-    right: 20,
-    left: 300,
+    right: 10,
+    left: 290,
   },
   likeIcon: {
     position: "absolute",
@@ -399,8 +408,12 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
   },
   card: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
+    backgroundColor: "#fff",
+    paddingBottom: height * 0.1,
   },
   row: {
     fontSize: 12,

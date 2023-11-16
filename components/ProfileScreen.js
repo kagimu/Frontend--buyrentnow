@@ -66,7 +66,7 @@ const ProfileScreen = ({ navigation }) => {
       });
 
       const response = await axios.post(
-        `${BASE_URL}/api/profile/avatar`,
+        `https://propatizadmin.com/api/profile/avatar`,
         formData,
         {
           headers: {
@@ -136,7 +136,14 @@ const ProfileScreen = ({ navigation }) => {
           {name.first_name} {name.last_name}
         </Text>
 
-        <View style={{ top: 30, left: 15 }}>
+        <View
+          style={{
+            top: 30,
+            left: 15,
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+          }}
+        >
           <Text style={styles.text}>My properties</Text>
           <View style={styles.imageListContainer}>
             <ImageList2 />
@@ -161,11 +168,10 @@ const styles = StyleSheet.create({
   },
   centeredContainer: {
     flex: 1,
-    marginTop: height * 0.03,
-    justifyContent: "center",
-    alignItems: "center",
+    marginTop: height * 0.05,
   },
   profileImageContainer: {
+    left: width * 0.35,
     borderRadius: 100,
     width: 120,
     height: 120,
@@ -178,6 +184,9 @@ const styles = StyleSheet.create({
   },
   plusIcon: {
     fontSize: 24,
+    position: "absolute",
+    left: width * 0.15,
+    top: height * 0.06,
   },
   text: {
     marginLeft: width * 0.04,
@@ -186,8 +195,11 @@ const styles = StyleSheet.create({
     color: "#808080",
   },
   text1: {
+    left: width * 0.35,
     fontFamily: "PoppinsSemiBold",
     fontSize: 17,
+    top: height * 0.02,
+    paddingBottom: height * 0.05,
   },
   imageListContainer: {
     flexDirection: "row",

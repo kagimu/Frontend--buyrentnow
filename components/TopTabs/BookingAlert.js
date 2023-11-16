@@ -51,7 +51,12 @@ const BookingAlert = () => {
       >
         <Text
           style={{ fontFamily: "PoppinsSemiBold", fontSize: 17, color: "#fff" }}
-          onPress={() => navigation.navigate("HomeScreen")}
+          onPress={() =>
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "HomeScreen" }],
+            })
+          }
         >
           Find more listings
         </Text>

@@ -72,7 +72,7 @@ const RegisterForm = ({ onSubmit }) => {
             style={{ fontSize: 17, fontFamily: "Poppins" }}
             placeholder="Email"
             value={email}
-            textContentType="email"
+            textContentType="emailAddress"
             autoFocus={true}
             onChangeText={(text) => handleCheckEmail(text)}
           />
@@ -89,7 +89,7 @@ const RegisterForm = ({ onSubmit }) => {
             style={{ fontSize: 17, fontFamily: "Poppins" }}
             placeholder="Phone number"
             value={phone}
-            textContentType="number"
+            textContentType="telephoneNumber"
             autoFocus={true}
             onChangeText={(text) => setPhone(text)}
           />

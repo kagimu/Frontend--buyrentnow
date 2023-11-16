@@ -220,7 +220,6 @@ const BookingConfirmation = ({ navigation }) => {
       const response = await post("/posts", formData, true);
       console.log(`API returned response: `, response);
       alert("Successful submission");
-      navigation.navigate("TabNavigator");
 
       // Reset the form fields
       setType("");
@@ -237,6 +236,8 @@ const BookingConfirmation = ({ navigation }) => {
       setVideo(null);
       setProfile_pic(null);
       setImages([]);
+
+      navigation.navigate("BookingAlert");
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -265,6 +266,9 @@ const BookingConfirmation = ({ navigation }) => {
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
           <ActivityIndicator size="large" color="#34779a" />
+          <Text style={{ fontFamily: "Poppins" }}>
+            Uploading Your Property, Please wait...
+          </Text>
         </View>
       ) : (
         <ScrollView

@@ -42,7 +42,7 @@ export default class ImageBrowser extends React.Component {
   };
 
   getImages = () => {
-    let params = { first: 3000, mediaType: "photo" };
+    let params = { first: 500, mediaType: "photo" };
     if (this.state.after) params.after = this.state.after;
     if (!this.state.has_next_page) return;
     MediaLibrary.getAssetsAsync(params).then(this.processImages);

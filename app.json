@@ -4,14 +4,14 @@
     "slug": "propatiz",
     "version": "2.3.0",
     "orientation": "portrait",
-    "icon": "./assets/icon-400px.png",
+    "icon": "./assets/linkupmedia.png",
     "userInterfaceStyle": "light",
     "scheme": "com.jaypkagimu.propatiz",
     "jsEngine": "hermes",
     "splash": {
-      "image": "./assets/Startscreen.png",
+      "image": "./assets/linkuploadingscreen.png",
       "resizeMode": "contain",
-      "backgroundColor": "#072c3e"
+      "backgroundColor": "#00183f"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -27,9 +27,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon-400px.png",
+        "foregroundImage": "./assets/linkupmedia.png",
         "backgroundColor": "#072c3e"
-        
       },
       "permissions": [
         "android.permission.SEND_SMS",
@@ -54,33 +53,30 @@
         "projectId": "9833f4de-3b37-4a0b-a089-26df87041109"
       }
     },
-    
     "plugins": [
       [
         "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends.",
           "cameraPermission": "Allow $(PRODUCT_NAME) to open the camera",
-
           "//": "Disables the microphone permission",
           "microphonePermission": false
         }
       ],
-       [
+      [
         "expo-document-picker",
         {
           "iCloudContainerEnvironment": "Production"
         }
       ],
-      
       [
         "expo-av",
         {
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
         }
-      ]
+      ],
+      "expo-localization"
     ]
-   
   },
   "name": "propatiz"
 }

@@ -56,17 +56,6 @@ const HomeCategories = () => {
       >
         <View style={[tw`mr-4 mb-2 mt-2`]}>
           <View style={[styles.card2]}>
-            <TouchableOpacity onPress={() => navigation.navigate("LandRent")}>
-              <Image
-                style={[styles.image, tw``]}
-                source={{ uri: "https://i.imgur.com/uzXfUA3.jpg" }}
-              />
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.word}>Land</Text>
-        </View>
-        <View style={[tw`mr-4 mb-2 mt-2`]}>
-          <View style={[styles.card2]}>
             <TouchableOpacity
               onPress={() => navigation.navigate("ApartmentsRent")}
             >
@@ -101,6 +90,17 @@ const HomeCategories = () => {
             </TouchableOpacity>
           </View>
           <Text style={styles.word}>Commercial</Text>
+        </View>
+        <View style={[tw`mr-4 mb-2 mt-2`]}>
+          <View style={[styles.card2]}>
+            <TouchableOpacity onPress={() => navigation.navigate("LandRent")}>
+              <Image
+                style={[styles.image, tw``]}
+                source={{ uri: "https://i.imgur.com/uzXfUA3.jpg" }}
+              />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.word}>Land</Text>
         </View>
       </View>
     </ScrollView>

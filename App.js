@@ -14,6 +14,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
 import * as WebBrowser from "expo-web-browser";
+import { useFonts } from "expo-font";
 
 import GlobalStyles from "./GlobalStyles";
 import TabNavigator from "./navigation/TabNavigator";
@@ -43,9 +44,11 @@ export default function App() {
       setIsLogged(data);
     } catch (error) {}
   };
-  const onLayoutRootView = useCallback(async () => {
-    await SplashScreen.hideAsync();
-  }, []);
+  const [fontsLoaded] = useFonts({
+    Poppins: require("./assets/fonts/Poppins-Regular.ttf"),
+    PoppinsExtraBold: require("./assets/fonts/Poppins-ExtraBold.ttf"),
+    PoppinsSemiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
+  });
 
   useEffect(() => {
     const checkToken = async () => {
@@ -57,6 +60,15 @@ export default function App() {
     checkToken();
     retrieveData();
   }, []);
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <View
@@ -75,21 +87,6 @@ export default function App() {
                 <>
                   {isLogged ? (
                     <>
-                      <Stack.Screen
-                        name="Onboarding"
-                        component={OnboardingScreen}
-                        options={{ headerShown: false }}
-                      />
-                      <Stack.Screen
-                        name="Login"
-                        component={LoginScreen}
-                        options={{ headerShown: false }}
-                      />
-                      <Stack.Screen
-                        name="RegisterScreen"
-                        component={RegisterScreen}
-                        options={{ headerShown: false }}
-                      />
                       <Stack.Screen
                         name="TabNavigator"
                         component={TabNavigator}

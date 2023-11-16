@@ -9,6 +9,8 @@ import {
 import { SliderBox } from "react-native-image-slider-box";
 import { BASE_URL } from "@env";
 
+const { width, height } = Dimensions.get("window");
+
 const ImageCarousel = ({ data }) => {
   // Get the device screen width
   const { width } = Dimensions.get("window");
@@ -51,9 +53,9 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   image: {
-    width: "97%",
-    aspectRatio: 3 / 2,
-    resizeMode: "stretch",
+    width: width - 38,
+    height: height * 0.3,
+    resizeMode: "cover",
     borderRadius: 10,
     marginLeft: 10,
     padding: 10,

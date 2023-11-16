@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   image: {
     height: height * 0.13,
     width: width * 0.3,
-    resizeMode: "contain",
+    resizeMode: "cover",
     borderRadius: 10,
     marginLeft: width * 0.03,
     marginTop: 5,
