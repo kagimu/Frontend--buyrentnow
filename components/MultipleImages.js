@@ -1,12 +1,6 @@
+// MultipleImages.js
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  ScrollView,
-  Image,
-} from "react-native";
+import { StyleSheet, View, ScrollView, Image } from "react-native";
 import ImageBrowser from "./ImageBrowser";
 import { Pressable } from "react-native";
 import { Entypo } from "@expo/vector-icons";
@@ -19,6 +13,7 @@ export default class MultipleImages extends React.Component {
       images: [],
     };
   }
+
   imageBrowserCallback = (callback) => {
     callback
       .then((images) => {
@@ -36,20 +31,19 @@ export default class MultipleImages extends React.Component {
     return (
       <View style={{ flexDirection: "row", padding: 10 }}>
         <Image
-          style={{
-            height: 70,
-            width: 70,
-            borderRadius: 10,
-          }}
+          style={{ flex: 1, aspectRatio: 1, borderRadius: 10 }}
           source={{ uri: item.file }}
           key={i}
         />
       </View>
     );
   }
+
   render() {
     if (this.state.imageBrowserOpen) {
-      return <ImageBrowser max={10} callback={this.imageBrowserCallback} />;
+      return (
+        <ImageBrowser max={10} onImagesSelected={this.imageBrowserCallback} />
+      );
     }
     return (
       <View style={styles.container}>
@@ -81,10 +75,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-  },
-  button: {
-    color: "#fff", // Change the text color
-    padding: 10,
-    borderRadius: 5,
   },
 });

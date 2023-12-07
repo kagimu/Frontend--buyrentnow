@@ -125,7 +125,6 @@ const HomeScreen = ({ navigation }) => {
             alignItems: "center",
             justifyContent: "center",
             alignContent: "center",
-            marginBottom: 10,
             top: 0.065 * height,
             left: 0.47 * width,
             width: 0.04 * width,

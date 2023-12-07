@@ -1,3 +1,4 @@
+// ImageBrowser.js
 import React from "react";
 import {
   StyleSheet,
@@ -6,6 +7,7 @@ import {
   FlatList,
   Dimensions,
   Pressable,
+  VirtualizedList,
 } from "react-native";
 import * as MediaLibrary from "expo-media-library";
 import * as FileSystem from "expo-file-system";
@@ -25,7 +27,7 @@ export default class ImageBrowser extends React.Component {
   }
 
   componentDidMount() {
-    this.getImages(); // Update the function call from "getPhotos" to "getImages"
+    this.getImages();
   }
 
   selectImage = (index) => {
@@ -42,7 +44,7 @@ export default class ImageBrowser extends React.Component {
   };
 
   getImages = () => {
-    let params = { first: 500, mediaType: "photo" };
+    let params = { first: 1000, mediaType: "photo" };
     if (this.state.after) params.after = this.state.after;
     if (!this.state.has_next_page) return;
     MediaLibrary.getAssetsAsync(params).then(this.processImages);
@@ -77,7 +79,7 @@ export default class ImageBrowser extends React.Component {
         return { file: selectedImages[i], ...data };
       });
     });
-    this.props.callback(callbackResult);
+    this.props.onImagesSelected(callbackResult); // Pass the callbackResult to the parent component
   }
 
   renderHeader = () => {
@@ -88,7 +90,7 @@ export default class ImageBrowser extends React.Component {
       <View style={styles.header}>
         <Pressable
           style={styles.button}
-          onPress={() => this.props.callback(Promise.resolve([]))}
+          onPress={() => this.props.onImagesSelected(Promise.resolve([]))}
         >
           <Text style={styles.text}>EXIT</Text>
         </Pressable>
@@ -129,7 +131,7 @@ export default class ImageBrowser extends React.Component {
         ListEmptyComponent={
           <Text style={styles.loading}>Loading Your Images...</Text>
         }
-        initialNumToRender={30}
+        initialNumToRender={10}
         getItemLayout={this.getItemLayout}
       />
     );

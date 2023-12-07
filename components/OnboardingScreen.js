@@ -57,7 +57,7 @@ const OnboardingScreen = ({ navigation }) => {
   }, []);
 
   if (!fontLoaded) {
-    return null; // Render a loading state or splash screen until the font is loaded
+    return null;
   }
   return (
     <Onboarding

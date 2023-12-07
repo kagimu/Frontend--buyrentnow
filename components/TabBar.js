@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import Tab from "./Tab";
 import { CommonActions } from "@react-navigation/native";
 
-const { width } = Dimensions.get("screen");
+const { width, height } = Dimensions.get("window");
 
 const TabBar = ({ state, navigation }) => {
   const [selected, setSelected] = useState("Home");
@@ -58,7 +58,7 @@ export default TabBar;
 const styles = StyleSheet.create({
   wrapper: {
     position: "absolute",
-    bottom: 5,
+    bottom: "1%",
     width: "100%",
     zIndex: 999,
     alignItems: "center",
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     backgroundColor: "white",
-    width: 300,
+    width: width * 0.8,
     borderRadius: 10,
     elevation: 6,
   },

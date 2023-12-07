@@ -5,6 +5,7 @@ import BookingConfirmation from "../components/BookingConfirmation";
 import ImageUploader from "../components/ImageUploader";
 import BookingAlert from "../components/TopTabs/BookingAlert";
 import HomeScreen from "../components/HomeScreen";
+import ImageSelector from "../components/ImageSelector";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ const CategoryStack = () => {
       }}
     >
       <Stack.Screen name="ImageUploader" component={ImageUploader} />
+      <Stack.Screen name="ImageSelector" component={ImageSelector} />
       <Stack.Screen
         name="BookingConfirmation"
         component={BookingConfirmation}

@@ -42,7 +42,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Book"
-        component={SavedPage}
+        component={BookStack}
         initialParams={{ icon: "heart" }}
       />
     </Tab.Navigator>

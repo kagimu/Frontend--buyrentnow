@@ -7,6 +7,7 @@ import {
   Image,
   TouchableHighlight,
 } from "react-native";
+
 const { width } = Dimensions.get("window");
 
 class ImageTile extends React.PureComponent {

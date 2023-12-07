@@ -17,15 +17,10 @@ import { Picker } from "@react-native-picker/picker";
 import React, { useState, useEffect } from "react";
 import tw from "twrnc";
 import { Entypo } from "@expo/vector-icons";
-import { BASE_URL } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import MultipleImages from "./MultipleImages";
 import { post } from "../network/api";
-import * as DocumentPicker from "expo-document-picker";
-import * as FileSystem from "expo-file-system";
-import mime from "react-native-mime-types";
 
-const BookingConfirmation = ({ navigation }) => {
+const BookingConfirmation = ({ navigation, route }) => {
   const [type, setType] = useState("Apartment");
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
@@ -39,10 +34,10 @@ const BookingConfirmation = ({ navigation }) => {
   const [video, setVideo] = useState(null);
   const [profile_pic, setProfile_pic] = useState(null);
   const [formValid, setFormValid] = useState(false);
-  const [images, setImages] = useState([]);
   const [category_id, setCategoryID] = useState(1); // Default to 1 for Apartment
   const [isLoading, setIsLoading] = useState(false); // Define isLoading state
-  const [user_id, setUserId] = useState(null);
+  const [images, setImages] = useState([]);
+  const imagesFromSelector = route.params ? route.params.images : [];
 
   const { width, height } = Dimensions.get("window");
 
@@ -59,45 +54,6 @@ const BookingConfirmation = ({ navigation }) => {
   const handleError = (error) => {
     console.error("Error:", error);
     // Handle the error, show a message to the user, or perform other actions as needed.
-  };
-
-  const handleFilesUpload = async () => {
-    try {
-      const results = await DocumentPicker.getDocumentAsync({
-        type: "image/*",
-        multiple: true,
-      });
-
-      const files = [];
-      for (const result of results.docs) {
-        const fileUri = result.uri;
-        const fileType = result.type;
-        const fileContent = await FileSystem.readAsStringAsync(fileUri, {
-          encoding: FileSystem.EncodingType.Base64,
-        });
-        const isImage = fileType && fileType.startsWith("image/");
-
-        files.push({
-          uri: fileUri,
-          type: fileType,
-          content: fileContent,
-          isImage: isImage,
-          isOnline: false,
-        });
-      }
-
-      setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
-      Alert.alert(
-        "Information",
-        "Before saving any uploaded files, make sure that you have uploaded the correct file. If it's not the intended file, you can click on the uploaded file to remove it before proceeding with the data-saving process."
-      );
-    } catch (err) {
-      handleError(err);
-    }
-  };
-
-  const handleImagesSelected = (images) => {
-    setImages(images);
   };
 
   const handleTypeChange = (itemValue) => {
@@ -181,24 +137,11 @@ const BookingConfirmation = ({ navigation }) => {
     formData.append("owner", owner);
     formData.append("contact", contact);
 
-    console.log("Type of images:", typeof images);
-    console.log("Images:", images);
+    console.log("images:", imagesFromSelector);
 
-    for (let index = 0; index < images.length; index++) {
-      const file = images[index];
-      const fileInfo = await FileSystem.getInfoAsync(file.uri, {
-        mimeType: "*",
-      });
-
-      const fileType =
-        fileInfo.mimeType || mime.lookup(file.uri) || "image/jpeg"; // Default to JPEG if type is not recognized
-      const fileObj = {
-        uri: file.uri,
-        type: fileType,
-        name: `file_${index}.${fileType.split("/")[1] || "jpg"}`,
-      };
-
-      formData.append(`images[${index}]`, fileObj);
+    for (let index = 0; index < imagesFromSelector.length; index++) {
+      const file = imagesFromSelector[index];
+      formData.append(`images[${index}]`, file);
     }
 
     if (video) {
@@ -377,7 +320,7 @@ const BookingConfirmation = ({ navigation }) => {
             <View style={styles.input}>
               <TextInput
                 placeholderTextColor="#D3D3D3"
-                placeholder="0 square meters"
+                placeholder="0"
                 onChangeText={(text) => setSize(text)}
                 value={size}
                 multiline={true}
@@ -435,8 +378,38 @@ const BookingConfirmation = ({ navigation }) => {
                   borderRadius: 8,
                 }}
               >
+                <Entypo
+                  name="upload"
+                  size={26}
+                  color="black"
+                  onPress={() =>
+                    navigation.navigate("ImageSelector", {
+                      images: imagesFromSelector,
+                    })
+                  }
+                  style={{
+                    flex: 1,
+                    paddingBottom: 20,
+                    position: "relative",
+                    padding: 10,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                />
                 <View>
-                  <MultipleImages onImagesSelected={handleImagesSelected} />
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.container}
+                  >
+                    {imagesFromSelector.map((image, index) => (
+                      <Image
+                        key={index}
+                        source={{ uri: image.uri }}
+                        style={styles.selectedImage}
+                      />
+                    ))}
+                  </ScrollView>
                 </View>
               </View>
             </View>
@@ -641,5 +614,18 @@ const styles = StyleSheet.create({
     padding: 5,
     fontFamily: "PoppinsSemiBold",
     color: "#000",
+  },
+  container: {
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    justifyContent: "space-around",
+  },
+
+  selectedImage: {
+    width: 70,
+    height: 70,
+    borderRadius: 10,
+    marginRight: 10,
   },
 });

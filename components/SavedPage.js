@@ -107,7 +107,7 @@ const SavedPage = () => {
                     </TouchableOpacity>
                   </View>
                   <View>
-                    <Text style={[styles.time, tw` pl-3 mt-2`]}>
+                    <Text style={[styles.time, tw` pl-3 mt-4`]}>
                       Posted {getTimeAgo(item.created_at)}
                     </Text>
                   </View>

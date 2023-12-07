@@ -34,7 +34,7 @@ const BookingAlert = () => {
           >
             Your Property has been successfully uploaded and will be viewed by
             other potential rental space seekers. Thank you once again for
-            choosing Propatiz.
+            choosing Linkup.
           </Text>
         </View>
       </View>
