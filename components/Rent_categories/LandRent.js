@@ -223,35 +223,78 @@ const LandRent = ({ navigation }) => {
                         {item.price}
                       </Text>
                       <View style={{ flexDirection: "row" }}>
-                        <Ionicons
-                          name="md-bed-outline"
-                          size={15}
-                          color="#00b173"
-                          style={{
-                            position: "absolute",
-                            top: 9,
-                            left: 60,
-                          }}
-                        />
-
-                        <Text style={[styles.row, tw` pl-21 mt-2`]}>
-                          {item.bedroom} beds
-                        </Text>
+                        {item.category_id === "3" ? (
+                          // If category_id is 3, display the custom size icon with text
+                          <View style={{ flexDirection: "row" }}>
+                            <YourCustomIconComponent
+                              size={CUSTOM_SIZE}
+                              color="#45A76E"
+                            />
+                            <Text
+                              style={{
+                                fontSize: 10,
+                                left: width * 0.23,
+                                fontFamily: "Poppins",
+                                top: 9,
+                              }}
+                            >
+                              {item.size} size
+                            </Text>
+                          </View>
+                        ) : (
+                          // If category_id is not 3, display the default bedroom icon with text
+                          <View style={{ flexDirection: "row" }}>
+                            <Ionicons
+                              name="md-bed-outline"
+                              size={16}
+                              color="#45A76E"
+                              style={{
+                                position: "absolute",
+                                left: width * 0.17,
+                                marginTop: 8,
+                              }}
+                            />
+                            <Text
+                              style={{
+                                position: "absolute",
+                                fontSize: 10,
+                                left: width * 0.23,
+                                fontFamily: "Poppins",
+                                top: 9,
+                              }}
+                            >
+                              {item.bedroom} beds
+                            </Text>
+                          </View>
+                        )}
                       </View>
                       <View style={{ flexDirection: "row" }}>
-                        <FontAwesome5
-                          name="bath"
-                          size={12}
-                          color="#00b173"
-                          style={{
-                            position: "absolute",
-                            top: 10,
-                            left: 25,
-                          }}
-                        />
-                        <Text style={[styles.row, tw` pl-11 mt-2`]}>
-                          {item.bathroom} baths
-                        </Text>
+                        {item.category_id === "3" ? null : (
+                          // If category_id is not 3, display the default bathroom icon with text
+                          <View style={{ flexDirection: "row" }}>
+                            <FontAwesome5
+                              name="bath"
+                              size={13}
+                              color="#45A76E"
+                              style={{
+                                position: "absolute",
+                                left: width * 0.38,
+                                marginTop: 8,
+                              }}
+                            />
+                            <Text
+                              style={{
+                                position: "absolute",
+                                fontSize: 10,
+                                left: width * 0.43,
+                                fontFamily: "Poppins",
+                                top: 9,
+                              }}
+                            >
+                              {item.bathroom} baths
+                            </Text>
+                          </View>
+                        )}
                       </View>
                     </View>
                     <View>

@@ -9,7 +9,7 @@
     "scheme": "com.jaypkagimu.propatiz",
     "jsEngine": "hermes",
     "splash": {
-      "image": "./assets/linkuploadingscreen.png",
+      "image": "./assets/Startscreen1.png",
       "resizeMode": "contain",
       "backgroundColor": "#00183f"
     },

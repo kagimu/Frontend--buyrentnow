@@ -48,7 +48,7 @@ const HomeScreen = ({ navigation }) => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{}}
           >
-            <View style={{ paddingLeft: 5 }}>
+            <View style={{ paddingLeft: 5, backgroundColor: "#F6F8FC" }}>
               <Image
                 style={styles.image2}
                 source={{ uri: "https://i.imgur.com/9IlSXeb.jpg" }}
@@ -63,7 +63,7 @@ const HomeScreen = ({ navigation }) => {
                   fontSize: width * 0.043,
                 }}
               >
-                Connect directly{"\n"}with the landlord
+                Simplifying your {"\n"}rental search
               </Text>
             </View>
             <View>
@@ -74,14 +74,15 @@ const HomeScreen = ({ navigation }) => {
               <Text
                 style={{
                   position: "absolute",
-                  top: height * 0.13,
+                  top: height * 0.11,
                   left: width * 0.07,
                   color: "#fff",
                   fontFamily: "PoppinsSemiBold",
                   fontSize: width * 0.043,
                 }}
               >
-                Empowering you to {"\n"}find your dream home
+                Keep more in your {"\n"} pocket with our{"\n"} agent-free
+                approach
               </Text>
             </View>
           </ScrollView>
@@ -105,45 +106,33 @@ const HomeScreen = ({ navigation }) => {
           paddingTop: 12,
           paddingBottom: 10,
           alignContent: "center",
+          position: "relative",
+          width: "95.5%",
         }}
       >
         <Text
           style={{
-            fontSize: 0.07 * width,
+            fontSize: 0.06 * width,
             marginBottom: 0,
             textAlign: "center",
             fontFamily: "PoppinsSemiBold",
           }}
         >
-          Rent
+          Categories
         </Text>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#58d2b5",
-            position: "absolute",
-            padding: 1.5,
-            alignItems: "center",
-            justifyContent: "center",
-            alignContent: "center",
-            top: 0.065 * height,
-            left: 0.47 * width,
-            width: 0.04 * width,
-            borderRadius: 2,
-          }}
-        ></TouchableOpacity>
         <HomeCategories />
       </View>
 
       <Text style={styles.textRecently}>Recently Added</Text>
       <Text style={styles.text3}>
-        Find Recently added Apartments, Houses and lands.
+        Find Recently listed Apartments, Houses and Commercial spaces.
       </Text>
 
       <View>
         <CardOptions />
       </View>
 
-      <View style={{ paddingTop: 15 }}>
+      <View style={{ paddingTop: 15, paddingBottom: 35 }}>
         <Text style={[styles.heading, tw` p-2`]}>
           Post your rental property
         </Text>
@@ -155,14 +144,17 @@ const HomeScreen = ({ navigation }) => {
         <ImageBackground
           source={image}
           style={styles.image}
-          imageStyle={{ borderRadius: 10 }}
+          imageStyle={{
+            borderRadius: 10,
+            width: "99%",
+          }}
         >
           <Text
             style={[
-              tw` text-center bg-blue-500 rounded-full mt-30`,
+              tw` text-center bg-blue-500 rounded-full mt-10`,
               styles.Button,
             ]}
-            onPress={() => navigation.navigate("BookingConfirmation")}
+            onPress={() => navigation.navigate("CallUs")}
           >
             Add property
           </Text>
@@ -198,7 +190,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 0,
     backgroundColor: "#F6F8FC",
-    marginBottom: 30,
     marginLeft: 10,
   },
   image: {
@@ -217,6 +208,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     justifyContent: "center",
     marginHorizontal: 5,
+    backgroundColor: "#F6F8FC",
   },
   text: {
     fontSize: 25,

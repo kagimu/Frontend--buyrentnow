@@ -52,7 +52,11 @@ const ImageList2 = () => {
   return (
     <View>
       {data.length > 0 ? (
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ marginHorizontal: 5 }}
+        >
           {data.map((item) => (
             <TouchableOpacity
               key={item.id}

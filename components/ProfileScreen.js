@@ -140,15 +140,11 @@ const ProfileScreen = ({ navigation }) => {
           style={{
             top: 30,
             left: 15,
+            right: 15,
             justifyContent: "flex-start",
             alignItems: "flex-start",
           }}
         >
-          <Text style={styles.text}>My properties</Text>
-          <View style={styles.imageListContainer}>
-            <ImageList2 />
-          </View>
-
           <Text style={styles.text}>Saved listings</Text>
           <View style={styles.imageListContainer}>
             <ImageList />
@@ -207,5 +203,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 10,
     marginBottom: 30,
+    marginRight: 20,
   },
 });

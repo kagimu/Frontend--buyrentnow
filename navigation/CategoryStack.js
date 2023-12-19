@@ -6,13 +6,14 @@ import ImageUploader from "../components/ImageUploader";
 import BookingAlert from "../components/TopTabs/BookingAlert";
 import HomeScreen from "../components/HomeScreen";
 import ImageSelector from "../components/ImageSelector";
+import CallUs from "../components/CallUs";
 
 const Stack = createNativeStackNavigator();
 
 const CategoryStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="BookingConfirmation"
+      initialRouteName="CallUs"
       screenOptions={{
         headerShadowVisible: false,
         headerTransparent: true,
@@ -27,6 +28,7 @@ const CategoryStack = () => {
       />
       <Stack.Screen name="BookingAlert" component={BookingAlert} />
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="CallUs" component={CallUs} />
     </Stack.Navigator>
   );
 };

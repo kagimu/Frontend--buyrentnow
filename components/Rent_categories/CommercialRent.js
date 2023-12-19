@@ -88,7 +88,7 @@ const CommercialRent = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={{ backgroundColor: "#f6f8fc", marginTop: height * 0.035 }}>
+    <View style={{ backgroundColor: "#f6f8fc" }}>
       <View
         style={{
           marginBottom: height * 0.55,
@@ -134,13 +134,6 @@ const CommercialRent = ({ navigation }) => {
               onPress={() => navigation.navigate("CommercialRent")}
             >
               <Text style={styles.ActiveText}>Commercial</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[tw`text-center w-20`, styles.b1]}
-              onPress={() => navigation.navigate("LandRent")}
-            >
-              <Text style={styles.Text}>Land</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -218,34 +211,18 @@ const CommercialRent = ({ navigation }) => {
                       {item.price}
                     </Text>
                     <View style={{ flexDirection: "row" }}>
-                      <Ionicons
-                        name="md-bed-outline"
-                        size={15}
-                        color="#00b173"
-                        style={{
-                          position: "absolute",
-                          top: 9,
-                          left: 60,
-                        }}
-                      />
-
-                      <Text style={[styles.row, tw` pl-21 mt-2`]}>
-                        {item.bedroom} beds
-                      </Text>
-                    </View>
-                    <View style={{ flexDirection: "row" }}>
                       <FontAwesome5
-                        name="bath"
+                        name="tape"
                         size={12}
                         color="#00b173"
                         style={{
                           position: "absolute",
                           top: 10,
-                          left: 25,
+                          left: 20,
                         }}
                       />
-                      <Text style={[styles.row, tw` pl-11 mt-2`]}>
-                        {item.bathroom} baths
+                      <Text style={[styles.row, tw` pl-6 mt-2`]}>
+                        {item.size} Sq meters
                       </Text>
                     </View>
                   </View>

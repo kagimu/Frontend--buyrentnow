@@ -29,14 +29,14 @@ SplashScreen.preventAutoHideAsync();
 WebBrowser.maybeCompleteAuthSession();
 
 LogBox.ignoreLogs(["Setting a timer"]);
-
+const { width, height } = Dimensions.get("window");
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [token, setToken] = useState(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
-  const { width, height } = Dimensions.get("window");
+
   const retrieveData = async () => {
     try {
       const data = await AsyncStorage.getItem("keepLoggedIn");
@@ -71,58 +71,49 @@ export default function App() {
   }
 
   return (
-    <View
-      style={{
-        width,
-        height,
-      }}
-      onLayout={onLayoutRootView}
-    >
+    <SafeAreaView style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <FontLoader />
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <SafeAreaView style={GlobalStyles.droidSafeArea}>
-            <NavigationContainer>
-              <Stack.Navigator screenOptions={{ header: () => null }}>
-                <>
-                  {isLogged ? (
-                    <>
-                      <Stack.Screen
-                        name="TabNavigator"
-                        component={TabNavigator}
-                        options={{ headerShown: false }}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <Stack.Screen
-                        name="Onboarding"
-                        component={OnboardingScreen}
-                        options={{ headerShown: false }}
-                      />
-                      <Stack.Screen
-                        name="Login"
-                        component={LoginScreen}
-                        options={{ headerShown: false }}
-                      />
-                      <Stack.Screen
-                        name="RegisterScreen"
-                        component={RegisterScreen}
-                        options={{ headerShown: false }}
-                      />
-                      <Stack.Screen
-                        name="TabNavigator"
-                        component={TabNavigator}
-                        options={{ headerShown: false }}
-                      />
-                    </>
-                  )}
-                </>
-              </Stack.Navigator>
-            </NavigationContainer>
-          </SafeAreaView>
+          <NavigationContainer>
+            <Stack.Navigator screenOptions={{ header: () => null }}>
+              <>
+                {isLogged ? (
+                  <>
+                    <Stack.Screen
+                      name="TabNavigator"
+                      component={TabNavigator}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Stack.Screen
+                      name="Onboarding"
+                      component={OnboardingScreen}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name="Login"
+                      component={LoginScreen}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name="RegisterScreen"
+                      component={RegisterScreen}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name="TabNavigator"
+                      component={TabNavigator}
+                      options={{ headerShown: false }}
+                    />
+                  </>
+                )}
+              </>
+            </Stack.Navigator>
+          </NavigationContainer>
         </PersistGate>
       </Provider>
-    </View>
+    </SafeAreaView>
   );
 }

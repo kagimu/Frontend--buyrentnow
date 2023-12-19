@@ -88,7 +88,7 @@ const HousesRent = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={{ backgroundColor: "#f6f8fc", marginTop: height * 0.035 }}>
+    <View style={{ backgroundColor: "#f6f8fc" }}>
       <View
         style={{
           marginBottom: height * 0.55,
@@ -141,13 +141,6 @@ const HousesRent = ({ navigation }) => {
               onPress={() => navigation.navigate("HousesRent")}
             >
               <Text style={styles.ActiveText}>Houses</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[tw`text-center w-20`, styles.b1]}
-              onPress={() => navigation.navigate("LandRent")}
-            >
-              <Text style={styles.Text}>Land</Text>
             </TouchableOpacity>
 
             <TouchableOpacity

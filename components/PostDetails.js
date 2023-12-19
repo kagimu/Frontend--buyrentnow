@@ -15,6 +15,8 @@ import { Octicons, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { BASE_URL } from "@env";
 import List from "./List";
 import { Video } from "expo-av";
+import ImageCarousel from "./ImageCarousel";
+import PostCarousel from "./PostCarousel";
 
 const { width, height } = Dimensions.get("window");
 
@@ -64,14 +66,7 @@ const PostDetails = ({ route }) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={[styles.card, tw` bg-gray-100 pb-20 `]}>
-            <Video
-              source={{ uri: `${post.video_url}` }}
-              style={[styles.image, tw``]}
-              resizeMode="cover"
-              isMuted
-              isLooping
-              shouldPlay={true}
-            />
+            <PostCarousel data={post.post_images} style={styles.image} />
 
             <View
               style={{
@@ -83,12 +78,12 @@ const PostDetails = ({ route }) => {
               <Image
                 source={{ uri: `${post.profile_pic_url}` }}
                 style={{
-                  width: width - 326,
-                  height: height * 0.052,
+                  width: 50,
+                  height: 50,
                   borderRadius: 50,
                 }}
               />
-              <View style={{ marginLeft: width * 0.02 }}>
+              <View style={{ marginLeft: width * 0.02, top: 6 }}>
                 <Text
                   style={{
                     fontSize: width * 0.035,

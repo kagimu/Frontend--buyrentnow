@@ -88,10 +88,10 @@ const AllCategory = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={{ backgroundColor: "#f6f8fc", marginTop: height * 0.035 }}>
+    <View style={{ backgroundColor: "#f6f8fc" }}>
       <View
         style={{
-          marginBottom: height * 0.55,
+          marginBottom: height * 0.52,
           // paddingVertical: 5,
           backgroundColor: "#f6f8fc",
         }}

@@ -64,13 +64,13 @@ const OnboardingScreen = ({ navigation }) => {
       bottomBarColor="#fff"
       imageContainerStyles={{
         flex: 1,
-        resizeMode: "contain",
+        resizeMode: "cover",
         aspectRatio: 1 / 1,
       }}
       subTitleStyles={{
         fontFamily: "PoppinsSemiBold",
         fontSize: width * 0.06,
-        top: 30,
+        top: 5,
         textAlign: "center",
         marginHorizontal: 0,
       }}
@@ -126,6 +126,6 @@ const styles = StyleSheet.create({
     width: "70%",
     resizeMode: "contain",
     borderRadius: 10,
-    marginTop: 20,
+    marginTop: 0,
   },
 });

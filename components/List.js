@@ -6,64 +6,91 @@ import {
   Image,
   Modal,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import tw from "twrnc";
 import { BASE_URL } from "@env";
+import { Video } from "expo-av";
 
 const { width } = Dimensions.get("window");
 
 const List = ({ post }) => {
-  const [selectedImage, setSelectedImage] = useState(null); // state variable to keep track of selected image
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  const handleImageClick = (image) => {
-    setSelectedImage(image);
+  const handleMediaClick = (media) => {
+    setSelectedImage(media);
   };
 
-  const renderSmallImages = () => {
-    return post.post_images.map((image, index) => {
-      return (
-        <TouchableOpacity key={index} onPress={() => handleImageClick(image)}>
-          <Image style={styles.smallImage} source={{ uri: `${image}` }} />
-        </TouchableOpacity>
-      );
+  const renderSmallMedia = () => {
+    return post.post_images.map((media, index) => {
+      if (media.video_url) {
+        // Render Video component if video URL is present
+        return (
+          <TouchableOpacity
+            key={index}
+            onPress={() => handleMediaClick(media.video_url)}
+          >
+            <Video
+              style={styles.smallMedia}
+              source={{ uri: media.video_url }}
+              resizeMode="cover"
+            />
+          </TouchableOpacity>
+        );
+      } else {
+        // Render Image component if no video URL
+        return (
+          <TouchableOpacity key={index} onPress={() => handleMediaClick(media)}>
+            <Image style={styles.smallMedia} source={{ uri: `${media}` }} />
+          </TouchableOpacity>
+        );
+      }
     });
   };
 
   return (
     <View style={styles.slide}>
-      <View style={{ flexDirection: "row", padding: 20 }}>
-        {renderSmallImages()}
-      </View>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.smallMediaContainer}
+      >
+        {renderSmallMedia()}
+      </ScrollView>
 
-      {/* Modal to display expanded image */}
       <Modal visible={selectedImage != null} transparent={true}>
         <TouchableOpacity
           style={styles.modalBackground}
           onPress={() => setSelectedImage(null)}
         >
-          <Image
-            style={styles.expandedImage}
-            source={{ uri: `${selectedImage}` }}
-          />
+          {selectedImage && selectedImage.includes(".mp4") ? (
+            <Video
+              style={styles.expandedMedia}
+              source={{ uri: selectedImage }}
+              resizeMode="cover"
+              controls={true}
+            />
+          ) : (
+            <Image
+              style={styles.expandedMedia}
+              source={{ uri: `${selectedImage}` }}
+            />
+          )}
         </TouchableOpacity>
       </Modal>
     </View>
   );
 };
 
-export default List;
-
 const styles = StyleSheet.create({
-  wrapper: {},
   slide: {
-    flexWrap: "wrap",
-    paddingVertical: 0,
     marginLeft: -18,
   },
-  video: {
-    flex: 1,
+  smallMediaContainer: {
+    flexDirection: "row",
+    padding: 20,
   },
-  smallImage: {
+  smallMedia: {
     height: 80,
     width: 80,
     borderRadius: 10,
@@ -78,10 +105,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(0,0,0,0.8)",
   },
-  expandedImage: {
+  expandedMedia: {
     width: width - 40,
     height: width - 40,
     resizeMode: "cover",
     borderRadius: 10,
   },
 });
+
+export default List;

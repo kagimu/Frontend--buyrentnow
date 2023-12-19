@@ -132,7 +132,7 @@ const CardOptions = () => {
                       color="#45A76E"
                       style={{
                         position: "absolute",
-                        left: width * 0.25,
+                        left: width * 0.17,
                         marginTop: 8,
                       }}
                     />
@@ -140,7 +140,7 @@ const CardOptions = () => {
                       style={{
                         position: "absolute",
                         fontSize: 10,
-                        left: width * 0.3,
+                        left: width * 0.23,
                         fontFamily: "Poppins",
                         top: 9,
                       }}
@@ -155,7 +155,7 @@ const CardOptions = () => {
                       color="#45A76E"
                       style={{
                         position: "absolute",
-                        left: width * 0.46,
+                        left: width * 0.38,
                         marginTop: 8,
                       }}
                     />
@@ -163,7 +163,7 @@ const CardOptions = () => {
                       style={{
                         position: "absolute",
                         fontSize: 10,
-                        left: width * 0.5,
+                        left: width * 0.43,
                         fontFamily: "Poppins",
                         top: 9,
                       }}
