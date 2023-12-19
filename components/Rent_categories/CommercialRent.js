@@ -218,11 +218,11 @@ const CommercialRent = ({ navigation }) => {
                         style={{
                           position: "absolute",
                           top: 10,
-                          left: 20,
+                          left: width * 0.23,
                         }}
                       />
-                      <Text style={[styles.row, tw` pl-6 mt-2`]}>
-                        {item.size} Sq meters
+                      <Text style={[styles.row, tw` pl-26 mt-2`]}>
+                        {item.size}
                       </Text>
                     </View>
                   </View>
@@ -234,7 +234,7 @@ const CommercialRent = ({ navigation }) => {
                       marginLeft: 5,
                     }}
                     onPress={() =>
-                      navigation.navigate("PostDetails", { post: item })
+                      navigation.navigate("CommercialDetails", { post: item })
                     }
                   >
                     <Text style={[styles.name, tw` pl-2 text-lg`]}>

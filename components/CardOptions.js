@@ -82,7 +82,12 @@ const CardOptions = () => {
     <View style={tw``}>
       {books.length > 0 ? (
         <FlatList
-          data={books}
+          data={books.filter(
+            (post) =>
+              post.category_id == "1" ||
+              post.category_id == "2" ||
+              post.category_id == "3"
+          )}
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id}
@@ -125,52 +130,81 @@ const CardOptions = () => {
                   }}
                 >
                   <Text style={[styles.price, tw` mt-2`]}>{item.price}</Text>
-                  <View style={{ flexDirection: "row" }}>
-                    <Ionicons
-                      name="md-bed-outline"
-                      size={16}
-                      color="#45A76E"
-                      style={{
-                        position: "absolute",
-                        left: width * 0.17,
-                        marginTop: 8,
-                      }}
-                    />
-                    <Text
-                      style={{
-                        position: "absolute",
-                        fontSize: 10,
-                        left: width * 0.23,
-                        fontFamily: "Poppins",
-                        top: 9,
-                      }}
-                    >
-                      {item.bedroom} beds
-                    </Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <FontAwesome5
-                      name="bath"
-                      size={13}
-                      color="#45A76E"
-                      style={{
-                        position: "absolute",
-                        left: width * 0.38,
-                        marginTop: 8,
-                      }}
-                    />
-                    <Text
-                      style={{
-                        position: "absolute",
-                        fontSize: 10,
-                        left: width * 0.43,
-                        fontFamily: "Poppins",
-                        top: 9,
-                      }}
-                    >
-                      {item.bathroom} baths
-                    </Text>
-                  </View>
+
+                  {item.category_id === 3 && (
+                    <View style={{ flexDirection: "row" }}>
+                      <FontAwesome5
+                        name="tape"
+                        size={13}
+                        color="#45A76E"
+                        style={{
+                          left: width * 0.21,
+                          marginTop: 12,
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: 10,
+                          left: width * 0.23,
+                          fontFamily: "Poppins",
+                          top: 12,
+                        }}
+                      >
+                        {item.size}
+                      </Text>
+                    </View>
+                  )}
+
+                  {item.category_id !== 3 && (
+                    <>
+                      <View style={{ flexDirection: "row" }}>
+                        <Ionicons
+                          name="md-bed-outline"
+                          size={16}
+                          color="#45A76E"
+                          style={{
+                            position: "absolute",
+                            left: width * 0.15,
+                            marginTop: 8,
+                          }}
+                        />
+                        <Text
+                          style={{
+                            position: "absolute",
+                            fontSize: 10,
+                            left: width * 0.2,
+                            fontFamily: "Poppins",
+                            top: 9,
+                          }}
+                        >
+                          {item.bedroom} bed(s)
+                        </Text>
+                      </View>
+                      <View style={{ flexDirection: "row" }}>
+                        <FontAwesome5
+                          name="bath"
+                          size={13}
+                          color="#45A76E"
+                          style={{
+                            position: "absolute",
+                            left: width * 0.36,
+                            marginTop: 8,
+                          }}
+                        />
+                        <Text
+                          style={{
+                            position: "absolute",
+                            fontSize: 10,
+                            left: width * 0.4,
+                            fontFamily: "Poppins",
+                            top: 9,
+                          }}
+                        >
+                          {item.bathroom} bath(s)
+                        </Text>
+                      </View>
+                    </>
+                  )}
                 </View>
                 <View>
                   <Text

@@ -27,6 +27,7 @@ import BookingAlert from "../components/TopTabs/BookingAlert";
 import { useNavigation } from "@react-navigation/native";
 import ImageSelector from "../components/ImageSelector";
 import CallUs from "../components/CallUs";
+import CommercialDetails from "../components/CommercialDetails";
 
 const Stack = createNativeStackNavigator();
 
@@ -65,6 +66,13 @@ const HomeStack = () => {
       <Stack.Screen
         name="CommercialBuy"
         component={CommercialBuy}
+        options={{
+          headerBackButtonMenuEnable: true,
+        }}
+      />
+      <Stack.Screen
+        name="CommercialDetails"
+        component={CommercialDetails}
         options={{
           headerBackButtonMenuEnable: true,
         }}

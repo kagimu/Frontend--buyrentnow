@@ -38,7 +38,7 @@ const data = [
   },
 ];
 
-const PostDetails = ({ route }) => {
+const CommercialDetails = ({ route }) => {
   const { post } = route.params;
   const navigation = useNavigation();
   const handleCallOwner = () => {
@@ -136,26 +136,13 @@ const PostDetails = ({ route }) => {
                   flexDirection: "row",
                 }}
               >
-                <Ionicons
-                  name="md-bed-outline"
+                <FontAwesome5
+                  name="tape"
                   size={18}
                   color="#45A76E"
                   style={{ marginLeft: 21, marginTop: 6 }}
                 />
-                <Text style={[styles.row, tw` pl-1 mt-2`]}>
-                  {post.bedroom} bedroom(s)
-                </Text>
-              </View>
-              <View style={{ flexDirection: "row", marginLeft: width * 0.2 }}>
-                <FontAwesome5
-                  name="bath"
-                  size={15}
-                  color="#45A76E"
-                  style={{ marginLeft: 50, marginTop: 10 }}
-                />
-                <Text style={[styles.row, tw` pl-2 mt-2`]}>
-                  {post.bathroom} bathroom(s)
-                </Text>
+                <Text style={[styles.row, tw` pl-1 mt-2`]}>{post.size}</Text>
               </View>
             </View>
             <View style={[tw`pl-3`]}>
@@ -221,7 +208,7 @@ const PostDetails = ({ route }) => {
   );
 };
 
-export default PostDetails;
+export default CommercialDetails;
 
 const styles = StyleSheet.create({
   desc: { fontFamily: "PoppinsSemiBold", color: "#808080" },

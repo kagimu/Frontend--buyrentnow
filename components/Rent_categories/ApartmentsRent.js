@@ -223,8 +223,8 @@ const ApartmentsRent = ({ navigation }) => {
                         }}
                       />
 
-                      <Text style={[styles.row, tw` pl-21 mt-2`]}>
-                        {item.bedroom} beds
+                      <Text style={[styles.row, tw` pl-20 mt-2`]}>
+                        {item.bedroom} bed(s)
                       </Text>
                     </View>
                     <View style={{ flexDirection: "row" }}>
@@ -235,11 +235,11 @@ const ApartmentsRent = ({ navigation }) => {
                         style={{
                           position: "absolute",
                           top: 10,
-                          left: 25,
+                          left: 22,
                         }}
                       />
-                      <Text style={[styles.row, tw` pl-11 mt-2`]}>
-                        {item.bathroom} baths
+                      <Text style={[styles.row, tw` pl-9 mt-2`]}>
+                        {item.bathroom} bath(s)
                       </Text>
                     </View>
                   </View>

@@ -161,7 +161,12 @@ const AllCategory = ({ navigation }) => {
 
         {books.length > 0 ? (
           <FlatList
-            data={books.filter((post) => post.status == "rental")}
+            data={books.filter(
+              (post) =>
+                post.category_id == "1" ||
+                post.category_id == "2" ||
+                post.category_id == "3"
+            )}
             Vertical
             showsVerticalScrollIndicator={false}
             removeClippedSubviews={true}
@@ -215,37 +220,59 @@ const AllCategory = ({ navigation }) => {
                     <Text style={[styles.price, tw` pl-2 mt-1`]}>
                       {item.price}
                     </Text>
-                    <View style={{ flexDirection: "row" }}>
-                      <Ionicons
-                        name="md-bed-outline"
-                        size={15}
-                        color="#00b173"
-                        style={{
-                          position: "absolute",
-                          top: 9,
-                          left: 60,
-                        }}
-                      />
+                    {item.category_id === 3 && (
+                      <View style={{ flexDirection: "row" }}>
+                        <FontAwesome5
+                          name="tape"
+                          size={12}
+                          color="#00b173"
+                          style={{
+                            position: "absolute",
+                            top: 10,
+                            left: width * 0.23,
+                          }}
+                        />
+                        <Text style={[styles.row, tw` pl-26 mt-2`]}>
+                          {item.size}
+                        </Text>
+                      </View>
+                    )}
 
-                      <Text style={[styles.row, tw` pl-21 mt-2`]}>
-                        {item.bedroom} beds
-                      </Text>
-                    </View>
-                    <View style={{ flexDirection: "row" }}>
-                      <FontAwesome5
-                        name="bath"
-                        size={12}
-                        color="#00b173"
-                        style={{
-                          position: "absolute",
-                          top: 10,
-                          left: 25,
-                        }}
-                      />
-                      <Text style={[styles.row, tw` pl-11 mt-2`]}>
-                        {item.bathroom} baths
-                      </Text>
-                    </View>
+                    {item.category_id !== 3 && (
+                      <>
+                        <View style={{ flexDirection: "row" }}>
+                          <Ionicons
+                            name="md-bed-outline"
+                            size={15}
+                            color="#00b173"
+                            style={{
+                              position: "absolute",
+                              top: 9,
+                              left: 60,
+                            }}
+                          />
+
+                          <Text style={[styles.row, tw` pl-20 mt-2`]}>
+                            {item.bedroom} bed(s)
+                          </Text>
+                        </View>
+                        <View style={{ flexDirection: "row" }}>
+                          <FontAwesome5
+                            name="bath"
+                            size={12}
+                            color="#00b173"
+                            style={{
+                              position: "absolute",
+                              top: 10,
+                              left: 22,
+                            }}
+                          />
+                          <Text style={[styles.row, tw` pl-9 mt-2`]}>
+                            {item.bathroom} bath(s)
+                          </Text>
+                        </View>
+                      </>
+                    )}
                   </View>
                   <View>
                     <Text style={[styles.per, tw` pl-4`]}>Per Month</Text>
